@@ -1,0 +1,52 @@
+[theme]
+
+## SPACE THEME ##
+primaryColor="#66FCF1"
+backgroundColor="#1A1A1D" #"#1B1E1F"
+secondaryBackgroundColor="#020202"
+textColor="#66FCF1"
+font="monospace"
+
+## MIAMI VICE ##
+# primaryColor="#07efdb"
+# backgroundColor="#02619C"
+# secondaryBackgroundColor="#0a0a0a"
+# textColor="#c00ce4"
+# font="sans serif"
+
+## G+B ##
+# primaryColor="#5CD895"
+# backgroundColor="#05386B"
+# secondaryBackgroundColor="#8EE4AF"
+# textColor="#EDF5E1"
+# font="monospace"
+
+## COLOR LIBRARY ##
+
+#dark-blue2:"#152238"
+#dark-blue-OG:"#001440"
+#dark-black: "#1B1E1F"
+#space-black: "#1A1A1D"
+#space-black2: "#17252A"
+#space-black3: "#19181A"
+#space-gray:"#282828"
+#space-gray2: "#2C3531"
+
+#alien-green-OG: "#EDF5E1"
+#alien-green2: "#2BDB6B"
+#bright-teal: "#66FCF1"
+
+
+## TBU ##
+# primaryColor="#"
+# backgroundColor="#"
+# secondaryBackgroundColor="#"
+# textColor="#"
+# font="#"
+
+## TBU ##
+# primaryColor="#"
+# backgroundColor="#"
+# secondaryBackgroundColor="#"
+# textColor="#"
+# font="#"
