@@ -119,10 +119,9 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         proxy = None,
         timeout=12)
 
-all_reits_close = all_reits_trading.Close
-all_reits_close.info()
+# all_reits_close = all_reits_trading.Close
+# all_reits_close.info()
 
-#%%
 # IMPORT DATA (DATAFRAMES BY RE SECTOR)
 all_sectors_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
 office_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
@@ -386,8 +385,62 @@ st.stop()
 ### INTERPRETATION ###
 
 
+### USER AUTHENTICATION ###
 
+# pip install streamlit-authenticator
 
+# import streamlit_authenticator as stauth
+
+# credentials:
+#   usernames:
+#     jsmith:
+#       email: jsmith@gmail.com
+#       name: John Smith
+#       password: '123' # To be replaced with hashed password
+#     rbriggs:
+#       email: rbriggs@gmail.com
+#       name: Rebecca Briggs
+#       password: '456' # To be replaced with hashed password
+# cookie:
+#   expiry_days: 30
+#   key: some_signature_key
+#   name: some_cookie_name
+# preauthorized:
+#   emails:
+#   - melsby@gmail.com
+#
+# hashed_passwords = stauth.Hasher(['123', '456']).generate()
+#
+# with open('../config.yaml') as file:
+#     config = yaml.load(file, Loader=SafeLoader)
+#
+# authenticator = Authenticate(
+#     config['credentials'],
+#     config['cookie']['name'],
+#     config['cookie']['key'],
+#     config['cookie']['expiry_days'],
+#     config['preauthorized']
+# )
+#
+# name, authentication_status, username = authenticator.login('Login', 'main')
+#
+# if authentication_status:
+#     authenticator.logout('Logout', 'main')
+#     st.write(f'Welcome *{name}*')
+#     st.title('Some content')
+# elif authentication_status == False:
+#     st.error('Username/password is incorrect')
+# elif authentication_status == None:
+#     st.warning('Please enter your username and password')
+#
+# if st.session_state["authentication_status"]:
+#     authenticator.logout('Logout', 'main')
+#     st.write(f'Welcome *{st.session_state["name"]}*')
+#     st.title('Some content')
+# elif st.session_state["authentication_status"] == False:
+#     st.error('Username/password is incorrect')
+# elif st.session_state["authentication_status"] == None:
+#     st.warning('Please enter your username and password')
 
 ### SCRATCH NOTES ###
 
@@ -485,3 +538,5 @@ st.stop()
             #                   "sepal_width": "Sepal Width", "sepal_length": "Sepal Length",
             #                   "petal_width": "Petal Width", "petal_length": "Petal Length", },
             #                     color_continuous_scale=px.colors.diverging.Tealrose, color_continuous_midpoint=2)
+
+
