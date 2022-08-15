@@ -39,7 +39,7 @@ import yfinance as yf
 # import statistics
 
 ## DIRECTORY CONFIGURATION ##
-# abs_path = r'https://raw.githubusercontent.com/nehat312/exoplanet-explorer/main'
+# abs_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 # exoplanet_path = abs_path + '/data/NASA_Exoplanets-8-7-22.csv'
 
 ## DATA IMPORT ##
@@ -178,32 +178,9 @@ Dense = px.colors.sequential.dense
 
 ## VISUALIATION LABELS ##
 
-chart_labels = {'pl_name':'PL. NAME',
-                'host_name':'ST. NAME',
-                'sy_star_count':'SYS. STARS (#)',
-                'sy_planet_count':'SYS. PLANETS (#)',
-                'disc_method':'DISC. METHOD',
-                'disc_year':'DISC. YEAR',
-                'disc_facility':'DISC. FACILITY',
-                'disc_telescope':'DISC. TELESCOPE',
-                'disc_instrument':'DISC. INSTRUMENT',
-                'pl_orbper':'ORB. PERIOD',
-                'pl_orbeccen':'ORB. ECCENTRICITY',
-                'pl_orbsmax':'ORB. SPEED',
-                'pl_rade':'PL. RADIUS (E)',
-                'pl_radj':'PL. RADIUS (J)',
-                'pl_bmasse':'PL. MASS (E)',
-                'pl_bmassj':'PL. MASS (J)',
-                'st_temp_eff_k':'ST. TEMP. (K)',
-                'st_radius':'ST. RADIUS',
-                'st_mass':'ST. MASS',
-                'st_metallicity':'METALLICITY',
-                'st_surf_gravity':'SURFACE GRAVITY',
-                'sy_distance_pc':'ST. DISTANCE (PC)',
-                'ra':'RIGHT ASCENSION',
-                'dec':'DECLINATION',
-                'glon':'GALACTIC LONGITUDE',
-                'glat':'GALACTIC LATITUDE',
+chart_labels = {'':'',
+                '':'',
+                '':'',
                 }
 
 ## FEATURED VARIABLES ##
