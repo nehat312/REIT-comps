@@ -39,11 +39,12 @@ import yfinance as yf
 # import statistics
 
 ## DIRECTORY CONFIGURATION ##
-# abs_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
-# exoplanet_path = abs_path + '/data/NASA_Exoplanets-8-7-22.csv'
+current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
+trading_path = current_path + '/data/reit_trading_2000_2022.xlsx.csv'
+financials_path = current_path + '/data/reit_historicals_2000_2022.xlsx.csv'
 
 ## DATA IMPORT ##
-# exoplanets = pd.read_csv(exoplanet_path, header=0, index_col='loc_rowid') #, header=0, index_col='pl_name'#,
+# exoplanets = pd.read_csv(trading_path, header=0, index_col='loc_rowid') #, header=0, index_col='pl_name'#,
 # exoplanets.sort_values(by='disc_year', inplace=True)
 
 ## IMAGE IMPORT ##
@@ -122,20 +123,24 @@ all_reits_trading = yf.download(tickers = reit_tickers,
 # all_reits_close = all_reits_trading.Close
 # all_reits_close.info()
 
-# IMPORT DATA (DATAFRAMES BY RE SECTOR)
-all_sectors_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
-office_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
-residential_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='RESIDENTIAL', parse_dates = True, index_col = [0], header=[2])
-lodging_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='LODGING', parse_dates = True, index_col = [0], header=[2])
-net_lease_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='NET LEASE', parse_dates = True, index_col = [0], header=[2])
-strip_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='STRIP CENTER', parse_dates = True, index_col = [0], header=[2])
-mall_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='MALL', parse_dates = True, index_col = [0], header=[2])
-healthcare_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='HEALTH CARE', parse_dates = True, index_col = [0], header=[2])
-industrial_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='INDUSTRIAL', parse_dates = True, index_col = [0], header=[2])
-self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
-data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
+## EXPORT HISTORICAL TRADING DATA ##
+all_reits_trading.to_excel(current_path + 'data/reit_trading_2000_2022.xlsx', index=True, header=[0]) #, index = False
+all_reits_trading.to_csv(current_path + 'data/reit_trading_2000_2022.xlsx', index=True, header=[0]) #, index = False
 
-print("\nIMPORT SUCCESS")
+# IMPORT DATA (DATAFRAMES BY RE SECTOR)
+# all_sectors_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
+# office_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
+# residential_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='RESIDENTIAL', parse_dates = True, index_col = [0], header=[2])
+# lodging_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='LODGING', parse_dates = True, index_col = [0], header=[2])
+# net_lease_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='NET LEASE', parse_dates = True, index_col = [0], header=[2])
+# strip_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='STRIP CENTER', parse_dates = True, index_col = [0], header=[2])
+# mall_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='MALL', parse_dates = True, index_col = [0], header=[2])
+# healthcare_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='HEALTH CARE', parse_dates = True, index_col = [0], header=[2])
+# industrial_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='INDUSTRIAL', parse_dates = True, index_col = [0], header=[2])
+# self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
+# data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
+#
+# print("\nIMPORT SUCCESS")
 
 #%%
 ## SAVE COPIES OF IMPORTS
@@ -206,6 +211,19 @@ facility_filtered = disc_facility_filter['disc_facility'].unique()
 
 ## VISUALIZATIONS ##
 
+office_matrix_1 = px.scatter_matrix(exoplanets,
+                                     dimensions=['pl_rade', 'pl_bmasse', 'pl_orbper', 'pl_orbeccen'], #, 'pl_orbsmax'
+                                     color=exoplanets['st_temp_eff_k'],
+                                     color_continuous_scale=Ice_r,
+                                     color_discrete_sequence=Ice_r,
+                                     hover_name=exoplanets['pl_name'],
+                                     hover_data=exoplanets[['host_name', 'sy_star_count', 'sy_planet_count']],
+                                     title='EXOPLANET ATTRIBUTES',
+                                     labels=chart_labels,
+                                 height=850,
+                                 # width=800,
+                                 )
+
 scatter_3d_1 = px.scatter_3d(exo_drop_na,
                              x=exo_drop_na['ra'],
                              y=exo_drop_na['dec'],
@@ -257,18 +275,6 @@ density_map_1 = px.density_contour(exoplanets,
                                    labels=chart_labels,
                                    )
 
-exo_matrix_1 = px.scatter_matrix(exoplanets,
-                                     dimensions=['pl_rade', 'pl_bmasse', 'pl_orbper', 'pl_orbeccen'], #, 'pl_orbsmax'
-                                     color=exoplanets['st_temp_eff_k'],
-                                     color_continuous_scale=Ice_r,
-                                     color_discrete_sequence=Ice_r,
-                                     hover_name=exoplanets['pl_name'],
-                                     hover_data=exoplanets[['host_name', 'sy_star_count', 'sy_planet_count']],
-                                     title='EXOPLANET ATTRIBUTES',
-                                     labels=chart_labels,
-                                 height=850,
-                                 # width=800,
-                                 )
 
 
 #####################
