@@ -40,8 +40,10 @@ import yfinance as yf
 
 ## DIRECTORY CONFIGURATION ##
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
-trading_path = current_path + '/data/reit_trading_2000_2022.xlsx.csv'
-financials_path = current_path + '/data/reit_historicals_2000_2022.xlsx.csv'
+trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
+financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
+trading_csv = current_path + '/data/reit_trading_2000_2022.xlsx'
+financials_csv = current_path + '/data/reit_historicals_2000_2022.xlsx'
 
 ## DATA IMPORT ##
 # exoplanets = pd.read_csv(trading_path, header=0, index_col='loc_rowid') #, header=0, index_col='pl_name'#,
