@@ -25,6 +25,10 @@ from PIL import Image
 
 import yfinance as yf
 
+from ta.volatility import BollingerBands
+from ta.trend import MACD
+from ta.momentum import RSIIndicator
+
 # import matplotlib.pyplot as plt
 # import seaborn as sns
 # import dash as dash
@@ -42,6 +46,7 @@ from datetime import date
 
 ## DIRECTORY CONFIGURATION ##
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
+basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 
 
 ## DATA IMPORT ##
@@ -56,6 +61,10 @@ reit_financials = pd.read_csv(financials_csv, header=0) #, index_col='loc_rowid'
 print(reit_trading)
 
 
+## IMAGE IMPORT ##
+# jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
+
+
 #%%
 ## PRE-PROCESSING ##
 
@@ -67,9 +76,6 @@ print(reit_trading)
 # pd.to_numeric(exoplanets['disc_year'])
 # exoplanets['disc_year'].astype(int)
 
-
-## IMAGE IMPORT ##
-# jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
 
 ## ANALYSIS TIME INTERVAL ##
 
@@ -104,6 +110,39 @@ reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
                "EXR",	"CUBE",	"REXR",	"LSI",
                "EQIX", "DLR", "AMT",
                "WELL",	"PEAK",	"VTR",	"OHI",	"HR"]
+
+sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS"],
+               'office': ["BXP",	"VNO",	"KRC", "DEI", "JBGS",	"CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
+               'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH",	"INN", "HT", "AHT",	"BHR"],
+               'mall': ["SPG", "MAC", "PEI"],
+               'strip_center': ["REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS"],
+               'net_lease': ["O",	"WPC",	"NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
+               'industrial': ["PLD",	"DRE",	"FR",	"EGP"],
+               'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
+               'data_center': ["EQIX", "DLR" "AMT"],
+               'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
+
+model_cols = ['ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
+              'Price_Actual', 'Price_LQ', 'Delta_QoQ', 'Return_QoQ', #'closePrice',
+              'operatingIncome', 'operatingExpenses', 'netIncome', 'earningBeforeInterestTaxes',
+              'revenues', 'costOfRevenue',
+              'assets', 'debt', 'cashAndEquivalents', 'debtToEquityRatio',
+              'inventory', 'investments', 'investedCapital', 'propertyPlantEquipmentNet', # 'researchAndDevelopmentExpense',
+              'tangibleAssetsBookValuePerShare', 'interestExpense', 'incomeTaxExpense',
+              'shares', 'weightedAverageShares',
+              'Year', 'Month', 'Quarter'
+              ]
+
+mil_cols = ['operatingIncome', 'operatingExpenses', 'netIncome',
+            'earningBeforeInterestTaxes',
+            'revenues', 'assets', 'debt', 'cashAndEquivalents',
+            'inventory', 'investments', 'investedCapital', 'propertyPlantEquipmentNet',
+            'interestExpense', 'incomeTaxExpense',
+            'shares', 'weightedAverageShares',
+            ]
+
+
+# reit_comps = reit_comps[model_cols]
 
 # mo_qtr_map = {'01': '1', '02': '1', '03': '1',
 #               '04': '2', '05': '2', '06': '2',
@@ -143,9 +182,10 @@ if not os.path.exists(directory):
 
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
+
 # all_reits_close.to_excel(current_path + f'/data/reit_trading_2000_{today}.xlsx', index=True, header=[0]) #, index = False
-all_reits_close.to_csv(current_path + '/data/reit_trading_2000_present.csv') #, index = False , index=True, header=[0]
-'https://raw.githubusercontent.com/nehat312/REIT-comps/main/data/reit_trading_2000_present.csv'
+all_reits_close.to_csv(current_path + '/data/reit_trading_2000_present.csv')
+# 'https://raw.githubusercontent.com/nehat312/REIT-comps/main/data/reit_trading_2000_present.csv'
 
 #%%
 
@@ -185,6 +225,11 @@ print("\nIMPORT SUCCESS")
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
 #%%
+
+sector_map_df = pd.DataFrame.from_dict()
+
+
+#%%
 ## FORMAT / STYLE ##
 
 ## COLOR SCALES ##
@@ -211,19 +256,12 @@ Dense = px.colors.sequential.dense
 #                 '':'',
 #                 }
 
-## FEATURED VARIABLES ##
-
+## FEATURE VARIABLES ##
 exo_planet_list = list(exoplanets['pl_name'])
-exo_star_list = list(exoplanets['host_name'])
-disc_telescope_list = list(exoplanets['disc_telescope'])
-disc_method_list = list(exoplanets['disc_method'])
-disc_facility_list = list(exoplanets['disc_facility'])
-disc_year_list = list(exoplanets['disc_year'])
 
 ## PRE-PROCESSING ##
 exo_drop_na = exoplanets.dropna()
 exo_with_temp = exoplanets[['st_temp_eff_k']].dropna()
-exo_with_dist = exoplanets[['sy_distance_pc']].dropna()
 
 
 ## FILTER DATA ##
@@ -231,6 +269,8 @@ disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
 facility_filtered = disc_facility_filter['disc_facility'].unique()
 # print(disc_facility_filter)
 # print(facility_filtered)
+
+
 
 
 ## VISUALIZATIONS ##
