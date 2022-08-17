@@ -25,9 +25,12 @@ from PIL import Image
 
 import yfinance as yf
 
-from ta.volatility import BollingerBands
-from ta.trend import MACD
-from ta.momentum import RSIIndicator
+import tensorflow_technical_indicators as tfti
+# from tensorflow_technical_indicators import <indicator>
+
+# from ta.volatility import BollingerBands
+# from ta.trend import MACD
+# from ta.momentum import RSIIndicator
 
 # import matplotlib.pyplot as plt
 # import seaborn as sns
@@ -45,27 +48,42 @@ from datetime import date
 
 
 ## DIRECTORY CONFIGURATION ##
+# import os
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 
+# directory = os.path.dirname(current_path + '/data/')
+# if not os.path.exists(directory):
+#     os.makedirs(directory)
 
+#%%
+## TIME INTERVALS ##
+
+today = date.today()
+start_date = '2000-01-01'
+end_date = today #'2022-06-30'  #'2022-03-31'
+mrq = '2022-06-30'
+mry = '2021-12-31'
+
+
+#%%
 ## DATA IMPORT ##
-trading_csv = current_path + '/data/reit_trading_2000_2022.csv'
 financials_csv = current_path + '/data/reit_historicals_2000_2022.csv'
-trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
-financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
+trading_csv = current_path + '/data/reit_trading_2000_2022.csv'
 
-reit_trading = pd.read_csv(trading_csv, header=0) #, index_col='loc_rowid'
-reit_financials = pd.read_csv(financials_csv, header=0) #, index_col='loc_rowid'
+# trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
+# financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
+reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer_datetime_format=True)
+# reit_trading = pd.read_csv(trading_csv, header=0, index_col='Index', infer_datetime_format=True) #, index_col='loc_rowid'
 
-print(reit_trading)
 
-
+#%%
+print(reit_financials.head())
+#%%
 ## IMAGE IMPORT ##
 # jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
 
 
-#%%
 ## PRE-PROCESSING ##
 
 # exoplanets.dropna(inplace=True)
@@ -76,15 +94,7 @@ print(reit_trading)
 # pd.to_numeric(exoplanets['disc_year'])
 # exoplanets['disc_year'].astype(int)
 
-
-## ANALYSIS TIME INTERVAL ##
-
-today = date.today()
-start_date = '2000-01-01'
-end_date = today #'2022-06-30'  #'2022-03-31'
-mrq = '2022-06-30'
-mry = '2021-12-31'
-
+#%%
 ## REAL ESTATE SECTORS / TICKERS ##
 
 apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG", "APTS"]
@@ -121,6 +131,14 @@ sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"B
                'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
                'data_center': ["EQIX", "DLR" "AMT"],
                'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
+
+scatter_cols_5x5 = ['Price_Actual', 'netIncome', 'earningBeforeInterestTaxes',
+                    'cashAndEquivalents', 'debtToEquityRatio',
+                    # 'ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
+                    # 'Price_LQ', 'Delta_QoQ', 'Return_QoQ', #'closePrice',
+                    # 'operatingIncome', 'operatingExpenses', 'revenues', 'costOfRevenue',
+                    # 'assets', 'debt', 'shares', 'weightedAverageShares',
+                    ]
 
 model_cols = ['ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
               'Price_Actual', 'Price_LQ', 'Delta_QoQ', 'Return_QoQ', #'closePrice',
@@ -163,9 +181,11 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         proxy = None,
         timeout=12)
 
+#%%
 all_reits_close = all_reits_trading.Close
+all_reits_open = all_reits_trading.Open
+all_reits_volume = all_reits_trading.Volume
 
-print(all_reits_close.info())
 #%%
 ## DETERMINE START / END DATES ##
 print(f'START DATE: {all_reits_close.index.min()}')
@@ -173,25 +193,14 @@ print('*'*50)
 print(f'END DATE: {all_reits_close.index.max()}')
 
 #%%
-## CREATE DIRECTORY ##
-import os
-
-directory = os.path.dirname(current_path + '/data/')
-if not os.path.exists(directory):
-    os.makedirs(directory)
-
-#%%
 ## EXPORT HISTORICAL TRADING DATA ##
-
+# all_reits_close.to_csv(basic_path + '/data/reit_trading_test1.csv')
 # all_reits_close.to_excel(current_path + f'/data/reit_trading_2000_{today}.xlsx', index=True, header=[0]) #, index = False
-all_reits_close.to_csv(current_path + '/data/reit_trading_2000_present.csv')
 # 'https://raw.githubusercontent.com/nehat312/REIT-comps/main/data/reit_trading_2000_present.csv'
 
-#%%
 
 #%%
-
-# IMPORT DATA (DATAFRAMES BY RE SECTOR)
+## IMPORT DATA (UNIQUE DATAFRAMES FOR EACH CRE SECTOR) ##
 # all_sectors_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
 # office_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
 # residential_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='RESIDENTIAL', parse_dates = True, index_col = [0], header=[2])
@@ -203,8 +212,8 @@ all_reits_close.to_csv(current_path + '/data/reit_trading_2000_present.csv')
 # industrial_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='INDUSTRIAL', parse_dates = True, index_col = [0], header=[2])
 # self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
 # data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
-#
-print("\nIMPORT SUCCESS")
+
+# print("\nIMPORT SUCCESS")
 
 #%%
 ## SAVE COPIES OF IMPORTS
@@ -225,8 +234,11 @@ print("\nIMPORT SUCCESS")
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
 #%%
-
-sector_map_df = pd.DataFrame.from_dict()
+## MAP SECTORS (??) ##
+# sector_map_df = all_reits_close
+# sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
+# sector_map_df['sector'] = sector_map_df['sector'].map(sector_dict)
+# print(sector_map_df)
 
 
 #%%
@@ -246,27 +258,36 @@ Ice = px.colors.sequential.ice
 Ice_r = px.colors.sequential.ice_r
 Dense = px.colors.sequential.dense
 
-# pd.options.display.float_format = '${:,.2f}'.format
-# pd.set_option('display.max_colwidth', 200)
-
 ## VISUALIATION LABELS ##
-
-# chart_labels = {'':'',
-#                 '':'',
-#                 '':'',
-#                 }
+chart_labels = {'apartment':'APARTMENT',
+                'office':'OFFICE',
+                'hotel':'LODGING',
+                'strip_center':'STRIP_CENTER',
+                'net_lease':'NET LEASE',
+                'mall':'MALL',
+                'industrial':'INDUSTRIAL',
+                'self_storage':'SELF-STORAGE',
+                'data_center':'DATA CENTER',
+                'healthcare':'HEALTHCARE',
+                }
 
 ## FEATURE VARIABLES ##
-exo_planet_list = list(exoplanets['pl_name'])
 
+ticker_list = all_reits_close.columns
+print(sector_dict['apartment'])
+
+#%%
+print(reit_financials.columns)
+
+#%%
 ## PRE-PROCESSING ##
-exo_drop_na = exoplanets.dropna()
-exo_with_temp = exoplanets[['st_temp_eff_k']].dropna()
+# exo_drop_na = exoplanets.dropna()
+# exo_with_temp = exoplanets[['st_temp_eff_k']].dropna()
 
 
 ## FILTER DATA ##
-disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
-facility_filtered = disc_facility_filter['disc_facility'].unique()
+# disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
+# facility_filtered = disc_facility_filter['disc_facility'].unique()
 # print(disc_facility_filter)
 # print(facility_filtered)
 
@@ -275,14 +296,14 @@ facility_filtered = disc_facility_filter['disc_facility'].unique()
 
 ## VISUALIZATIONS ##
 
-office_matrix_1 = px.scatter_matrix(exoplanets,
-                                     dimensions=['pl_rade', 'pl_bmasse', 'pl_orbper', 'pl_orbeccen'], #, 'pl_orbsmax'
-                                     color=exoplanets['st_temp_eff_k'],
+scatter_matrix_1 = px.scatter_matrix(reit_financials,
+                                     dimensions=scatter_cols_5x5,
+                                     color=reit_financials['st_temp_eff_k'],
                                      color_continuous_scale=Ice_r,
                                      color_discrete_sequence=Ice_r,
-                                     hover_name=exoplanets['pl_name'],
-                                     hover_data=exoplanets[['host_name', 'sy_star_count', 'sy_planet_count']],
-                                     title='EXOPLANET ATTRIBUTES',
+                                     hover_name=reit_financials['pl_name'],
+                                     hover_data=reit_financials[['host_name', 'sy_star_count', 'sy_planet_count']],
+                                     title='REIT X vs. Y',
                                      labels=chart_labels,
                                  height=850,
                                  # width=800,
@@ -341,12 +362,40 @@ density_map_1 = px.density_contour(exoplanets,
 
 
 
+sector_select = st.sidebar.selectbox('SECTOR', (sectors))
+if sector_select == 'APARTMENT':
+    ticker_select = st.sidebar.selectbox('TICKER', (apartment))
+if sector_select == 'STRIP CENTER':
+    ticker_select = st.sidebar.selectbox('TICKER', (apartment))
+import datetime
+today = datetime.date.today()
+before = today - datetime.timedelta(days=700)
+start_date = st.sidebar.date_input('START DATE', before)
+end_date = st.sidebar.date_input('END DATE', today)
+if start_date < end_date:
+    st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
+else:
+    st.sidebar.error('ERROR: END DATE BEFORE START DATE')
+
+
+indicator_bb = BollingerBands(df['Close'])
+bb = df
+bb['bb_h'] = indicator_bb.bollinger_hband()
+bb['bb_l'] = indicator_bb.bollinger_lband()
+bb = bb[['Close','bb_h','bb_l']]
+
+# Moving Average Convergence Divergence
+macd = MACD(df['Close']).macd()
+
+# Resistence Strength Indicator
+rsi = RSIIndicator(df['Close']).rsi()
+
 #####################
 ### STREAMLIT APP ###
 #####################
 
 ## CONFIGURATION ##
-st.set_page_config(page_title='EXOPLANET EXPLORER', layout='wide', initial_sidebar_state='auto') #, page_icon=":smirk:"
+st.set_page_config(page_title='REIT PUBLIC MARKET TRADING COMPARABLES', layout='wide', initial_sidebar_state='auto') #, page_icon=":smirk:"
 
 hide_menu_style = """
         <style>
@@ -361,6 +410,17 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 ## SIDEBAR ##
 # st.sidebar.xyz
 
+col1, col2, col3 = st.columns(3)
+with col1:
+    ticker = st.text_input("Choose a ticker (⬇💬👇ℹ️ ...)", value="⬇")
+with col2:
+    ticker_dx = st.slider(
+        "Horizontal offset", min_value=-30, max_value=30, step=1, value=0
+    )
+with col3:
+    ticker_dy = st.slider(
+        "Vertical offset", min_value=-30, max_value=30, step=1, value=-10
+    )
 
 ## HEADER ##
 st.container()
@@ -515,7 +575,14 @@ st.stop()
 ### SCRATCH NOTES ###
 
 
+# TENSORFLOW INDICATORS #
 
+candles = [...]
+c = tfti.features.close(candles)
+rsi = tfti.rsi(candles=c, window_size=7, method='ema')
+
+# you can also pass multidimensional tensors with (time step, features) where features = open, close to calculate some indicator for both open and close
+# result = tfti.indicator(candles, ..params..)
 
 
 
