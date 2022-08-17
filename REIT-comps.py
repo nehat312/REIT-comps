@@ -37,28 +37,26 @@ import yfinance as yf
 
 # import scipy.stats as stats
 # import statistics
+from datetime import date
+
 
 ## DIRECTORY CONFIGURATION ##
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
-trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
-financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
-trading_csv = current_path + '/data/reit_trading_2000_2022.xlsx'
-financials_csv = current_path + '/data/reit_historicals_2000_2022.xlsx'
+
 
 ## DATA IMPORT ##
-# exoplanets = pd.read_csv(trading_path, header=0, index_col='loc_rowid') #, header=0, index_col='pl_name'#,
-# exoplanets.sort_values(by='disc_year', inplace=True)
+trading_csv = current_path + '/data/reit_trading_2000_2022.csv'
+financials_csv = current_path + '/data/reit_historicals_2000_2022.csv'
+trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
+financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
 
-## IMAGE IMPORT ##
-# jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
-# tess_tele_img_1 = Image.open('images/TESS-1.jpg')
+reit_trading = pd.read_csv(trading_csv, header=0) #, index_col='loc_rowid'
+reit_financials = pd.read_csv(financials_csv, header=0) #, index_col='loc_rowid'
+
+print(reit_trading)
 
 
-## DETERMINE START / END DATES
-# print(f'START DATE: {all_reits_trading.index.min()}')
-# print('*'*50)
-# print(f'END DATE: {all_reits_trading.index.max()}')
-
+#%%
 ## PRE-PROCESSING ##
 
 # exoplanets.dropna(inplace=True)
@@ -66,20 +64,20 @@ financials_csv = current_path + '/data/reit_historicals_2000_2022.xlsx'
 # print(exoplanets.columns)
 # print(exoplanets.head())
 
-
 # pd.to_numeric(exoplanets['disc_year'])
 # exoplanets['disc_year'].astype(int)
 
 
-## ANALYSIS PARAMETERS ##
+## IMAGE IMPORT ##
+# jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
+
+## ANALYSIS TIME INTERVAL ##
+
+today = date.today()
 start_date = '2000-01-01'
-end_date = '2022-03-31'
-
-mo_qtr_map = {'01': '1', '02': '1', '03': '1',
-              '04': '2', '05': '2', '06': '2',
-              '07': '3', '08': '3', '09': '3',
-              '10': '4', '11': '4', '12': '4'}
-
+end_date = today #'2022-06-30'  #'2022-03-31'
+mrq = '2022-06-30'
+mry = '2021-12-31'
 
 ## REAL ESTATE SECTORS / TICKERS ##
 
@@ -107,14 +105,18 @@ reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
                "EQIX", "DLR", "AMT",
                "WELL",	"PEAK",	"VTR",	"OHI",	"HR"]
 
+# mo_qtr_map = {'01': '1', '02': '1', '03': '1',
+#               '04': '2', '05': '2', '06': '2',
+#               '07': '3', '08': '3', '09': '3',
+#               '10': '4', '11': '4', '12': '4'}
 
 #%%
 # STOCK PRICE TRADING HISTORY
 all_reits_trading = yf.download(tickers = reit_tickers,
         period = "max", # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
         interval = "1d", # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-        start = start_date, #start_date '2000-01-01'
-        end = '2022-08-13',
+        start = start_date, #'2000-01-01'
+        end = today,
         group_by = 'column',
         auto_adjust = True,
         prepost = False,
@@ -122,16 +124,36 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         proxy = None,
         timeout=12)
 
-# all_reits_close = all_reits_trading.Close
-# all_reits_close.info()
+all_reits_close = all_reits_trading.Close
 
+print(all_reits_close.info())
+#%%
+## DETERMINE START / END DATES ##
+print(f'START DATE: {all_reits_close.index.min()}')
+print('*'*50)
+print(f'END DATE: {all_reits_close.index.max()}')
+
+#%%
+## CREATE DIRECTORY ##
+import os
+
+directory = os.path.dirname(current_path + '/data/')
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+#%%
 ## EXPORT HISTORICAL TRADING DATA ##
-all_reits_trading.to_excel(current_path + 'data/reit_trading_2000_2022.xlsx', index=True, header=[0]) #, index = False
-all_reits_trading.to_csv(current_path + 'data/reit_trading_2000_2022.xlsx', index=True, header=[0]) #, index = False
+# all_reits_close.to_excel(current_path + f'/data/reit_trading_2000_{today}.xlsx', index=True, header=[0]) #, index = False
+all_reits_close.to_csv(current_path + '/data/reit_trading_2000_present.csv') #, index = False , index=True, header=[0]
+'https://raw.githubusercontent.com/nehat312/REIT-comps/main/data/reit_trading_2000_present.csv'
+
+#%%
+
+#%%
 
 # IMPORT DATA (DATAFRAMES BY RE SECTOR)
-# all_sectors_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
-# office_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
+# all_sectors_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
+# office_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
 # residential_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='RESIDENTIAL', parse_dates = True, index_col = [0], header=[2])
 # lodging_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='LODGING', parse_dates = True, index_col = [0], header=[2])
 # net_lease_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='NET LEASE', parse_dates = True, index_col = [0], header=[2])
@@ -142,25 +164,25 @@ all_reits_trading.to_csv(current_path + 'data/reit_trading_2000_2022.xlsx', inde
 # self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
 # data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
 #
-# print("\nIMPORT SUCCESS")
+print("\nIMPORT SUCCESS")
 
 #%%
 ## SAVE COPIES OF IMPORTS
 
-sector_comps = all_sectors_import
-office_comps = office_import
-residential_comps = residential_import
-lodging_comps = lodging_import
-net_lease_comps = net_lease_import
-strip_center_comps = strip_center_import
-mall_comps = mall_import
-healthcare_comps = healthcare_import
-industrial_comps = industrial_import
-self_storage_comps = self_storage_import
-data_center_comps = data_center_import
+# sector_comps = all_sectors_import
+# office_comps = office_import
+# residential_comps = residential_import
+# lodging_comps = lodging_import
+# net_lease_comps = net_lease_import
+# strip_center_comps = strip_center_import
+# mall_comps = mall_import
+# healthcare_comps = healthcare_import
+# industrial_comps = industrial_import
+# self_storage_comps = self_storage_import
+# data_center_comps = data_center_import
 
-sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
-                  mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
+# sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
+#                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
 #%%
 ## FORMAT / STYLE ##
@@ -184,10 +206,10 @@ Dense = px.colors.sequential.dense
 
 ## VISUALIATION LABELS ##
 
-chart_labels = {'':'',
-                '':'',
-                '':'',
-                }
+# chart_labels = {'':'',
+#                 '':'',
+#                 '':'',
+#                 }
 
 ## FEATURED VARIABLES ##
 
