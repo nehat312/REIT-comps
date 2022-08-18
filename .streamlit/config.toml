@@ -1,14 +1,11 @@
 [theme]
 
 ## GEMSTONES ##
-primaryColor="#0E3EDD"
-backgroundColor="#FFDF00" #00bfbf
-secondaryBackgroundColor="#0E3EDD"
-textColor="#00BFBF" #70cdff #fe3e8b
+primaryColor="#5F7281"
+backgroundColor="#D4C25E" ##FFDF00 #00bfbf
+secondaryBackgroundColor="#5F7281"
+textColor="#DDE3EO"
 font="sans serif"
-
-
-#5f7281, #394e56, #5f8c95, #1b2f33, #ebede9
 
 ## SPACE THEME ##
 # primaryColor="#66FCF1"
