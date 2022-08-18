@@ -205,6 +205,8 @@ print(f'START DATE: {all_reits_close.index.min()}')
 print('*'*50)
 print(f'END DATE: {all_reits_close.index.max()}')
 
+
+
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
 # all_reits_close.to_csv(basic_path + '/data/reit_trading_test1.csv')
@@ -244,12 +246,24 @@ print(f'END DATE: {all_reits_close.index.max()}')
 # sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
-#%%
+
 ## MAP SECTORS (??) ##
 # sector_map_df = all_reits_close
 # sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
 # sector_map_df['sector'] = sector_map_df['sector'].map(sector_dict)
 # print(sector_map_df)
+
+#%%
+## TOOLBOX FUNCTIONS ##
+def display_sector_stats(sector_input):
+    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_sector_df)
+
+def display_ticker_stats(ticker_input):
+    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_ticker_df)
 
 #%%
 ## FORMAT / STYLE ##
@@ -355,6 +369,20 @@ sector_market_cap_line = px.line(ticker_output_df,
                                  height=800,
                                  # width=600,
                                  )
+
+# ticker_price_line = px.line(ticker_output_df[ticker_input],
+#                                  x=ticker_output_df['reportPeriod'],
+#                                  y=ticker_output_df['marketCapitalization'],
+#                                      color=ticker_output_df['sector'],
+#                                      # color_continuous_scale=Electric,
+#                                      color_discrete_sequence=Electric,
+#                                      hover_name=ticker_output_df['company'],
+#                                      hover_data=ticker_output_df[['sector','reportPeriod']],
+#                                      title='REIT SECTORS MARKET CAPITALIZATION',
+#                                      labels=chart_labels,
+#                                  height=800,
+#                                  # width=600,
+#                                  )
 
 # reit_density_map = px.density_contour(ticker_output_df,
 #                                    x=ticker_output_df['ra'],
@@ -473,10 +501,6 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 ## SELECTION FORM ##
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
-def display_sector_stats(sector_input):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
-    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df)
 
 with st.form('SECTOR METRICS'):
     company_prompt = st.subheader('SELECT SECTOR:')
@@ -487,12 +511,6 @@ with st.form('SECTOR METRICS'):
         # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
         # temp_tick_list = sector_dict[sector_input]
 
-
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_ticker_df)
-
 with st.form('COMPANY METRICS'):
     company_prompt = st.subheader('SELECT TICKER:')
     ticker_input = st.selectbox('TICKER', (reit_tickers))
@@ -501,13 +519,14 @@ with st.form('COMPANY METRICS'):
     if ticker_submit:
         display_ticker_stats(ticker_input)
 
-
 ## SPONSOR IMAGES ##
     # tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
     # tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
     # tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=200)
     # tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
     # tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
+
+st.plotly_chart(ticker_input_line, use_container_width=False, sharing="streamlit")
 
 ## REIT SCATTER MATRIX ##
 st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
