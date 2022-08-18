@@ -470,6 +470,22 @@ ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
+## SELECTION FORM ##
+## SECTOR / TICKER DATAFRAMES ##
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+def display_ticker_stats(ticker_input):
+    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_ticker_df)
+
+with st.form('COMPANY DETAILS'):
+    company_prompt = st.subheader('SELECT TICKER:')
+    ticker_input = st.selectbox('TICKER', (ticker_output_df['ticker'])) #'EXOPLANETS:'
+    ticker_submit = st.form_submit_button('TICKER METRICS')
+    if ticker_submit:
+        display_ticker_stats(ticker_input)
+
+
 ## SPONSOR IMAGES ##
     # tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
     # tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
@@ -485,22 +501,6 @@ st.plotly_chart(sector_market_cap_line, use_container_width=False, sharing="stre
 
 ## 3D SCATTER ##
 # st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
-
-
-## SELECTION FORM ##
-## SECTOR / TICKER DATAFRAMES ##
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_ticker_df)
-
-with st.form('COMPANY DETAILS'):
-    company_prompt = st.subheader('SELECT TICKER:')
-    ticker_input = st.selectbox('TICKER', (reit_financials)) #'EXOPLANETS:'
-    ticker_submit = st.form_submit_button('TICKER METRICS')
-    if ticker_submit:
-        display_ticker_stats(ticker_input)
 
 ## DISCOVERY INFORMATION ##
 # left_col_1, right_col_1 = st.columns(2)
