@@ -24,6 +24,7 @@ import plotly.graph_objects as go
 from PIL import Image
 
 import yfinance as yf
+from datetime import date
 
 # import tensorflow_technical_indicators as tfti
 # from tensorflow_technical_indicators import <indicator>
@@ -44,7 +45,6 @@ import yfinance as yf
 
 # import scipy.stats as stats
 # import statistics
-from datetime import date
 
 #%%
 ## DIRECTORY CONFIGURATION ##
@@ -65,7 +65,6 @@ end_date = today #'2022-06-30'  #'2022-03-31'
 mrq = '2022-06-30'
 mry = '2021-12-31'
 
-
 #%%
 ## DATA IMPORT ##
 financials_csv = current_path + '/data/reit_historicals_2000_2022.csv'
@@ -76,28 +75,24 @@ trading_csv = current_path + '/data/reit_trading_2000_2022.csv'
 reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer_datetime_format=True, parse_dates=True)
 # reit_trading = pd.read_csv(trading_csv, header=0, index_col='Index', infer_datetime_format=True) #, index_col='loc_rowid'
 
-#%%
+
 ## IMAGE IMPORT ##
 # jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
 
-
+#%%
 ## PRE-PROCESSING ##
+reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod'])
 
-# exoplanets.dropna(inplace=True)
-# print(exoplanets.info())
-# print(exoplanets.columns)
-# print(exoplanets.head())
-
-# pd.to_numeric(exoplanets['disc_year'])
-# exoplanets['disc_year'].astype(int)
+# reit_financials.dropna(inplace=True)
+# pd.to_numeric(reit_financials['reportPeriod'])
+# reit_financials['reportPeriod'].astype(int)
 
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
-
 apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG", "APTS"]
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
-mall = ["SPG", "MAC", "PEI"]    #CBL	TCO	"WPG",
+mall = ["SPG", "MAC", "PEI"]    #"CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT",	"KIM",	"BRX", "AKR", "UE", "ROIC", "CDR", "SITC", "BFS"]   #"WRI", "RPAI",
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
 industrial = ["PLD", "DRE",	"FR", "EGP"]
@@ -105,7 +100,8 @@ self_storage = ["EXR",	"CUBE",	"REXR",	"LSI"]
 data_center = ["EQIX", "DLR" "AMT"]     #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 
-sectors = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
+sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
+sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
 reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
                "BXP",	"VNO",	"KRC",	"DEI",	"JBGS",	"CUZ",	"HPP",	"SLG",	"HIW",	"OFC",	"PGRE",	"PDM",	"WRE",	"ESRT",	"BDN", "EQC",
@@ -118,18 +114,18 @@ reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
                "EQIX", "DLR", "AMT",
                "WELL",	"PEAK",	"VTR",	"OHI",	"HR"]
 
-sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS"],
-               'office': ["BXP",	"VNO",	"KRC", "DEI", "JBGS",	"CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
+sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR", "CPT",	"AIV",	"BRG", "APTS"],
+               'office': ["BXP",	"VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH",	"INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
                'strip_center': ["REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS"],
                'net_lease': ["O",	"WPC",	"NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
                'industrial': ["PLD",	"DRE",	"FR",	"EGP"],
                'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
-               'data_center': ["EQIX", "DLR" "AMT"],
+               'data_center': ["EQIX", "DLR", "AMT"],
                'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
 
-ticker_summary_cols = ['reportPeriod', 'ticker', 'company',  'sector', 'city', 'state',
+ticker_output_cols = ['reportPeriod', 'ticker', 'company',  'sector', 'city', 'state',
                                  'Price_Actual', #'sharePriceAdjustedClose'
                                  'shares', # 'weightedAverageShares'
                                  'marketCapitalization',
@@ -166,7 +162,7 @@ mil_cols = ['operatingIncome', 'operatingExpenses', 'netIncome',
             'shares', 'weightedAverageShares',
             ]
 
-ticker_output_df = reit_financials[ticker_summary_cols]
+ticker_output_df = reit_financials[ticker_output_cols]
 
 # reit_comps = reit_comps[model_cols]
 
@@ -175,8 +171,6 @@ ticker_output_df = reit_financials[ticker_summary_cols]
 #               '07': '3', '08': '3', '09': '3',
 #               '10': '4', '11': '4', '12': '4'}
 
-#%%
-print(ticker_output_df.columns)
 
 #%%
 # STOCK PRICE TRADING HISTORY
@@ -205,32 +199,16 @@ print(f'START DATE: {all_reits_close.index.min()}')
 print('*'*50)
 print(f'END DATE: {all_reits_close.index.max()}')
 
-
-
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
 # all_reits_close.to_csv(basic_path + '/data/reit_trading_test1.csv')
 # all_reits_close.to_excel(current_path + f'/data/reit_trading_2000_{today}.xlsx', index=True, header=[0]) #, index = False
-# 'https://raw.githubusercontent.com/nehat312/REIT-comps/main/data/reit_trading_2000_present.csv'
 
 
-#%%
-## IMPORT DATA (UNIQUE DATAFRAMES FOR EACH CRE SECTOR) ##
+## IMPORT DATA (UNIQUE DATAFRAMES FOR EACH CRE SECTOR??) ##
 # all_sectors_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='ALL SECTORS', parse_dates = True, index_col = [0], header=[3])
-# office_import = pd.read_excel(current_path + '/data/reit_trading_2000_2022.xlsx', sheet_name='OFFICE', parse_dates = True, index_col = [0], header=[2])
-# residential_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='RESIDENTIAL', parse_dates = True, index_col = [0], header=[2])
-# lodging_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='LODGING', parse_dates = True, index_col = [0], header=[2])
-# net_lease_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='NET LEASE', parse_dates = True, index_col = [0], header=[2])
-# strip_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='STRIP CENTER', parse_dates = True, index_col = [0], header=[2])
-# mall_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='MALL', parse_dates = True, index_col = [0], header=[2])
-# healthcare_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='HEALTH CARE', parse_dates = True, index_col = [0], header=[2])
-# industrial_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='INDUSTRIAL', parse_dates = True, index_col = [0], header=[2])
-# self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
-# data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
 
-
-## SAVE COPIES OF IMPORTS
-
+## SAVE COPIES OF IMPORTS ##
 # sector_comps = all_sectors_import
 # office_comps = office_import
 # residential_comps = residential_import
@@ -246,19 +224,18 @@ print(f'END DATE: {all_reits_close.index.max()}')
 # sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
-
 ## MAP SECTORS (??) ##
 # sector_map_df = all_reits_close
 # sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
 # sector_map_df['sector'] = sector_map_df['sector'].map(sector_dict)
 # print(sector_map_df)
 
-#%%
 ## TOOLBOX FUNCTIONS ##
 
-
 #%%
-## FORMAT / STYLE ##
+##################
+# FORMAT / STYLE #
+##################
 
 ## COLOR SCALES ##
 YlOrRd = px.colors.sequential.YlOrRd
@@ -274,7 +251,21 @@ Ice = px.colors.sequential.ice
 Ice_r = px.colors.sequential.ice_r
 Dense = px.colors.sequential.dense
 
-## VISUALIATION LABELS ##
+## SECTOR COLORS ##
+
+sector_colors = {'apartment':'#FFDF00',
+                 'office':'#29609C',
+                 'hotel':'#E9EDED',
+                 'mall':'#D5FF0A',
+                 'strip_center':'#46D8BF',
+                 'net_lease':'#EEFCF7',
+                 'industrial':'#535865',
+                 'self_storage':'#5F8C95',
+                 'data_center':'#3AA5C3',
+                 'healthcare':'#FF3363'
+                 }
+
+## VISUALIZATION LABELS ##
 chart_labels = {'apartment':'APARTMENT',
                 'office':'OFFICE',
                 'hotel':'LODGING',
@@ -343,10 +334,9 @@ reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
                                      hover_data=ticker_output_df[['sector','reportPeriod',]],
                                      title='REIT COMPS SCATTER MATRIX',
                                      labels=chart_labels,
-                                 height=800,
+                                 # height=800,
                                  # width=600,
                                  )
-
 
 sector_market_cap_line = px.line(ticker_output_df,
                                  x=ticker_output_df['reportPeriod'],
@@ -362,10 +352,40 @@ sector_market_cap_line = px.line(ticker_output_df,
                                  # width=600,
                                  )
 
+ticker_price_line = px.line(ticker_output_df[ticker_input],
+                                 x=ticker_output_df['reportPeriod'],
+                                 y=ticker_output_df['marketCapitalization'],
+                                     color=ticker_output_df['sector'],
+                                     # color_continuous_scale=Electric,
+                                     color_discrete_sequence=Electric,
+                                     hover_name=ticker_output_df['company'],
+                                     hover_data=ticker_output_df[['sector','reportPeriod']],
+                                     title='REIT SECTORS MARKET CAPITALIZATION',
+                                     labels=chart_labels,
+                                 height=800,
+                                 # width=600,
+                                 )
+
+
 # ticker_price_line = px.line(ticker_output_df[ticker_input],
 #                                  x=ticker_output_df['reportPeriod'],
 #                                  y=ticker_output_df['marketCapitalization'],
 #                                      color=ticker_output_df['sector'],
+#                                      # color_continuous_scale=Electric,
+#                                      color_discrete_sequence=Electric,
+#                                      hover_name=ticker_output_df['company'],
+#                                      hover_data=ticker_output_df[['sector','reportPeriod']],
+#                                      title='REIT SECTORS MARKET CAPITALIZATION',
+#                                      labels=chart_labels,
+#                                  height=800,
+#                                  # width=600,
+#                                  )
+
+# sector_heatmap = px.density_heatmap(
+#                                  x=all_reits_volume.index,
+#                                  y=all_reits_close,
+#                                     z=all_reits_volume,
+#                                      # color=all_reits_volume['sector'],
 #                                      # color_continuous_scale=Electric,
 #                                      color_discrete_sequence=Electric,
 #                                      hover_name=ticker_output_df['company'],
@@ -429,21 +449,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                            )
 
 
-
-
-
-
-# import datetime
-# today = datetime.date.today()
-# before = today - datetime.timedelta(days=700)
-# start_date = st.sidebar.date_input('START DATE', before)
-# end_date = st.sidebar.date_input('END DATE', today)
-# if start_date < end_date:
-#     st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
-# else:
-#     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
-
-
 #%%
 #####################
 ### STREAMLIT APP ###
@@ -463,19 +468,29 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
 ## SIDEBAR (WIP) ##
-sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sectors), help='SELECT A COMMERCIAL REAL ESTATE SECTOR')
+sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
+
 
 # if sector_select == 'APARTMENT':
 #     ticker_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_select]))
 # if sector_select == 'STRIP CENTER':
 #     ticker_select = st.sidebar.selectbox('TICKER', (apartment))
 
+
+# today = datetime.date.today()
+# before = today - datetime.timedelta(days=700)
+# start_date = st.sidebar.date_input('START DATE', before)
+# end_date = st.sidebar.date_input('END DATE', today)
+# if start_date < end_date:
+#     st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
+# else:
+#     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
+
 ## HEADER ##
 st.container()
 
 ## EXTERNAL LINKS ##
-
 github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
 propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
@@ -490,9 +505,58 @@ ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
+## SECTOR TABS ##
+tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs([sector_list_of_names])
+with tab_1:
+    st.header('APARTMENT')
+
+with tab_2:
+    st.header('OFFICE')
+
+with tab_3:
+    st.header('HOTEL')
+
+with tab_4:
+    st.header('MALL')
+
+with tab_5:
+    st.header('STRIP CENTER')
+
+with tab_6:
+    st.header('NET LEASE')
+
+with tab_7:
+    st.header('INDUSTRIAL')
+
+with tab_8:
+    st.header('SELF-STORAGE')
+
+with tab_9:
+    st.header('DATA CENTER')
+
+with tab_10:
+    st.header('HEALTHCARE')
+
 ## SELECTION FORM ##
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+def display_sector_stats(sector_input):
+    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+
+    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_sector_df)
+
+with st.form('SECTOR METRICS'):
+    sector_prompt = st.subheader('SELECT SECTOR:')
+    sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
+    sector_submit = st.form_submit_button('SECTOR METRICS')
+    if sector_submit:
+        display_sector_stats(sector_input)
+        # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
+        # temp_tick_list = sector_dict[sector_input]
+
+
 def display_ticker_stats(ticker_input):
     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
     # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
@@ -506,19 +570,6 @@ with st.form('TICKER METRICS'):
     if ticker_submit:
         display_ticker_stats(ticker_input)
 
-def display_sector_stats(sector_input):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
-    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df)
-
-with st.form('SECTOR METRICS'):
-    sector_prompt = st.subheader('SELECT SECTOR:')
-    sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
-    sector_submit = st.form_submit_button('SECTOR METRICS')
-    if sector_submit:
-        display_sector_stats(sector_input)
-        # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
-        # temp_tick_list = sector_dict[sector_input]
 
 
 
@@ -534,8 +585,10 @@ with st.form('SECTOR METRICS'):
 ## REIT SCATTER MATRIX ##
 st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
 
+## HEATMAP ##
+
 ## MARKET CAP LINE CHART ##
-st.plotly_chart(sector_market_cap_line, use_container_width=False, sharing="streamlit")
+# st.plotly_chart(sector_market_cap_line, use_container_width=False, sharing="streamlit")
 
 ## 3D SCATTER ##
 # st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
@@ -650,6 +703,7 @@ st.stop()
 # elif st.session_state["authentication_status"] == None:
 #     st.warning('Please enter your username and password')
 
+
 ### SCRATCH NOTES ###
 
 ## EXCEL SAVE WORKAROUND ##
@@ -673,6 +727,24 @@ st.stop()
 #
 # st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
+
+## POLYGON DATA ##
+
+# from polygon import RESTClient
+
+# client = RESTClient()
+# financials = client.get_ticker_details("NFLX")
+# print(financials)
+
+# for (i, n) in enumerate(client.list_ticker_news("INTC", limit=5)):
+#     print(i, n)
+#     if i == 5:
+#         break
+
+
+# client = RESTClient()
+# aggs = client.get_aggs("AAPL", 1, "day", "2022-04-04", "2022-04-04")
+# print(aggs)
 
 # TENSORFLOW INDICATORS #
 
