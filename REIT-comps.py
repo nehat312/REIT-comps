@@ -488,18 +488,18 @@ with st.form('SECTOR METRICS'):
         temp_tick_list = sector_dict[sector_input]
 
 
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_ticker_df)
+    def display_ticker_stats(ticker_input):
+        display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+        # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+        st.dataframe(display_ticker_df)
 
-with st.form('COMPANY METRICS'):
-    company_prompt = st.subheader('SELECT TICKER:')
-    # ticker_input = st.selectbox('TICKER', (reit_tickers))
-    ticker_input = st.selectbox('TICKER', (temp_tick_list))
-    ticker_submit = st.form_submit_button('TICKER METRICS')
-    if ticker_submit:
-        display_ticker_stats(ticker_input)
+    with st.form('COMPANY METRICS'):
+        company_prompt = st.subheader('SELECT TICKER:')
+        # ticker_input = st.selectbox('TICKER', (reit_tickers))
+        ticker_input = st.selectbox('TICKER', (temp_tick_list))
+        ticker_submit = st.form_submit_button('TICKER METRICS')
+        if ticker_submit:
+            display_ticker_stats(ticker_input)
 
 
 ## SPONSOR IMAGES ##
