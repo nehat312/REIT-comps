@@ -352,19 +352,19 @@ sector_market_cap_line = px.line(ticker_output_df,
                                  # width=600,
                                  )
 
-ticker_price_line = px.line(ticker_output_df[ticker_input],
-                                 x=ticker_output_df['reportPeriod'],
-                                 y=ticker_output_df['marketCapitalization'],
-                                     color=ticker_output_df['sector'],
-                                     # color_continuous_scale=Electric,
-                                     color_discrete_sequence=Electric,
-                                     hover_name=ticker_output_df['company'],
-                                     hover_data=ticker_output_df[['sector','reportPeriod']],
-                                     title='REIT SECTORS MARKET CAPITALIZATION',
-                                     labels=chart_labels,
-                                 height=800,
-                                 # width=600,
-                                 )
+# ticker_price_line = px.line(ticker_output_df[ticker_input],
+#                                  x=ticker_output_df['reportPeriod'],
+#                                  y=ticker_output_df['marketCapitalization'],
+#                                      color=ticker_output_df['sector'],
+#                                      # color_continuous_scale=Electric,
+#                                      color_discrete_sequence=Electric,
+#                                      hover_name=ticker_output_df['company'],
+#                                      hover_data=ticker_output_df[['sector','reportPeriod']],
+#                                      title='REIT SECTORS MARKET CAPITALIZATION',
+#                                      labels=chart_labels,
+#                                  height=800,
+#                                  # width=600,
+#                                  )
 
 
 # ticker_price_line = px.line(ticker_output_df[ticker_input],
