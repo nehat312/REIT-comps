@@ -132,6 +132,21 @@ sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"B
                'data_center': ["EQIX", "DLR" "AMT"],
                'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
 
+ticker_summary_cols = ['reportPeriod', 'ticker', 'company', 'city', 'state',
+                                 'Price_Actual', #'sharePriceAdjustedClose'
+                                 'shares', # 'weightedAverageShares'
+                                 'marketCapitalization',
+                                 'dividendsPerBasicCommonShare', 'dividendYield',
+                                 'earningBeforeInterestTaxes', 'earningsBeforeInterestTaxesDepreciationAmortization',
+                                 'assets', 'debt', 'totalLiabilities', 'cashAndEquivalents',
+                                 'enterpriseValue', 'enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA',
+                                 'capitalExpenditure', 'investedCapital', 'investments', 'propertyPlantEquipmentNet',
+                                 'netCashFlow', 'netCashFlowBusinessAcquisitionsDisposals',
+                                 'profitMargin', 'payoutRatio', 'priceToEarningsRatio',
+                                 'priceToBookValue', 'tangibleAssetValue',
+                                 'shareBasedCompensation', 'sellingGeneralAndAdministrativeExpense',
+                                 'netIncome', 'netIncomeToNonControllingInterests']
+
 scatter_cols_5x5 = ['Price_Actual', 'netIncome', 'earningBeforeInterestTaxes',
                     'cashAndEquivalents', 'debtToEquityRatio',
                     # 'ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
@@ -159,6 +174,7 @@ mil_cols = ['operatingIncome', 'operatingExpenses', 'netIncome',
             'shares', 'weightedAverageShares',
             ]
 
+ticker_output_df = reit_financials[ticker_summary_cols]
 
 # reit_comps = reit_comps[model_cols]
 
@@ -182,9 +198,11 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         timeout=12)
 
 #%%
+## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading.Close
 all_reits_open = all_reits_trading.Open
 all_reits_volume = all_reits_trading.Volume
+ticker_list = all_reits_close.columns
 
 #%%
 ## DETERMINE START / END DATES ##
@@ -269,21 +287,56 @@ chart_labels = {'apartment':'APARTMENT',
                 'self_storage':'SELF-STORAGE',
                 'data_center':'DATA CENTER',
                 'healthcare':'HEALTHCARE',
+                'reportPeriod':'REPORT PERIOD',
+                'ticker':'TICKER',
+                'company':'COMPANY',
+                'city':'CITY',
+                'state':'STATE',
+
+                'Price_Actual':'SHARE PRICE ($)',
+                'sharePriceAdjustedClose':'ADJ. CLOSE PRICE ($)',
+                'shares':'S/O',
+                'weightedAverageShares':'S/O (WTD AVG)',
+                'marketCapitalization':'MARKET CAP.',
+                'dividendsPerBasicCommonShare':'DIV./SHARE ($)',
+                'dividendYield':'DIV. YIELD (%)',
+                'earningBeforeInterestTaxes':'EBIT',
+                'earningsBeforeInterestTaxesDepreciationAmortization':'EBITDA',
+                'assets':'ASSETS',
+                'debt':'DEBT',
+                'totalLiabilities':'LIABILITIES',
+                'cashAndEquivalents':'CASH',
+                'enterpriseValue':'EV',
+                'enterpriseValueOverEBIT':'EV/EBIT',
+                'enterpriseValueOverEBITDA':'EV/EBITDA',
+
+                'capitalExpenditure':'CAPEX',
+                'investedCapital':'CAPITAL INVESTED',
+                'investments':'INVESTMENTS',
+                'propertyPlantEquipmentNet':'NET PP&E',
+
+                'netCashFlow':'NET CASH FLOW',
+                'netCashFlowBusinessAcquisitionsDisposals':'NET ACQ./DISP.',
+                'profitMargin':'PROFIT MARGIN (%)',
+                'payoutRatio':'PAYOUT RATIO (%)',
+                'priceToEarningsRatio':'P/E RATIO',
+                'priceToBookValue':'PRICE/BV',
+                'tangibleAssetValue':'TANGIBLE ASSET VALUE',
+                'shareBasedCompensation':'EQUITY-BASED COMP.',
+                'sellingGeneralAndAdministrativeExpense':'SG&A EXP.',
+                'netIncome':'NET INCOME',
+                'netIncomeToNonControllingInterests':'NCI',
                 }
 
 ## FEATURE VARIABLES ##
 
-ticker_list = all_reits_close.columns
-print(sector_dict['apartment'])
+# print(reit_financials[ticker_summary_cols].info())
+# print(sector_dict['apartment'])
+# print(reit_financials.columns[:50])
 
-#%%
-print(reit_financials.columns)
-
-#%%
 ## PRE-PROCESSING ##
 # exo_drop_na = exoplanets.dropna()
 # exo_with_temp = exoplanets[['st_temp_eff_k']].dropna()
-
 
 ## FILTER DATA ##
 # disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
@@ -298,30 +351,30 @@ print(reit_financials.columns)
 
 scatter_matrix_1 = px.scatter_matrix(reit_financials,
                                      dimensions=scatter_cols_5x5,
-                                     color=reit_financials['st_temp_eff_k'],
-                                     color_continuous_scale=Ice_r,
-                                     color_discrete_sequence=Ice_r,
-                                     hover_name=reit_financials['pl_name'],
-                                     hover_data=reit_financials[['host_name', 'sy_star_count', 'sy_planet_count']],
+                                     color=reit_financials['sector'],
+                                     color_continuous_scale=Electric,
+                                     color_discrete_sequence=Electric,
+                                     hover_name=reit_financials['ticker'],
+                                     hover_data=reit_financials[['']],
                                      title='REIT X vs. Y',
                                      labels=chart_labels,
-                                 height=850,
-                                 # width=800,
+                                 height=600,
+                                 # width=600,
                                  )
 
-scatter_3d_1 = px.scatter_3d(exo_drop_na,
-                             x=exo_drop_na['ra'],
-                             y=exo_drop_na['dec'],
-                             z=exo_drop_na['sy_distance_pc'],
-                             color=exo_drop_na['st_temp_eff_k'],
+scatter_3d_1 = px.scatter_3d(reit_financials,
+                             x=reit_financials['ra'],
+                             y=reit_financials['dec'],
+                             z=reit_financials['sy_distance_pc'],
+                             color=reit_financials['st_temp_eff_k'],
                              color_discrete_sequence=Ice_r,
                              color_continuous_scale=Ice_r,
                              color_continuous_midpoint=5000,
-                             size=exo_drop_na['pl_rade'],
+                             size=reit_financials['pl_rade'],
                              size_max=50,
                              # symbol=exo_drop_na['disc_year'],
-                             hover_name=exo_drop_na['pl_name'],
-                             hover_data=exo_drop_na[['host_name', 'disc_facility', 'disc_telescope']],
+                             hover_name=reit_financials['pl_name'],
+                             hover_data=reit_financials[['host_name', 'disc_facility', 'disc_telescope']],
                              title='EXOPLANET POPULATION -- RIGHT ASCENSION / DECLINATION / DISTANCE',
                              labels=chart_labels,
                              # range_x=[0,360],
@@ -362,11 +415,7 @@ density_map_1 = px.density_contour(exoplanets,
 
 
 
-sector_select = st.sidebar.selectbox('SECTOR', (sectors))
-if sector_select == 'APARTMENT':
-    ticker_select = st.sidebar.selectbox('TICKER', (apartment))
-if sector_select == 'STRIP CENTER':
-    ticker_select = st.sidebar.selectbox('TICKER', (apartment))
+
 import datetime
 today = datetime.date.today()
 before = today - datetime.timedelta(days=700)
@@ -410,65 +459,73 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 ## SIDEBAR ##
 # st.sidebar.xyz
 
-col1, col2, col3 = st.columns(3)
-with col1:
-    ticker = st.text_input("Choose a ticker (⬇💬👇ℹ️ ...)", value="⬇")
-with col2:
-    ticker_dx = st.slider(
-        "Horizontal offset", min_value=-30, max_value=30, step=1, value=0
-    )
-with col3:
-    ticker_dy = st.slider(
-        "Vertical offset", min_value=-30, max_value=30, step=1, value=-10
-    )
+
+sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sectors), help='SELECT A COMMERCIAL REAL ESTATE SECTOR')
+ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_sidebar_select]))
+
+# if sector_select == 'APARTMENT':
+#     ticker_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_select]))
+# if sector_select == 'STRIP CENTER':
+#     ticker_select = st.sidebar.selectbox('TICKER', (apartment))
+
+
+## CHART SIZING ##
+# col1, col2, col3 = st.columns(3)
+# with col1:
+#     ticker = st.text_input('TICKER (👇ℹ️)', value='ℹ️')
+# with col2:
+#     ticker_dx = st.slider('HORIZONTAL OFFSET', min_value=-50, max_value=50, step=1, value=0)  #-30 #30
+# with col3:
+#     ticker_dy = st.slider('VERTICAL OFFSET', min_value=-50, max_value=50, step=1, value=-10)
 
 ## HEADER ##
 st.container()
 
 ## EXTERNAL LINKS ##
 
-github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/exoplanet-explorer/)'
-nasa_exo_link = '[NASA EXOPLANETS](https://exoplanets.nasa.gov/)'
-nasa_caltech_link = '[NASA ARCHIVE](https://exoplanetarchive.ipac.caltech.edu/)'
+github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
+propswap_link = '[PROP/SWAP](<TBU>)'
+tbu_link = '[TBU](<TBU>)'
+
+## WILLARD SPONSOR? ##
 
 link_col_1, link_col_2, link_col_3 = st.columns(3)
 ext_link_1 = link_col_1.markdown(github_link, unsafe_allow_html=True)
-ext_link_2 = link_col_2.markdown(nasa_exo_link, unsafe_allow_html=True)
-ext_link_3 = link_col_3.markdown(nasa_caltech_link, unsafe_allow_html=True)
+ext_link_2 = link_col_2.markdown(propswap_link, unsafe_allow_html=True)
+ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 
-st.title('EXOPLANET EXPLORER')
-st.write('*Sourced from NASA-CalTECH mission archives*')
+st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
+# st.write('*TBU*')
 
-## TELESCOPE IMAGES ##
+## SPONSOR IMAGES ##
 tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
-tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=250)
-tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=250)
-tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=250)
-tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=250)
+# tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
+# tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=200)
+# tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
+# tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
+
+## SCATTER MATRIX ##
 
 ## 3D SCATTER ##
-st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
+# st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
+
+
 
 ## SELECTION FORM ##
-exo_drop_cols = ['pl_controv_flag', 'pl_bmassprov', 'ttv_flag',
-                 'st_temp_eff_k1', 'st_temp_eff_k2',
-                 'decstr', 'rastr',
-                 'sy_vmag', 'sy_kmag', 'sy_gaiamag']
-
-
-## EXOPLANET SELECTION ##
+## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
-def display_planet_stats(exo_input):
-    exo_df = exoplanets.loc[exoplanets['pl_name'] == exo_input] #'K2-398 b'
-    exo_df.drop(columns=exo_drop_cols, inplace=True)
-    st.dataframe(exo_df)
+def display_ticker_stats(ticker_input):
+    display_ticker_df = reit_financials[ticker_summary_cols]
+    display_ticker_df = reit_financials.loc[reit_financials['ticker'] == ticker_input]
+    display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_ticker_df)
 
-with st.form('EXOPLANET SELECTION'):
-    exoplanet_prompt = st.subheader('SELECT AN EXOPLANET:')
-    exo_input = st.selectbox('', (exo_planet_list)) #'EXOPLANETS:'
-    exo_submit = st.form_submit_button('EXO-STATS')
-    if exo_submit:
-        display_planet_stats(exo_input)
+with st.form('COMPANY DETAILS'):
+    company_prompt = st.subheader('SELECT TICKER:')
+    ticker_input = st.selectbox('TICKER', (reit_financials)) #'EXOPLANETS:'
+    ticker_submit = st.form_submit_button('TICKER METRICS')
+    if ticker_submit:
+        display_ticker_stats(ticker_input)
 
 
 ## DISCOVERY INFORMATION ##
@@ -574,16 +631,36 @@ st.stop()
 
 ### SCRATCH NOTES ###
 
+## EXCEL SAVE WORKAROUND ##
+
+# def to_excel(df):
+#     output = BytesIO()
+#     writer = pd.ExcelWriter(output, engine='xlsxwriter')
+#     df.to_excel(writer, sheet_name='Sheet1')
+#     writer.save()
+#     processed_data = output.getvalue()
+#     return processed_data
+#
+# def get_table_download_link(df):
+#     """Generates a link allowing the data in a given panda dataframe to be downloaded
+#     in:  dataframe
+#     out: href string
+#     """
+#     val = to_excel(df)
+#     b64 = base64.b64encode(val)  # val looks like b'...'
+#     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="download.xlsx">Download excel file</a>' # decode b'abc' => abc
+#
+# st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+
 
 # TENSORFLOW INDICATORS #
 
-candles = [...]
-c = tfti.features.close(candles)
-rsi = tfti.rsi(candles=c, window_size=7, method='ema')
+# candles = [...]
+# c = tfti.features.close(candles)
+# rsi = tfti.rsi(candles=c, window_size=7, method='ema')
 
 # you can also pass multidimensional tensors with (time step, features) where features = open, close to calculate some indicator for both open and close
 # result = tfti.indicator(candles, ..params..)
-
 
 
 ## FONTS ##
