@@ -1,10 +1,10 @@
 [theme]
 
 ## GEMSTONES ##
-primaryColor="#00bfbf"
+primaryColor="#0E3EDD"
 backgroundColor="#FFDF00" #00bfbf
-secondaryBackgroundColor="#0e3edd"
-textColor="#70cdff" #fe3e8b
+secondaryBackgroundColor="#0E3EDD"
+textColor="#00BFBF" #70cdff #fe3e8b
 font="sans serif"
 
 
