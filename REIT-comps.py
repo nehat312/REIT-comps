@@ -506,7 +506,9 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
 ## SECTOR TABS ##
-tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs([sector_list_of_names])
+tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(
+    ['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE']
+)
 with tab_1:
     st.header('APARTMENT')
 
