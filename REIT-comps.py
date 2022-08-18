@@ -255,15 +255,7 @@ print(f'END DATE: {all_reits_close.index.max()}')
 
 #%%
 ## TOOLBOX FUNCTIONS ##
-def display_sector_stats(sector_input):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
-    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df)
 
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_ticker_df)
 
 #%%
 ## FORMAT / STYLE ##
@@ -501,9 +493,26 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 ## SELECTION FORM ##
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+def display_ticker_stats(ticker_input):
+    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_ticker_df)
+
+with st.form('TICKER METRICS'):
+    ticker_prompt = st.subheader('SELECT TICKER:')
+    ticker_input = st.selectbox('TICKER', (reit_tickers))
+    # ticker_input = st.selectbox('TICKER', (temp_tick_list))
+    ticker_submit = st.form_submit_button('TICKER METRICS')
+    if ticker_submit:
+        display_ticker_stats(ticker_input)
+
+def display_sector_stats(sector_input):
+    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_sector_df)
 
 with st.form('SECTOR METRICS'):
-    company_prompt = st.subheader('SELECT SECTOR:')
+    sector_prompt = st.subheader('SELECT SECTOR:')
     sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
     sector_submit = st.form_submit_button('SECTOR METRICS')
     if sector_submit:
@@ -511,13 +520,7 @@ with st.form('SECTOR METRICS'):
         # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
         # temp_tick_list = sector_dict[sector_input]
 
-with st.form('COMPANY METRICS'):
-    company_prompt = st.subheader('SELECT TICKER:')
-    ticker_input = st.selectbox('TICKER', (reit_tickers))
-    # ticker_input = st.selectbox('TICKER', (temp_tick_list))
-    ticker_submit = st.form_submit_button('TICKER METRICS')
-    if ticker_submit:
-        display_ticker_stats(ticker_input)
+
 
 ## SPONSOR IMAGES ##
     # tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
