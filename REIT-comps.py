@@ -73,12 +73,9 @@ trading_csv = current_path + '/data/reit_trading_2000_2022.csv'
 
 # trading_excel = current_path + '/data/reit_trading_2000_2022.xlsx'
 # financials_excel = current_path + '/data/reit_historicals_2000_2022.xlsx'
-reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer_datetime_format=True)
+reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer_datetime_format=True, parse_dates=True)
 # reit_trading = pd.read_csv(trading_csv, header=0, index_col='Index', infer_datetime_format=True) #, index_col='loc_rowid'
 
-
-#%%
-print(reit_financials.head())
 #%%
 ## IMAGE IMPORT ##
 # jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
@@ -132,7 +129,7 @@ sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"B
                'data_center': ["EQIX", "DLR" "AMT"],
                'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
 
-ticker_summary_cols = ['reportPeriod', 'ticker', 'company', 'city', 'state',
+ticker_summary_cols = ['reportPeriod', 'ticker', 'company',  'sector', 'city', 'state',
                                  'Price_Actual', #'sharePriceAdjustedClose'
                                  'shares', # 'weightedAverageShares'
                                  'marketCapitalization',
@@ -148,12 +145,7 @@ ticker_summary_cols = ['reportPeriod', 'ticker', 'company', 'city', 'state',
                                  'netIncome', 'netIncomeToNonControllingInterests']
 
 scatter_cols_5x5 = ['Price_Actual', 'netIncome', 'earningBeforeInterestTaxes',
-                    'cashAndEquivalents', 'debtToEquityRatio',
-                    # 'ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
-                    # 'Price_LQ', 'Delta_QoQ', 'Return_QoQ', #'closePrice',
-                    # 'operatingIncome', 'operatingExpenses', 'revenues', 'costOfRevenue',
-                    # 'assets', 'debt', 'shares', 'weightedAverageShares',
-                    ]
+                    'marketCapitalization', 'dividendYield',]
 
 model_cols = ['ticker', 'calendarDate', 'sector', 'company', 'city', 'state',
               'Price_Actual', 'Price_LQ', 'Delta_QoQ', 'Return_QoQ', #'closePrice',
@@ -182,6 +174,9 @@ ticker_output_df = reit_financials[ticker_summary_cols]
 #               '04': '2', '05': '2', '06': '2',
 #               '07': '3', '08': '3', '09': '3',
 #               '10': '4', '11': '4', '12': '4'}
+
+#%%
+print(ticker_output_df.columns)
 
 #%%
 # STOCK PRICE TRADING HISTORY
@@ -231,9 +226,7 @@ print(f'END DATE: {all_reits_close.index.max()}')
 # self_storage_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='SELF STORAGE', parse_dates = True, index_col = [0], header=[2])
 # data_center_import = pd.read_excel(current_folder + 'data/reit_trading_2000_2022.xlsx', sheet_name='DATA CENTER', parse_dates = True, index_col = [0], header=[2])
 
-# print("\nIMPORT SUCCESS")
 
-#%%
 ## SAVE COPIES OF IMPORTS
 
 # sector_comps = all_sectors_import
@@ -257,7 +250,6 @@ print(f'END DATE: {all_reits_close.index.max()}')
 # sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
 # sector_map_df['sector'] = sector_map_df['sector'].map(sector_dict)
 # print(sector_map_df)
-
 
 #%%
 ## FORMAT / STYLE ##
@@ -287,6 +279,7 @@ chart_labels = {'apartment':'APARTMENT',
                 'self_storage':'SELF-STORAGE',
                 'data_center':'DATA CENTER',
                 'healthcare':'HEALTHCARE',
+
                 'reportPeriod':'REPORT PERIOD',
                 'ticker':'TICKER',
                 'company':'COMPANY',
@@ -345,100 +338,107 @@ chart_labels = {'apartment':'APARTMENT',
 # print(facility_filtered)
 
 
-
+#%%
 
 ## VISUALIZATIONS ##
 
-scatter_matrix_1 = px.scatter_matrix(reit_financials,
+reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
                                      dimensions=scatter_cols_5x5,
-                                     color=reit_financials['sector'],
+                                     color=ticker_output_df['sector'],
                                      color_continuous_scale=Electric,
                                      color_discrete_sequence=Electric,
-                                     hover_name=reit_financials['ticker'],
-                                     hover_data=reit_financials[['']],
-                                     title='REIT X vs. Y',
+                                     hover_name=ticker_output_df['company'],
+                                     hover_data=ticker_output_df[['sector','reportPeriod',]],
+                                     title='REIT COMPS SCATTER MATRIX',
                                      labels=chart_labels,
-                                 height=600,
+                                 height=800,
                                  # width=600,
                                  )
 
-scatter_3d_1 = px.scatter_3d(reit_financials,
-                             x=reit_financials['ra'],
-                             y=reit_financials['dec'],
-                             z=reit_financials['sy_distance_pc'],
-                             color=reit_financials['st_temp_eff_k'],
-                             color_discrete_sequence=Ice_r,
-                             color_continuous_scale=Ice_r,
-                             color_continuous_midpoint=5000,
-                             size=reit_financials['pl_rade'],
-                             size_max=50,
-                             # symbol=exo_drop_na['disc_year'],
-                             hover_name=reit_financials['pl_name'],
-                             hover_data=reit_financials[['host_name', 'disc_facility', 'disc_telescope']],
-                             title='EXOPLANET POPULATION -- RIGHT ASCENSION / DECLINATION / DISTANCE',
-                             labels=chart_labels,
-                             # range_x=[0,360],
-                             # range_y=[-50,50],
-                             range_z=[0,2500],
-                             # range_color=Sunsetdark,
-                             opacity=.8,
-                             height=800,
-                             width=1600,
-                             )
 
-disc_info_1 = px.histogram(disc_facility_filter,
-                           y=disc_facility_filter['disc_facility'],
-                           color=disc_facility_filter['disc_method'],
-                           color_discrete_sequence=Ice_r,
-                           hover_name=disc_facility_filter['pl_name'],
-                           hover_data=disc_facility_filter[['host_name', 'disc_facility', 'disc_telescope', 'sy_star_count', 'sy_planet_count']],
-                           # animation_frame=disc_facility_filter['disc_year'],
-                           # animation_group=disc_facility_filter['disc_facility'],
-                           title='EXOPLANET DISCOVERY FACILITY (BY DISCOVERY METHOD)',
-                           labels=chart_labels,
-                           range_x=[0,2500],
-                           height=1000,
-                           # width=800,
-                           )
+sector_market_cap_line = px.line(ticker_output_df,
+                                 x=ticker_output_df['reportPeriod'],
+                                 y=ticker_output_df['marketCapitalization'],
+                                     color=ticker_output_df['sector'],
+                                     # color_continuous_scale=Electric,
+                                     color_discrete_sequence=Electric,
+                                     hover_name=ticker_output_df['company'],
+                                     hover_data=ticker_output_df[['sector','reportPeriod']],
+                                     title='REIT SECTORS MARKET CAPITALIZATION',
+                                     labels=chart_labels,
+                                 height=800,
+                                 # width=600,
+                                 )
 
-density_map_1 = px.density_contour(exoplanets,
-                                   x=exoplanets['ra'],
-                                   y=exoplanets['dec'],
-                                   z=exoplanets['sy_distance_pc'],
-                                   color=exoplanets['disc_method'],
-                                   color_discrete_sequence=Temps,
-                                   hover_name=exoplanets['pl_name'],
-                                   hover_data=exoplanets[['host_name', 'disc_facility', 'disc_telescope', 'sy_star_count', 'sy_planet_count']],
-                                   title='EXOPLANET RIGHT ASCENSION / DECLINATION',
-                                   labels=chart_labels,
-                                   )
+# reit_density_map = px.density_contour(ticker_output_df,
+#                                    x=ticker_output_df['ra'],
+#                                    y=ticker_output_df['dec'],
+#                                    z=ticker_output_df['sy_distance_pc'],
+#                                    color=ticker_output_df['disc_method'],
+#                                    color_discrete_sequence=Temps,
+#                                    hover_name=ticker_output_df['company'],
+#                                    hover_data=ticker_output_df[['ticker', 'sector']],
+#                                    title='REIT ',
+#                                    labels=chart_labels,
+#                                    )
 
 
+# scatter_3d_1 = px.scatter_3d(reit_financials,
+#                              x=reit_financials['ra'],
+#                              y=reit_financials['dec'],
+#                              z=reit_financials['sy_distance_pc'],
+#                              color=reit_financials['st_temp_eff_k'],
+#                              color_discrete_sequence=Ice_r,
+#                              color_continuous_scale=Ice_r,
+#                              color_continuous_midpoint=5000,
+#                              size=reit_financials['pl_rade'],
+#                              size_max=50,
+#                              # symbol=exo_drop_na['disc_year'],
+#                              hover_name=reit_financials['pl_name'],
+#                              hover_data=reit_financials[['host_name', 'disc_facility', 'disc_telescope']],
+#                              title='EXOPLANET POPULATION -- RIGHT ASCENSION / DECLINATION / DISTANCE',
+#                              labels=chart_labels,
+#                              # range_x=[0,360],
+#                              # range_y=[-50,50],
+#                              range_z=[0,2500],
+#                              # range_color=Sunsetdark,
+#                              opacity=.8,
+#                              height=800,
+#                              width=1600,
+#                              )
+
+# disc_info_1 = px.histogram(disc_facility_filter,
+#                            y=disc_facility_filter['disc_facility'],
+#                            color=disc_facility_filter['disc_method'],
+#                            color_discrete_sequence=Ice_r,
+#                            hover_name=disc_facility_filter['pl_name'],
+#                            hover_data=disc_facility_filter[['host_name', 'disc_facility', 'disc_telescope', 'sy_star_count', 'sy_planet_count']],
+#                            # animation_frame=disc_facility_filter['disc_year'],
+#                            # animation_group=disc_facility_filter['disc_facility'],
+#                            title='EXOPLANET DISCOVERY FACILITY (BY DISCOVERY METHOD)',
+#                            labels=chart_labels,
+#                            range_x=[0,2500],
+#                            height=1000,
+#                            # width=800,
+#                            )
 
 
-import datetime
-today = datetime.date.today()
-before = today - datetime.timedelta(days=700)
-start_date = st.sidebar.date_input('START DATE', before)
-end_date = st.sidebar.date_input('END DATE', today)
-if start_date < end_date:
-    st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
-else:
-    st.sidebar.error('ERROR: END DATE BEFORE START DATE')
 
 
-indicator_bb = BollingerBands(df['Close'])
-bb = df
-bb['bb_h'] = indicator_bb.bollinger_hband()
-bb['bb_l'] = indicator_bb.bollinger_lband()
-bb = bb[['Close','bb_h','bb_l']]
 
-# Moving Average Convergence Divergence
-macd = MACD(df['Close']).macd()
 
-# Resistence Strength Indicator
-rsi = RSIIndicator(df['Close']).rsi()
+# import datetime
+# today = datetime.date.today()
+# before = today - datetime.timedelta(days=700)
+# start_date = st.sidebar.date_input('START DATE', before)
+# end_date = st.sidebar.date_input('END DATE', today)
+# if start_date < end_date:
+#     st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
+# else:
+#     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
 
+
+#%%
 #####################
 ### STREAMLIT APP ###
 #####################
@@ -456,27 +456,14 @@ hide_menu_style = """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
-## SIDEBAR ##
-# st.sidebar.xyz
-
-
+## SIDEBAR (WIP) ##
 sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sectors), help='SELECT A COMMERCIAL REAL ESTATE SECTOR')
-ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_sidebar_select]))
+ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
 
 # if sector_select == 'APARTMENT':
 #     ticker_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_select]))
 # if sector_select == 'STRIP CENTER':
 #     ticker_select = st.sidebar.selectbox('TICKER', (apartment))
-
-
-## CHART SIZING ##
-# col1, col2, col3 = st.columns(3)
-# with col1:
-#     ticker = st.text_input('TICKER (👇ℹ️)', value='ℹ️')
-# with col2:
-#     ticker_dx = st.slider('HORIZONTAL OFFSET', min_value=-50, max_value=50, step=1, value=0)  #-30 #30
-# with col3:
-#     ticker_dy = st.slider('VERTICAL OFFSET', min_value=-50, max_value=50, step=1, value=-10)
 
 ## HEADER ##
 st.container()
@@ -498,13 +485,15 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
 ## SPONSOR IMAGES ##
-tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
-# tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
-# tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=200)
-# tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
-# tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
+    # tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
+    # tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
+    # tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=200)
+    # tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
+    # tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
 
 ## SCATTER MATRIX ##
+
+
 
 ## 3D SCATTER ##
 # st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
@@ -515,9 +504,8 @@ tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def display_ticker_stats(ticker_input):
-    display_ticker_df = reit_financials[ticker_summary_cols]
-    display_ticker_df = reit_financials.loc[reit_financials['ticker'] == ticker_input]
-    display_ticker_df.drop(columns=display_ticker_df, inplace=True)
+    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
     st.dataframe(display_ticker_df)
 
 with st.form('COMPANY DETAILS'):
@@ -528,13 +516,13 @@ with st.form('COMPANY DETAILS'):
         display_ticker_stats(ticker_input)
 
 
-## DISCOVERY INFORMATION ##
-st.plotly_chart(disc_info_1.update_yaxes(categoryorder='total ascending'), use_container_width=True, sharing="streamlit")
 
 ## SCATTER MATRIX ##
-left_col_1, right_col_1 = st.columns(2)
-left_col_1.plotly_chart(exo_matrix_1, use_container_width=False, sharing="streamlit")
-right_col_1.plotly_chart(star_matrix_1, use_container_width=False, sharing="streamlit")
+# left_col_1, right_col_1 = st.columns(2)
+st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
+
+## DISCOVERY INFORMATION ##
+# st.plotly_chart(disc_info_1.update_yaxes(categoryorder='total ascending'), use_container_width=True, sharing="streamlit")
 
 ## DENSITY MAP ##
 # st.plotly_chart(density_map_1, use_container_width=False, sharing="streamlit")
@@ -557,10 +545,10 @@ right_col_1.plotly_chart(star_matrix_1, use_container_width=False, sharing="stre
         # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
 ## GALAXY IMAGES ##
-img_col_1, img_col_2, img_col_3 = st.columns(3)
-img_col_1.image(jwst_carina_img_1, caption='CARINA NEBULA (JWST)', width=400)
-img_col_2.image(jwst_phantom_img_1, caption='PHANTOM GALAXY (JWST)', width=400)
-img_col_3.image(jwst_infra_img_1, caption='INFRARED PANORAMIC (JWST)', width=400)
+# img_col_1, img_col_2, img_col_3 = st.columns(3)
+# img_col_1.image(jwst_carina_img_1, caption='CARINA NEBULA (JWST)', width=400)
+# img_col_2.image(jwst_phantom_img_1, caption='PHANTOM GALAXY (JWST)', width=400)
+# img_col_3.image(jwst_infra_img_1, caption='INFRARED PANORAMIC (JWST)', width=400)
 
 
 ## SCRIPT TERMINATION ##
@@ -570,6 +558,20 @@ st.stop()
 
 
 ### INTERPRETATION ###
+
+
+
+## STREAMLIT COMPONENTS ##
+
+## CHART SIZING ##
+# col1, col2, col3 = st.columns(3)
+# with col1:
+#     ticker = st.text_input('TICKER (👇ℹ️)', value='ℹ️')
+# with col2:
+#     ticker_dx = st.slider('HORIZONTAL OFFSET', min_value=-50, max_value=50, step=1, value=0)  #-30 #30
+# with col3:
+#     ticker_dy = st.slider('VERTICAL OFFSET', min_value=-50, max_value=50, step=1, value=-10)
+
 
 
 ### USER AUTHENTICATION ###
