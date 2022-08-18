@@ -484,7 +484,8 @@ with st.form('SECTOR METRICS'):
     sector_submit = st.form_submit_button('SECTOR METRICS')
     if sector_submit:
         display_sector_stats(sector_input)
-        ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
+        # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
+        temp_tick_list = sector_dict[sector_input]
 
 
 def display_ticker_stats(ticker_input):
@@ -494,7 +495,8 @@ def display_ticker_stats(ticker_input):
 
 with st.form('COMPANY METRICS'):
     company_prompt = st.subheader('SELECT TICKER:')
-    # ticker_input = st.selectbox('TICKER', (ticker_output_df['ticker']))
+    # ticker_input = st.selectbox('TICKER', (reit_tickers))
+    ticker_input = st.selectbox('TICKER', (temp_tick_list))
     ticker_submit = st.form_submit_button('TICKER METRICS')
     if ticker_submit:
         display_ticker_stats(ticker_input)
