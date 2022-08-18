@@ -480,7 +480,7 @@ def display_sector_stats(sector_input):
 
 with st.form('SECTOR METRICS'):
     company_prompt = st.subheader('SELECT SECTOR:')
-    sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'])) #'EXOPLANETS:'
+    sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
     sector_submit = st.form_submit_button('SECTOR METRICS')
     if sector_submit:
         display_sector_stats(sector_input)
