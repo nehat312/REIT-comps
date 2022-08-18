@@ -529,7 +529,7 @@ with st.form('SECTOR METRICS'):
     # tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
     # tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
 
-st.plotly_chart(ticker_input_line, use_container_width=False, sharing="streamlit")
+# st.plotly_chart(ticker_input_line, use_container_width=False, sharing="streamlit")
 
 ## REIT SCATTER MATRIX ##
 st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
