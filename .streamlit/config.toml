@@ -1,19 +1,19 @@
 [theme]
 
 ## GEMSTONES ##
-primaryColor="#70cdff"
-backgroundColor="#00bfbf"
+primaryColor="#00bfbf"
+backgroundColor="#FFDF00" #00bfbf
 secondaryBackgroundColor="#0e3edd"
-textColor="#fe3e8b"
+textColor="#70cdff" #fe3e8b
 font="sans serif"
 
 
 ## SPACE THEME ##
-primaryColor="#66FCF1"
-backgroundColor="#1A1A1D" #"#1B1E1F"
-secondaryBackgroundColor="#020202"
-textColor="#66FCF1"
-font="monospace"
+# primaryColor="#66FCF1"
+# backgroundColor="#1A1A1D" #"#1B1E1F"
+# secondaryBackgroundColor="#020202"
+# textColor="#66FCF1"
+# font="monospace"
 
 ## MIAMI VICE ##
 # primaryColor="#07efdb"
