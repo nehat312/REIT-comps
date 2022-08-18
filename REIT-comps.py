@@ -25,7 +25,7 @@ from PIL import Image
 
 import yfinance as yf
 
-import tensorflow_technical_indicators as tfti
+# import tensorflow_technical_indicators as tfti
 # from tensorflow_technical_indicators import <indicator>
 
 # from ta.volatility import BollingerBands
@@ -46,7 +46,7 @@ import tensorflow_technical_indicators as tfti
 # import statistics
 from datetime import date
 
-
+#%%
 ## DIRECTORY CONFIGURATION ##
 # import os
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
@@ -321,27 +321,13 @@ chart_labels = {'apartment':'APARTMENT',
                 'netIncomeToNonControllingInterests':'NCI',
                 }
 
-## FEATURE VARIABLES ##
-
-# print(reit_financials[ticker_summary_cols].info())
-# print(sector_dict['apartment'])
-# print(reit_financials.columns[:50])
-
 ## PRE-PROCESSING ##
-# exo_drop_na = exoplanets.dropna()
-# exo_with_temp = exoplanets[['st_temp_eff_k']].dropna()
-
 ## FILTER DATA ##
 # disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
 # facility_filtered = disc_facility_filter['disc_facility'].unique()
-# print(disc_facility_filter)
-# print(facility_filtered)
-
 
 #%%
-
 ## VISUALIZATIONS ##
-
 reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
                                      dimensions=scatter_cols_5x5,
                                      color=ticker_output_df['sector'],
@@ -491,13 +477,14 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
     # tele_col_3.image(kepler_tele_img_1, caption='KEPLER SPACE TELESCOPE', width=200)
     # tele_col_4.image(hubble_tele_img_1, caption='HUBBLE SPACE TELESCOPE', width=200)
 
-## SCATTER MATRIX ##
+## REIT SCATTER MATRIX ##
+st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
 
-
+## MARKET CAP LINE CHART ##
+st.plotly_chart(sector_market_cap_line, use_container_width=False, sharing="streamlit")
 
 ## 3D SCATTER ##
 # st.plotly_chart(scatter_3d_1, use_container_width=False, sharing="streamlit")
-
 
 
 ## SELECTION FORM ##
@@ -515,18 +502,12 @@ with st.form('COMPANY DETAILS'):
     if ticker_submit:
         display_ticker_stats(ticker_input)
 
-
-
-## SCATTER MATRIX ##
-# left_col_1, right_col_1 = st.columns(2)
-st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
-
 ## DISCOVERY INFORMATION ##
+# left_col_1, right_col_1 = st.columns(2)
 # st.plotly_chart(disc_info_1.update_yaxes(categoryorder='total ascending'), use_container_width=True, sharing="streamlit")
 
 ## DENSITY MAP ##
 # st.plotly_chart(density_map_1, use_container_width=False, sharing="streamlit")
-
 
 ## SUBPLOTS ##
 # subplots = make_subplots(rows=1, cols=2)
