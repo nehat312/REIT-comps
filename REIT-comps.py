@@ -506,9 +506,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
 ## SECTOR TABS ##
-tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(
-    ['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE']
-)
+tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
 
@@ -540,6 +538,19 @@ with tab_10:
     st.header('HEALTHCARE')
 
 ## SELECTION FORM ##
+
+## CSS CUSTOMIZATION ##
+th_props = [('font-size', '11px'),
+            ('text-align', 'center'),
+            ('font-weight', 'bold'),
+            ('color', '#6d6d6d'),
+            ('background-color', '#f7f7f9')]
+
+td_props = [('font-size', '11px')]
+
+df_styles = [dict(selector="th", props=th_props),
+             dict(selector="td", props=td_props)]
+
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 
@@ -547,7 +558,11 @@ def display_sector_stats(sector_input):
     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
 
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df)
+    st.dataframe(display_sector_df.style
+    # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
+    .format({'profitMargin': "{:.2%}", 'payoutRatio': "{:.2%}"})
+    .set_table_styles(df_styles))
+    # st.dataframe(df.style.apply(lambda x: "background-color: red"))
 
 with st.form('SECTOR METRICS'):
     sector_prompt = st.subheader('SELECT SECTOR:')
