@@ -570,15 +570,15 @@ def display_sector_stats(sector_input):
     # .set_caption(f'CUSTOM CAPTION')
     .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendYield': "{:.1%}",
              'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
-             'priceToEarningsRatio': "{: 0, .1}x", 'priceToBookValue': "{: 0, .1}x",
+             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
              'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
-             'shares': "{: 0, .0}",
-             # 'marketCapitalization': "${: 0, .0}",
-             # 'earningsBeforeInterestTaxes': "${: 0, .0}",
-             # 'earningsBeforeInterestTaxesDepreciationAmortization': "${: 0, .0}",
-             # 'assets': "${: 0, .0}", 'debt': "${: 0, .0}", 'totalLiabilities': "${: 0, .0}",
-             # 'cashAndEquivalents': "${: 0, .0}",
-             # 'enterpriseValue': "${: 0, .0}",
+             'shares': "{:,}",
+             'marketCapitalization': "${:,}",
+             'earningsBeforeInterestTaxes': "${:,}",
+             'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
+             'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
+             'cashAndEquivalents': "${:,}",
+             'enterpriseValue': "${:,}",
              })
 
     .set_table_styles(df_styles))
