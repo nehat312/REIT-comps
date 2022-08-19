@@ -193,11 +193,11 @@ all_reits_open = all_reits_trading.Open
 all_reits_volume = all_reits_trading.Volume
 ticker_list = all_reits_close.columns
 
-#%%
 ## DETERMINE START / END DATES ##
-print(f'START DATE: {all_reits_close.index.min()}')
-print('*'*50)
-print(f'END DATE: {all_reits_close.index.max()}')
+# print(f'START DATE: {all_reits_close.index.min()}')
+# print('*'*50)
+# print(f'END DATE: {all_reits_close.index.max()}')
+
 
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
@@ -567,7 +567,7 @@ def display_sector_stats(sector_input):
     st.dataframe(display_sector_df.style
     # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
     .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}",
-             'Price_Actual': "{:$.2}", 'dividendsPerBasicCommonShare': "{:$.2}",
+             'Price_Actual': "{$:.2}", 'dividendsPerBasicCommonShare': "{$:.2}",
              'priceToEarningsRatio': "{:.1x}", 'priceToBookValue': "{:.1x}",
              'enterpriseValueOverEBIT': "{:.1x}", 'enterpriseValueOverEBITDA': "{:.1x}",
 
