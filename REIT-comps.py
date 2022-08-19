@@ -540,13 +540,19 @@ with tab_10:
 ## SELECTION FORM ##
 
 ## CSS CUSTOMIZATION ##
-th_props = [('font-size', '11px'),
+th_props = [('font-size', '12px'),
             ('text-align', 'center'),
             ('font-weight', 'bold'),
-            ('color', '#6d6d6d'),
-            ('background-color', '#f7f7f9')]
+            ('color', '#EBEDE9'), #6d6d6d #29609C
+            ('background-color', '#29609C') #f7f7f9
+            ]
 
-td_props = [('font-size', '11px')]
+td_props = [('font-size', '12px'),
+            ('text-align', 'center'),
+            ('font-weight', 'bold'),
+            ('color', '#EBEDE9'), #6d6d6d #29609C
+            ('background-color', '#29609C') #f7f7f9
+            ]
 
 df_styles = [dict(selector="th", props=th_props),
              dict(selector="td", props=td_props)]
@@ -560,7 +566,7 @@ def display_sector_stats(sector_input):
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
     st.dataframe(display_sector_df.style
     # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
-    .format({'profitMargin': "{:.2%}", 'payoutRatio': "{:.2%}"})
+    .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}"})
     .set_table_styles(df_styles))
     # st.dataframe(df.style.apply(lambda x: "background-color: red"))
 
