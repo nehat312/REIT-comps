@@ -572,7 +572,7 @@ def display_sector_stats(sector_input):
              'enterpriseValueOverEBIT': "{:.1x}", 'enterpriseValueOverEBITDA': "{:.1x}",
 
              })
-    .set_table_styles(df_styles), labels=chart_labels)
+    .set_table_styles(df_styles))
     # st.dataframe(df.style.apply(lambda x: "background-color: red"))
 
 with st.form('SECTOR METRICS'):
