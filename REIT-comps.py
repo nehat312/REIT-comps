@@ -566,14 +566,22 @@ def display_sector_stats(sector_input):
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
     st.dataframe(display_sector_df.style
     # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
-    .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}",
-             'Price_Actual': "${:.2}", 'dividendsPerBasicCommonShare': "${:.2}",
-             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
+    .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendYield': "{:.1%}",
+             'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
+             'priceToEarningsRatio': "{: 0, .1}x", 'priceToBookValue': "{: 0, .1}x",
              'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
-    # ${: 0, .2f}
+             'shares': "{: 0, .1}",
+             'marketCapitalization': "${: 0, .1}",
+             'earningsBeforeInterestTaxes': "${: 0, .1}",  'earningsBeforeInterestTaxesDepreciationAmortization': "${: 0, .1}",
+             'assets': "${: 0, .1}", 'debt': "${: 0, .1}", 'totalLiabilities': "${: 0, .1}", 'cashAndEquivalents': "${: 0, .1}",
+             'enterpriseValue': "${: 0, .1}",
              })
+    .highlight_max(subset=['total_amt_usd_diff', 'total_amt_usd_pct_diff'])
+    # .set_caption(f'CUSTOM CAPTION')
     .set_table_styles(df_styles))
-    # st.dataframe(df.style.apply(lambda x: "background-color: red"))
+
+
+
 
 with st.form('SECTOR METRICS'):
     sector_prompt = st.subheader('SELECT SECTOR:')
