@@ -323,19 +323,23 @@ chart_labels = {'apartment':'APARTMENT',
 # disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
 # facility_filtered = disc_facility_filter['disc_facility'].unique()
 
+## GROUPBY SECTOR ##
+office = pd.DataFrame(ticker_output_df['sector'])
+
+
 #%%
 ## VISUALIZATIONS ##
 reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
                                      dimensions=scatter_cols_5x5,
                                      color=ticker_output_df['sector'],
-                                     color_continuous_scale=Electric,
-                                     color_discrete_sequence=Electric,
+                                     # color_continuous_scale=Temps,
+                                     color_discrete_sequence=sector_colors,
                                      hover_name=ticker_output_df['company'],
                                      hover_data=ticker_output_df[['sector','reportPeriod',]],
                                      title='REIT COMPS SCATTER MATRIX',
                                      labels=chart_labels,
-                                 # height=800,
-                                 # width=600,
+                                 height=1000,
+                                 width=1000,
                                  )
 
 sector_market_cap_line = px.line(ticker_output_df,
@@ -580,10 +584,7 @@ def display_sector_stats(sector_input):
              'cashAndEquivalents': "${:,}",
              'enterpriseValue': "${:,}",
              })
-
     .set_table_styles(df_styles))
-
-
 
 
 with st.form('SECTOR METRICS'):
