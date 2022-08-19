@@ -576,7 +576,7 @@ def display_sector_stats(sector_input):
              'assets': "${: 0, .1}", 'debt': "${: 0, .1}", 'totalLiabilities': "${: 0, .1}", 'cashAndEquivalents': "${: 0, .1}",
              'enterpriseValue': "${: 0, .1}",
              })
-    .highlight_max(subset=['total_amt_usd_diff', 'total_amt_usd_pct_diff'])
+    # .highlight_max(subset=['total_amt_usd_diff', 'total_amt_usd_pct_diff'])
     # .set_caption(f'CUSTOM CAPTION')
     .set_table_styles(df_styles))
 
