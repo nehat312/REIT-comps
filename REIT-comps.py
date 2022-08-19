@@ -568,8 +568,8 @@ def display_sector_stats(sector_input):
     # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
     .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}",
              'Price_Actual': "${:.2f}", 'dividendsPerBasicCommonShare': "${:.2f}",
-             'priceToEarningsRatio': "{:.1x}", 'priceToBookValue': "{:.1x}",
-             'enterpriseValueOverEBIT': "{:.1x}", 'enterpriseValueOverEBITDA': "{:.1x}",
+             'priceToEarningsRatio': "{:.1d}", 'priceToBookValue': "{:.1d}",
+             'enterpriseValueOverEBIT': "{:.1d}", 'enterpriseValueOverEBITDA': "{:.1d}",
     # ${: 0, .2f}
              })
     .set_table_styles(df_styles))
