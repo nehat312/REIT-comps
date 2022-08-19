@@ -567,9 +567,9 @@ def display_sector_stats(sector_input):
     st.dataframe(display_sector_df.style
     # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
     .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}",
-             'Price_Actual': "${:.2f}", 'dividendsPerBasicCommonShare': "${:.2f}",
-             # 'priceToEarningsRatio': "{:.1f}x", 'priceToBookValue': "{:.1f}x",
-             # 'enterpriseValueOverEBIT': "{:.1f}x", 'enterpriseValueOverEBITDA': "{:.1f}x",
+             'Price_Actual': "${:.2}", 'dividendsPerBasicCommonShare': "${:.2}",
+             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
+             'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
     # ${: 0, .2f}
              })
     .set_table_styles(df_styles))
