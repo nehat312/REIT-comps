@@ -548,10 +548,10 @@ th_props = [('font-size', '12px'),
             ]
 
 td_props = [('font-size', '12px'),
-            ('text-align', 'center'),
-            ('font-weight', 'bold'),
-            ('color', '#EBEDE9'), #6d6d6d #29609C
-            ('background-color', '#29609C') #f7f7f9
+            # ('text-align', 'center'),
+            # ('font-weight', 'bold'),
+            # ('color', '#EBEDE9'), #6d6d6d #29609C
+            # ('background-color', '#29609C') #f7f7f9
             ]
 
 df_styles = [dict(selector="th", props=th_props),
