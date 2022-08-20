@@ -329,11 +329,11 @@ chart_labels = {'apartment':'APARTMENT',
 office = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
 sector_mkt_cap = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
 sector_multiples = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
-sector_ratios = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].sum()
+sector_ratios = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
 
 # print(sector_mkt_cap)
 # print(sector_multiples[:30])
-print(sector_ratios.head()[:20])
+print(sector_ratios)
 
 
 #%%
@@ -561,6 +561,22 @@ def display_ticker_stats(ticker_input):
     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
+def display_ticker_charts(ticker_input):
+    px.line(all_reits_close.ticker_input,
+            # x=ticker_output_df['reportPeriod'],
+            # y=ticker_output_df['marketCapitalization'],
+            # color=ticker_output_df['sector'],
+            # # color_continuous_scale=Electric,
+            # color_discrete_sequence=Electric,
+            # color_discrete_map=sector_colors,
+            hover_name=ticker_output_df['company'],
+            hover_data=ticker_output_df[['sector', 'reportPeriod']],
+            title=f'{ticker_input} SHARE PRICE',
+            labels=chart_labels,
+            height=1000,
+            width=1000,
+            )
+
 def display_sector_stats(sector_input):
     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
@@ -569,17 +585,20 @@ def display_sector_stats(sector_input):
     # .highlight_max(subset=[''])
     # .set_caption(f'CUSTOM CAPTION')
 
+
+
 ## SECTOR TABS ##
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
-    with st.form('APARTMENT METRICS'):
+    with st.form('APARTMENT TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
         ticker_input = st.selectbox('TICKER', (apartment))
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             display_ticker_stats(ticker_input)
-            display_sector_stats('RESIDENTIAL')
+            display_ticker_charts(ticker_input)
+        display_sector_stats('RESIDENTIAL')
 
 with tab_2:
     st.header('OFFICE')
