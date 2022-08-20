@@ -119,26 +119,26 @@ sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR", "CPT",	"AIV",	"B
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH",	"INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
                'strip_center': ["REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS"],
-               'net_lease': ["O",	"WPC",	"NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
+               'net_lease': ["O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
                'industrial': ["PLD",	"DRE",	"FR",	"EGP"],
                'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
                'data_center': ["EQIX", "DLR", "AMT"],
                'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
 
 ticker_output_cols = ['reportPeriod', 'ticker', 'company',  'sector', 'city', 'state',
-                                 'Price_Actual', #'sharePriceAdjustedClose'
-                                 'shares', # 'weightedAverageShares'
-                                 'marketCapitalization',
-                                 'dividendsPerBasicCommonShare', 'dividendYield',
-                                 'earningBeforeInterestTaxes', 'earningsBeforeInterestTaxesDepreciationAmortization',
-                                 'assets', 'debt', 'totalLiabilities', 'cashAndEquivalents',
-                                 'enterpriseValue', 'enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA',
-                                 'capitalExpenditure', 'investedCapital', 'investments', 'propertyPlantEquipmentNet',
-                                 'netCashFlow', 'netCashFlowBusinessAcquisitionsDisposals',
-                                 'profitMargin', 'payoutRatio', 'priceToEarningsRatio',
-                                 'priceToBookValue', 'tangibleAssetValue',
-                                 'shareBasedCompensation', 'sellingGeneralAndAdministrativeExpense',
-                                 'netIncome', 'netIncomeToNonControllingInterests']
+                      'Price_Actual', #'sharePriceAdjustedClose'
+                      'shares', # 'weightedAverageShares'
+                      'marketCapitalization',
+                      'dividendsPerBasicCommonShare', 'dividendYield',
+                      'earningBeforeInterestTaxes', 'earningsBeforeInterestTaxesDepreciationAmortization',
+                      'assets', 'debt', 'totalLiabilities', 'cashAndEquivalents',
+                      'enterpriseValue', 'enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA',
+                      'capitalExpenditure', 'investedCapital', 'investments', 'propertyPlantEquipmentNet',
+                      'netCashFlow', 'netCashFlowBusinessAcquisitionsDisposals',
+                      'profitMargin', 'payoutRatio', 'priceToEarningsRatio',
+                      'priceToBookValue', 'tangibleAssetValue',
+                      #'shareBasedCompensation', 'sellingGeneralAndAdministrativeExpense',
+                      'netIncome', 'netIncomeToNonControllingInterests']
 
 scatter_cols_5x5 = ['Price_Actual', 'netIncome', 'earningBeforeInterestTaxes',
                     'marketCapitalization', 'dividendYield',]
@@ -197,6 +197,11 @@ ticker_list = all_reits_close.columns
 # print(f'START DATE: {all_reits_close.index.min()}')
 # print('*'*50)
 # print(f'END DATE: {all_reits_close.index.max()}')
+
+## PRE-PROCESSING ##
+## FILTER DATA ##
+# disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
+# facility_filtered = disc_facility_filter['disc_facility'].unique()
 
 
 #%%
@@ -318,13 +323,17 @@ chart_labels = {'apartment':'APARTMENT',
                 'netIncomeToNonControllingInterests':'NCI',
                 }
 
-## PRE-PROCESSING ##
-## FILTER DATA ##
-# disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
-# facility_filtered = disc_facility_filter['disc_facility'].unique()
 
+#%%
 ## GROUPBY SECTOR ##
-office = pd.DataFrame(ticker_output_df['sector'])
+office = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
+sector_mkt_cap = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
+sector_multiples = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
+sector_ratios = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].sum()
+
+# print(sector_mkt_cap)
+# print(sector_multiples[:30])
+print(sector_ratios.head()[:20])
 
 
 #%%
@@ -515,6 +524,17 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
+
+    def display_ticker_stats(ticker_input):
+        display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+        st.dataframe(display_ticker_df)
+
+    with st.form('TICKER METRICS'):
+        ticker_prompt = st.subheader('SELECT TICKER:')
+        ticker_input = st.selectbox('TICKER', (apartment))
+        ticker_submit = st.form_submit_button('TICKER METRICS')
+        if ticker_submit:
+            display_ticker_stats(ticker_input)
 
 with tab_2:
     st.header('OFFICE')
