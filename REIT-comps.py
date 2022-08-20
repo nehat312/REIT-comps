@@ -601,7 +601,24 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             # display_ticker_stats(ticker_input)
-            display_ticker_charts(ticker_input)
+            x = all_reits_close.index
+            y = all_reits_close[ticker_input]
+            px.line(x, y,
+                    # all_reits_close[{ticker_input}],
+                    # x=ticker_output_df['reportPeriod'],
+                    # y=ticker_output_df['marketCapitalization'],
+                    # color=ticker_output_df['sector'],
+                    # # color_continuous_scale=Electric,
+                    # color_discrete_sequence=Electric,
+                    # color_discrete_map=sector_colors,
+                    # hover_name=ticker_output_df['company'],
+                    # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+                    # title=f'{ticker_input} SHARE PRICE',
+                    labels=chart_labels,
+                    height=1000,
+                    width=1000,
+                    )
+            # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
 
 with tab_2:
