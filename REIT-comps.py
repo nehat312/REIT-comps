@@ -506,14 +506,15 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
                    'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
                    'shares': "{:,}",
                    'marketCapitalization': "${:,}",
-                   'earningsBeforeInterestTaxes': "${:,}",
+                   'earningBeforeInterestTaxes': "${:,}",
                    'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
                    'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
                    'cashAndEquivalents': "${:,}",
                    'netIncome': "${:,}", 'netIncomeToNonControllingInterests': "${:,}",
-                   'enterpriseValue': "${:,}",
+                   'enterpriseValue': "${:,}", 'netCashFlow': "${:,}",
                    'capitalExpenditure': "${:,}", 'netCashFlowBusinessAcquisitionsDisposals': "${:,}",
                    'investedCapital': "${:,}", 'investments': "${:,}",
+                   'propertyPlantEquipmentNet': "${:,}", 'tangibleAssetValue': "${:,}",
                    }
 
 ## SIDEBAR (WIP) ##
@@ -578,7 +579,7 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             display_ticker_stats(ticker_input)
-            display_sector_stats('APARMENT')
+            display_sector_stats('apartment')
 
 with tab_2:
     st.header('OFFICE')
