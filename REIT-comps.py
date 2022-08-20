@@ -481,6 +481,37 @@ hide_menu_style = """
 
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+## CSS CUSTOMIZATION ##
+th_props = [('font-size', '12px'),
+            ('text-align', 'center'),
+            ('font-weight', 'bold'),
+            ('color', '#EBEDE9'), #6d6d6d #29609C
+            ('background-color', '#29609C') #f7f7f9
+            ]
+
+td_props = [('font-size', '12px'),
+            # ('text-align', 'center'),
+            # ('font-weight', 'bold'),
+            # ('color', '#EBEDE9'), #6d6d6d #29609C
+            # ('background-color', '#29609C') #f7f7f9
+            ]
+
+df_styles = [dict(selector="th", props=th_props),
+             dict(selector="td", props=td_props)]
+
+
+col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendYield': "{:.1%}",
+             'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
+             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
+             'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
+             'shares': "{:,}",
+             'marketCapitalization': "${:,}",
+             'earningsBeforeInterestTaxes': "${:,}",
+             'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
+             'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
+             'cashAndEquivalents': "${:,}",
+             'enterpriseValue': "${:,}",
+             }
 
 ## SIDEBAR (WIP) ##
 sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
@@ -527,7 +558,7 @@ with tab_1:
 
     def display_ticker_stats(ticker_input):
         display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-        st.dataframe(display_ticker_df)
+        st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
     with st.form('TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
@@ -565,24 +596,6 @@ with tab_10:
 
 ## SELECTION FORM ##
 
-## CSS CUSTOMIZATION ##
-th_props = [('font-size', '12px'),
-            ('text-align', 'center'),
-            ('font-weight', 'bold'),
-            ('color', '#EBEDE9'), #6d6d6d #29609C
-            ('background-color', '#29609C') #f7f7f9
-            ]
-
-td_props = [('font-size', '12px'),
-            # ('text-align', 'center'),
-            # ('font-weight', 'bold'),
-            # ('color', '#EBEDE9'), #6d6d6d #29609C
-            # ('background-color', '#29609C') #f7f7f9
-            ]
-
-df_styles = [dict(selector="th", props=th_props),
-             dict(selector="td", props=td_props)]
-
 ## SECTOR / TICKER DATAFRAMES ##
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 
@@ -590,23 +603,10 @@ def display_sector_stats(sector_input):
     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
 
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df.style
-    # .applymap(color_negative_red, subset=['total_amt_usd_diff','total_amt_usd_pct_diff'])
-    # .highlight_max(subset=['total_amt_usd_diff', 'total_amt_usd_pct_diff'])
+    st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
+    # .applymap(color_negative_red, subset=[''])
+    # .highlight_max(subset=[''])
     # .set_caption(f'CUSTOM CAPTION')
-    .format({'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendYield': "{:.1%}",
-             'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
-             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
-             'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
-             'shares': "{:,}",
-             'marketCapitalization': "${:,}",
-             'earningsBeforeInterestTaxes': "${:,}",
-             'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
-             'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
-             'cashAndEquivalents': "${:,}",
-             'enterpriseValue': "${:,}",
-             })
-    .set_table_styles(df_styles))
 
 
 with st.form('SECTOR METRICS'):
