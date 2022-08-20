@@ -554,21 +554,31 @@ ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+def display_ticker_stats(ticker_input):
+    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+    st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
+
+def display_sector_stats(sector_input):
+    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+    st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
+    # .applymap(color_negative_red, subset=[''])
+    # .highlight_max(subset=[''])
+    # .set_caption(f'CUSTOM CAPTION')
+
 ## SECTOR TABS ##
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
-
-    def display_ticker_stats(ticker_input):
-        display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-        st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
-
     with st.form('APARTMENT METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
         ticker_input = st.selectbox('TICKER', (apartment))
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             display_ticker_stats(ticker_input)
+            display_sector_stats('APARMENT')
 
 with tab_2:
     st.header('OFFICE')
@@ -597,43 +607,35 @@ with tab_9:
 with tab_10:
     st.header('HEALTHCARE')
 
-## SELECTION FORM ##
+## SELECTION FORMS -- SECTOR / TICKER -- OLD ##
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 
-## SECTOR / TICKER DATAFRAMES ##
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# def display_sector_stats(sector_input):
+#     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+#     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+#     st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
+#     # .applymap(color_negative_red, subset=[''])
+#     # .highlight_max(subset=[''])
+#     # .set_caption(f'CUSTOM CAPTION')
+#
+#
+# with st.form('SECTOR METRICS'):
+#     sector_prompt = st.subheader('SELECT SECTOR:')
+#     sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
+#     sector_submit = st.form_submit_button('SECTOR METRICS')
+#     if sector_submit:
+#         display_sector_stats(sector_input)
 
-def display_sector_stats(sector_input):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
-
-    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
-    # .applymap(color_negative_red, subset=[''])
-    # .highlight_max(subset=[''])
-    # .set_caption(f'CUSTOM CAPTION')
-
-
-with st.form('SECTOR METRICS'):
-    sector_prompt = st.subheader('SELECT SECTOR:')
-    sector_input = st.selectbox('SECTOR', (ticker_output_df['sector'].unique())) #'EXOPLANETS:'
-    sector_submit = st.form_submit_button('SECTOR METRICS')
-    if sector_submit:
-        display_sector_stats(sector_input)
-        # ticker_input = st.selectbox('SECTOR', (sector_dict[sector_input]))
-        # temp_tick_list = sector_dict[sector_input]
-
-
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    # display_ticker_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_ticker_df)
-
-with st.form('TICKER METRICS'):
-    ticker_prompt = st.subheader('SELECT TICKER:')
-    ticker_input = st.selectbox('TICKER', (reit_tickers))
-    # ticker_input = st.selectbox('TICKER', (temp_tick_list))
-    ticker_submit = st.form_submit_button('TICKER METRICS')
-    if ticker_submit:
-        display_ticker_stats(ticker_input)
+# def display_ticker_stats(ticker_input):
+#     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+#     st.dataframe(display_ticker_df)
+#
+# with st.form('TICKER METRICS'):
+#     ticker_prompt = st.subheader('SELECT TICKER:')
+#     ticker_input = st.selectbox('TICKER', (reit_tickers))
+#     ticker_submit = st.form_submit_button('TICKER METRICS')
+#     if ticker_submit:
+#         display_ticker_stats(ticker_input)
 
 
 
