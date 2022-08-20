@@ -603,7 +603,7 @@ with tab_1:
             # display_ticker_stats(ticker_input)
             x = all_reits_close.index
             y = all_reits_close[ticker_input]
-            px.line(x, y,
+           st.plotly_chart(px.line(x, y,
                     # all_reits_close[{ticker_input}],
                     # x=ticker_output_df['reportPeriod'],
                     # y=ticker_output_df['marketCapitalization'],
@@ -617,7 +617,7 @@ with tab_1:
                     labels=chart_labels,
                     height=1000,
                     width=1000,
-                    )
+                    ))
             # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
 
