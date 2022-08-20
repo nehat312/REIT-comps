@@ -464,7 +464,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                            )
 
 
-
 #%%
 #####################
 ### STREAMLIT APP ###
@@ -601,9 +600,9 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             # display_ticker_stats(ticker_input)
-            x = all_reits_close.index
-            y = all_reits_close[ticker_input]
-            st.plotly_chart(px.line(x, y,
+            date_x = all_reits_close.index
+            price_y = all_reits_close[ticker_input]
+            st.plotly_chart(px.line(x=date_x, y=price_y,
                     # all_reits_close[{ticker_input}],
                     # x=ticker_output_df['reportPeriod'],
                     # y=ticker_output_df['marketCapitalization'],
