@@ -563,7 +563,7 @@ def display_ticker_stats(ticker_input):
     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 def display_ticker_charts(ticker_input):
-    px.line(all_reits_close[ticker_input],
+    px.line(all_reits_close[{ticker_input}],
             # x=ticker_output_df['reportPeriod'],
             # y=ticker_output_df['marketCapitalization'],
             # color=ticker_output_df['sector'],
