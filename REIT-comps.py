@@ -579,7 +579,7 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             display_ticker_stats(ticker_input)
-            display_sector_stats('apartment')
+            display_sector_stats('RESIDENTIAL')
 
 with tab_2:
     st.header('OFFICE')
