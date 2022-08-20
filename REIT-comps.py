@@ -501,17 +501,20 @@ df_styles = [dict(selector="th", props=th_props),
 
 
 col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendYield': "{:.1%}",
-             'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
-             'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
-             'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
-             'shares': "{:,}",
-             'marketCapitalization': "${:,}",
-             'earningsBeforeInterestTaxes': "${:,}",
-             'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
-             'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
-             'cashAndEquivalents': "${:,}",
-             'enterpriseValue': "${:,}",
-             }
+                   'dividendsPerBasicCommonShare': "${:.2}", #'Price_Actual': "${:.2}",
+                   'priceToEarningsRatio': "{:.1}x", 'priceToBookValue': "{:.1}x",
+                   'enterpriseValueOverEBIT': "{:.1}x", 'enterpriseValueOverEBITDA': "{:.1}x",
+                   'shares': "{:,}",
+                   'marketCapitalization': "${:,}",
+                   'earningsBeforeInterestTaxes': "${:,}",
+                   'earningsBeforeInterestTaxesDepreciationAmortization': "${:,}",
+                   'assets': "${:,}", 'debt': "${:,}", 'totalLiabilities': "${:,}",
+                   'cashAndEquivalents': "${:,}",
+                   'netIncome': "${:,}", 'netIncomeToNonControllingInterests': "${:,}",
+                   'enterpriseValue': "${:,}",
+                   'capitalExpenditure': "${:,}", 'netCashFlowBusinessAcquisitionsDisposals': "${:,}",
+                   'investedCapital': "${:,}", 'investments': "${:,}",
+                   }
 
 ## SIDEBAR (WIP) ##
 sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
