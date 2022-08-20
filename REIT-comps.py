@@ -572,7 +572,7 @@ def display_ticker_charts(ticker_input):
             # color_discrete_map=sector_colors,
             # hover_name=ticker_output_df['company'],
             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-            title=f'{ticker_input} SHARE PRICE',
+            # title=f'{ticker_input} SHARE PRICE',
             labels=chart_labels,
             height=1000,
             width=1000,
@@ -597,9 +597,9 @@ with tab_1:
         ticker_input = st.selectbox('TICKER', (apartment))
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
-            display_ticker_stats(ticker_input)
+            # display_ticker_stats(ticker_input)
             display_ticker_charts(ticker_input)
-        display_sector_stats('RESIDENTIAL')
+        # display_sector_stats('RESIDENTIAL')
 
 with tab_2:
     st.header('OFFICE')
