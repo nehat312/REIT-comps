@@ -603,7 +603,7 @@ with tab_1:
             # display_ticker_stats(ticker_input)
             x = all_reits_close.index
             y = all_reits_close[ticker_input]
-           st.plotly_chart(px.line(x, y,
+            st.plotly_chart(px.line(x, y,
                     # all_reits_close[{ticker_input}],
                     # x=ticker_output_df['reportPeriod'],
                     # y=ticker_output_df['marketCapitalization'],
