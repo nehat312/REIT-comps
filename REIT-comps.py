@@ -560,7 +560,7 @@ with tab_1:
         display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
         st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
-    with st.form('TICKER METRICS'):
+    with st.form('APARTMENT METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
         ticker_input = st.selectbox('TICKER', (apartment))
         ticker_submit = st.form_submit_button('TICKER METRICS')
