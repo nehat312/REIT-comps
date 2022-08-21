@@ -60,7 +60,8 @@ basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 #%%
 ## TIME INTERVALS ##
 
-today = date.today()
+today = datetime.date.today()
+before = today - datetime.timedelta(days=700)
 start_date = '2000-01-01'
 end_date = today #'2022-06-30'  #'2022-03-31'
 mrq = '2022-06-30'
@@ -556,8 +557,6 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 # sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 # ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
 
-# today = datetime.date.today()
-before = today - datetime.timedelta(days=700)
 sidebar_start = st.sidebar.date_input('START DATE', before)
 sidebar_end = st.sidebar.date_input('END DATE', today)
 if sidebar_start < sidebar_end:
