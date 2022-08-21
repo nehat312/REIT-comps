@@ -645,11 +645,9 @@ def display_sector_charts(sector_input):
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
-    apt_x = apartment_reits_close.index
+    x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
-    for i in apartment_reits_close.columns:
-        st.plotly_chart(px.line(x=apt_x,
-                                y=apartment_reits_close[i],
+    st.plotly_chart(px.line(apartment_reits_close,
                             # x,
                             # y,
             # apartment_reits_close[{ticker_input}],
