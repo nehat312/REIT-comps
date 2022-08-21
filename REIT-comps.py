@@ -24,7 +24,8 @@ import plotly.graph_objects as go
 from PIL import Image
 
 import yfinance as yf
-from datetime import date
+import datetime
+# from datetime import date
 
 # import tensorflow_technical_indicators as tfti
 # from tensorflow_technical_indicators import <indicator>
@@ -552,24 +553,17 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
                    }
 
 ## SIDEBAR (WIP) ##
-sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
-ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
-
-
-# if sector_select == 'APARTMENT':
-#     ticker_select = st.sidebar.selectbox('TICKER', (sector_dict[sector_select]))
-# if sector_select == 'STRIP CENTER':
-#     ticker_select = st.sidebar.selectbox('TICKER', (apartment))
-
+# sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
+# ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
 
 # today = datetime.date.today()
-# before = today - datetime.timedelta(days=700)
-# start_date = st.sidebar.date_input('START DATE', before)
-# end_date = st.sidebar.date_input('END DATE', today)
-# if start_date < end_date:
-#     st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (start_date, end_date))
-# else:
-#     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
+before = today - datetime.timedelta(days=700)
+sidebar_start = st.sidebar.date_input('START DATE', before)
+sidebar_end = st.sidebar.date_input('END DATE', today)
+if sidebar_start < sidebar_end:
+    st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (sidebar_start, sidebar_end))
+else:
+    st.sidebar.error('ERROR: END DATE BEFORE START DATE')
 
 ## HEADER ##
 st.container()
