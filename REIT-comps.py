@@ -648,7 +648,7 @@ with tab_1:
     x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(apartment_reits_close,
-                            x,
+                            # x,
                             # y,
             # apartment_reits_close[{ticker_input}],
             # x=ticker_output_df['reportPeriod'],
