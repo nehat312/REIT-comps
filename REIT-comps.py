@@ -92,12 +92,12 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG", "APTS"]
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
-mall = ["SPG", "MAC", "PEI"]    #"CBL" "TCO" "WPG"
+mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT",	"KIM",	"BRX", "AKR", "UE", "ROIC", "CDR", "SITC", "BFS"]   #"WRI", "RPAI",
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
 industrial = ["PLD", "DRE",	"FR", "EGP"]
 self_storage = ["EXR",	"CUBE",	"REXR",	"LSI"]
-data_center = ["EQIX", "DLR" "AMT"]     #"CONE", "COR"
+data_center = ["EQIX", "DLR" "AMT"] #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
@@ -114,16 +114,16 @@ reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
                "EQIX", "DLR", "AMT",
                "WELL",	"PEAK",	"VTR",	"OHI",	"HR"]
 
-sector_dict = {'apartment': ["EQR",	"AVB",	"ESS",	"MAA",	"UDR", "CPT",	"AIV",	"BRG", "APTS"],
-               'office': ["BXP",	"VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
-               'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH",	"INN", "HT", "AHT",	"BHR"],
+sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG", "APTS"],
+               'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
+               'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
                'strip_center': ["REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS"],
                'net_lease': ["O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
-               'industrial': ["PLD",	"DRE",	"FR",	"EGP"],
+               'industrial': ["PLD", "DRE", "FR", "EGP"],
                'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
                'data_center': ["EQIX", "DLR", "AMT"],
-               'healthcare': ["WELL",	"PEAK",	"VTR",	"OHI", "HR"]}
+               'healthcare': ["WELL", "PEAK", "VTR", "OHI", "HR"]}
 
 ticker_output_cols = ['reportPeriod', 'ticker', 'company',  'sector', 'city', 'state',
                       'Price_Actual', #'sharePriceAdjustedClose'
@@ -186,11 +186,44 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         proxy = None,
         timeout=12)
 
+office_reits_trading = yf.download(tickers = office,
+        period = "max", # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+        interval = "1d", # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+        start = start_date, #'2000-01-01'
+        end = today,
+        group_by = 'column',
+        auto_adjust = True,
+        prepost = False,
+        threads = True,
+        proxy = None,
+        timeout=12)
+
+apartment_reits_trading = yf.download(tickers = apartment,
+        period = "max", # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+        interval = "1d", # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
+        start = start_date, #'2000-01-01'
+        end = today,
+        group_by = 'column',
+        auto_adjust = True,
+        prepost = False,
+        threads = True,
+        proxy = None,
+        timeout=12)
+
 #%%
 ## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading.Close
 all_reits_open = all_reits_trading.Open
 all_reits_volume = all_reits_trading.Volume
+
+office_reits_close = office_reits_trading.Close
+office_reits_open = office_reits_trading.Open
+office_reits_volume = office_reits_trading.Volume
+
+apartment_reits_close = apartment_reits_trading.Close
+apartment_reits_open = apartment_reits_trading.Open
+apartment_reits_volume = apartment_reits_trading.Volume
+
 ticker_list = all_reits_close.columns
 
 ## DETERMINE START / END DATES ##
@@ -229,6 +262,7 @@ ticker_list = all_reits_close.columns
 # sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
 
+#%%
 ## MAP SECTORS (??) ##
 # sector_map_df = all_reits_close
 # sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
@@ -326,14 +360,14 @@ chart_labels = {'apartment':'APARTMENT',
 
 #%%
 ## GROUPBY SECTOR ##
-office = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
-sector_mkt_cap = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
-sector_multiples = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
-sector_ratios = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
+office_financials_group = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
+sector_mkt_cap_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
+sector_multiples_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
+sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
 
 # print(sector_mkt_cap)
 # print(sector_multiples[:30])
-print(sector_ratios)
+# print(sector_ratios_group)
 
 
 #%%
@@ -588,12 +622,49 @@ def display_sector_stats(sector_input):
     # .highlight_max(subset=[''])
     # .set_caption(f'CUSTOM CAPTION')
 
-
+def display_sector_charts(sector_input):
+    x = all_reits_close.index
+    y = all_reits_close[ticker_input]
+    px.line(x, y,
+        #all_reits_close[{ticker_input}],
+            # x=ticker_output_df['reportPeriod'],
+            # y=ticker_output_df['marketCapitalization'],
+            # color=ticker_output_df['sector'],
+            # # color_continuous_scale=Electric,
+            # color_discrete_sequence=Electric,
+            # color_discrete_map=sector_colors,
+            # hover_name=ticker_output_df['company'],
+            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+            # title=f'{ticker_input} SHARE PRICE',
+            labels=chart_labels,
+            height=1000,
+            width=1000,
+            )
 
 ## SECTOR TABS ##
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
+    x = apartment_reits_close.index
+    # y = apartment_reits_close[ticker_input]
+    st.plotly_chart(px.line(apartment_reits_close,
+                            x,
+                            # y,
+            # apartment_reits_close[{ticker_input}],
+            # x=ticker_output_df['reportPeriod'],
+            # y=ticker_output_df['marketCapitalization'],
+            # color=ticker_output_df['sector'],
+            # # color_continuous_scale=Electric,
+            # color_discrete_sequence=Electric,
+            # color_discrete_map=sector_colors,
+            # hover_name=ticker_output_df['company'],
+            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+            # title=f'{ticker_input} SHARE PRICE',
+            labels=chart_labels,
+            height=1000,
+            width=1000,
+            ))
+
     with st.form('APARTMENT TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
         ticker_input = st.selectbox('TICKER', (apartment))
@@ -612,13 +683,16 @@ with tab_1:
                     # color_discrete_map=sector_colors,
                     # hover_name=ticker_output_df['company'],
                     # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-                    # title=f'{ticker_input} SHARE PRICE',
+                    title=f'{ticker_input} SHARE PRICE',
                     labels=chart_labels,
-                    height=1000,
-                    width=1000,
+                                    # range_x=TBU,
+                                    # range_y=TBU,
+                    height=600,
+                    width=600,
                     ))
             # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
+
 
 with tab_2:
     st.header('OFFICE')
