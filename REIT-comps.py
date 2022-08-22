@@ -645,11 +645,10 @@ with tab_1:
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
-                            # hover_name=reit_financials['company'],
-                            hover_data=reit_financials[['ticker', 'sector']],
                             title=f'HISTORICAL SHARE PRICE ($)',
                             # symbol='*',
                             labels=chart_labels,
+                            range_x=[sidebar_start, sidebar_end],
                             height=800,
                             width=800,
                             ))
