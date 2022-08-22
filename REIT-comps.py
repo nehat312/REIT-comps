@@ -61,7 +61,7 @@ basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 ## TIME INTERVALS ##
 
 today = datetime.date.today()
-before = today - datetime.timedelta(days=700)
+before = today - datetime.timedelta(days=1000) #700
 start_date = '2000-01-01'
 end_date = today #'2022-06-30'  #'2022-03-31'
 mrq = '2022-06-30'
@@ -99,7 +99,7 @@ strip_center = ["REG", "FRT",	"KIM",	"BRX", "AKR", "UE", "ROIC", "CDR", "SITC", 
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
 industrial = ["PLD", "DRE",	"FR", "EGP"]
 self_storage = ["EXR",	"CUBE",	"REXR",	"LSI"]
-data_center = ["EQIX", "DLR" "AMT"] #"CONE", "COR"
+data_center = ["EQIX", "DLR", "AMT"] #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
@@ -185,7 +185,7 @@ all_reits_trading = yf.download(tickers = reit_tickers,
         auto_adjust = True,
         prepost = False,
         threads = True,
-        proxy = None,
+        proxy = None, #"PROXY_SERVER"
         timeout=12)
 
 office_reits_trading = yf.download(tickers = office,
@@ -212,6 +212,7 @@ apartment_reits_trading = yf.download(tickers = apartment,
         proxy = None,
         timeout=12)
 
+
 #%%
 ## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading.Close
@@ -237,6 +238,15 @@ ticker_list = all_reits_close.columns
 ## FILTER DATA ##
 # disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
 # facility_filtered = disc_facility_filter['disc_facility'].unique()
+
+
+#%%
+## QUARTERLY BALANCE SHEETS - MRY ##
+
+for i in data_center:
+    i = yf.Ticker(f"{i}")
+    print(str(i).upper())
+    print(i.quarterly_balance_sheet)
 
 
 #%%
@@ -279,11 +289,8 @@ ticker_list = all_reits_close.columns
 ##################
 
 ## COLOR SCALES ##
-YlOrRd = px.colors.sequential.YlOrRd
-Mint = px.colors.sequential.Mint
-Electric = px.colors.sequential.Electric
-Sunsetdark = px.colors.sequential.Sunsetdark
 Sunset = px.colors.sequential.Sunset
+Sunsetdark = px.colors.sequential.Sunsetdark
 Tropic = px.colors.diverging.Tropic
 Temps = px.colors.diverging.Temps
 Tealrose = px.colors.diverging.Tealrose
@@ -291,6 +298,9 @@ Blackbody = px.colors.sequential.Blackbody
 Ice = px.colors.sequential.ice
 Ice_r = px.colors.sequential.ice_r
 Dense = px.colors.sequential.dense
+# YlOrRd = px.colors.sequential.YlOrRd
+# Mint = px.colors.sequential.Mint
+# Electric = px.colors.sequential.Electric
 
 ## SECTOR COLORS ##
 
@@ -392,8 +402,8 @@ sector_market_cap_line = px.line(ticker_output_df,
                                  x=ticker_output_df['reportPeriod'],
                                  y=ticker_output_df['marketCapitalization'],
                                  color=ticker_output_df['sector'],
-                                 # color_continuous_scale=Electric,
-                                 color_discrete_sequence=Electric,
+                                 # color_continuous_scale=Ice_r,
+                                 color_discrete_sequence=Ice_r,
                                  color_discrete_map=sector_colors,
                                  hover_name=ticker_output_df['company'],
                                  hover_data=ticker_output_df[['sector','reportPeriod']],
@@ -649,6 +659,7 @@ with tab_1:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
+                            range_y=[0, 400],
                             height=800,
                             width=800,
                             ))
