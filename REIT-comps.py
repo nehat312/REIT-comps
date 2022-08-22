@@ -643,7 +643,7 @@ with tab_1:
     st.plotly_chart(px.line(apartment_reits_close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
-                            color_discrete_sequence=Tropic,
+                            color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
                             # hover_name=ticker_output_df['company'],
                             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
