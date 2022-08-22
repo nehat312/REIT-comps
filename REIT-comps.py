@@ -648,7 +648,7 @@ with tab_1:
                             hover_name=ticker_output_df['company'],
                             hover_data=ticker_output_df[['ticker', 'sector', 'reportPeriod']],
                             title=f'HISTORICAL SHARE PRICE ($)',
-                            symbol='*',
+                            # symbol='*',
                             labels=chart_labels,
                             height=800,
                             width=800,
