@@ -560,7 +560,7 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 sidebar_start = st.sidebar.date_input('START DATE', before)
 sidebar_end = st.sidebar.date_input('END DATE', today)
 if sidebar_start < sidebar_end:
-    st.sidebar.success('START DATE: `%s`\n\nEND DATE:`%s`' % (sidebar_start, sidebar_end))
+    st.sidebar.success('START DATE: `%s`\n\nEND DATE: `%s`' % (sidebar_start, sidebar_end))
 else:
     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
 
@@ -641,7 +641,7 @@ with tab_1:
     x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(apartment_reits_close,
-                            color=ticker_output_df.columns,
+                            # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Tropic,
                             color_discrete_map=sector_colors,
