@@ -641,22 +641,17 @@ with tab_1:
     x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(apartment_reits_close,
-                            # x,
-                            # y,
-            # apartment_reits_close[{ticker_input}],
-            # x=ticker_output_df['reportPeriod'],
-            # y=ticker_output_df['marketCapitalization'],
-            # color=ticker_output_df['sector'],
-            # # color_continuous_scale=Electric,
-            # color_discrete_sequence=Electric,
-            # color_discrete_map=sector_colors,
-            # hover_name=ticker_output_df['company'],
-            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-            # title=f'{ticker_input} SHARE PRICE',
-            labels=chart_labels,
-            height=800,
-            width=800,
-            ))
+                            color=ticker_output_df.columns,
+                            # color_continuous_scale=Electric,
+                            color_discrete_sequence=Tropic,
+                            color_discrete_map=sector_colors,
+                            # hover_name=ticker_output_df['company'],
+                            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+                            title=f'HISTORICAL SHARE PRICE ($)',
+                            labels=chart_labels,
+                            height=800,
+                            width=800,
+                            ))
 
     with st.form('APARTMENT TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
