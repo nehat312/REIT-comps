@@ -693,10 +693,10 @@ with tab_1:
                             width=800,
                             ))
 
-    returns = {}
-    for stock in apartment_reits_close.columns:
-        returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
-        st.dataframe(returns)
+    # returns = {}
+    # for stock in apartment_reits_close.columns:
+    #     returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
+    #     st.dataframe(returns)
 
     with st.form('APARTMENT TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
