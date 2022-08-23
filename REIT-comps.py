@@ -368,6 +368,7 @@ sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_in
 # print(sector_multiples[:30])
 # print(sector_ratios_group)
 
+
 #%%
 ## QUARTERLY BALANCE SHEETS - MRY ##
 
@@ -375,7 +376,7 @@ yf_tickers = []
 for i in reit_tickers:
     i = yf.Ticker(f"{i}")
     yf_tickers.append(i)
-    print(yf_tickers)
+    # print(yf_tickers)
 
 # for i in data_center:
 #     i = yf.Ticker(f"{i}")
@@ -403,7 +404,7 @@ for stock in apartment_reits_close.columns:
     # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
 
 # print(returns)
-print(apartment_reits_close)
+# print(apartment_reits_close)
 
 #%%
 ## VISUALIZATIONS ##
