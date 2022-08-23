@@ -676,7 +676,7 @@ with tab_0:
     st.plotly_chart(px.line(all_reits_close,
                             # x=apt_x,
                             # y=apartment_reits_trading.Close,
-                            color=all_reits_close.columns.map(sector_dict),
+                            color=all_reits_close.map(sector_dict),
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
