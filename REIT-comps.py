@@ -592,7 +592,7 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 ## SIDEBAR (WIP) ##
 # sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 # ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
-sidebar_header = st.sidebar.subheader('SELECT TIME INTERVAL:')
+sidebar_header = st.sidebar.subheader('VISUALIZATION TIMEFRAME:')
 sidebar_start = st.sidebar.date_input('START DATE', before)
 sidebar_end = st.sidebar.date_input('END DATE', today)
 if sidebar_start < sidebar_end:
