@@ -675,10 +675,10 @@ tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(
 with tab_1:
     st.header('APARTMENT')
     sector = apartment
-    x = apartment_reits_close.index
+    apt_x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(#apartment_reits_trading,
-                            x=apartment_reits_trading.index,
+                            x=apt_x,
                             y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
