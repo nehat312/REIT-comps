@@ -61,7 +61,7 @@ basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 ## TIME INTERVALS ##
 
 today = datetime.date.today()
-before = today - datetime.timedelta(days=1000) #700
+before = today - datetime.timedelta(days=1095) #700
 start_date = '2000-01-01'
 end_date = today #'2022-06-30'  #'2022-03-31'
 mrq = '2022-06-30'
@@ -241,15 +241,6 @@ ticker_list = all_reits_close.columns
 
 
 #%%
-## QUARTERLY BALANCE SHEETS - MRY ##
-
-for i in data_center:
-    i = yf.Ticker(f"{i}")
-    print(str(i).upper())
-    print(i.quarterly_balance_sheet)
-
-
-#%%
 ## EXPORT HISTORICAL TRADING DATA ##
 # all_reits_close.to_csv(basic_path + '/data/reit_trading_test1.csv')
 # all_reits_close.to_excel(current_path + f'/data/reit_trading_2000_{today}.xlsx', index=True, header=[0]) #, index = False
@@ -381,6 +372,41 @@ sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_in
 # print(sector_multiples[:30])
 # print(sector_ratios_group)
 
+#%%
+## QUARTERLY BALANCE SHEETS - MRY ##
+
+yf_tickers = []
+for i in reit_tickers:
+    i = yf.Ticker(f"{i}")
+    yf_tickers.append(i)
+    print(yf_tickers)
+
+# for i in data_center:
+#     i = yf.Ticker(f"{i}")
+#     print(str(i).upper())
+#     print(i.quarterly_balance_sheet)
+
+
+# apt_bs = pd.DataFrame()
+# bs_dict = {j: pd.DataFrame() for j in yf_tickers}
+
+# print(bs_dict)
+
+# bs_dict = {}
+# for j in yf_tickers[:5]:
+#     bs_dict[j] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Assets', 'Total Liab']])
+#
+# print(bs_dict.keys())
+
+
+#%%
+
+
+returns = {}
+for stock in apartment_reits_close.columns:
+    returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+
+print(returns)
 
 #%%
 ## VISUALIZATIONS ##
@@ -648,9 +674,12 @@ def display_sector_charts(sector_input):
 tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_1:
     st.header('APARTMENT')
+    sector = apartment
     x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
-    st.plotly_chart(px.line(apartment_reits_close,
+    st.plotly_chart(px.line(#apartment_reits_trading,
+                            x=apartment_reits_trading.Index,
+                            y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
@@ -663,6 +692,11 @@ with tab_1:
                             height=800,
                             width=800,
                             ))
+
+    returns = {}
+    for stock in apartment_reits_close.columns:
+        returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
+        st.dataframe(returns)
 
     with st.form('APARTMENT TICKER METRICS'):
         ticker_prompt = st.subheader('SELECT TICKER:')
@@ -765,7 +799,8 @@ with tab_10:
 ## REIT SCATTER MATRIX ##
 st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
 
-## HEATMAP ##
+## SECTOR HEATMAP ##
+
 
 ## MARKET CAP LINE CHART ##
 # st.plotly_chart(sector_market_cap_line, use_container_width=False, sharing="streamlit")
