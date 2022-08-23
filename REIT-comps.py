@@ -678,7 +678,7 @@ with tab_1:
     x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(#apartment_reits_trading,
-                            x=apartment_reits_trading.Index,
+                            x=apartment_reits_trading.index,
                             y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
