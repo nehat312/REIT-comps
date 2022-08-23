@@ -592,7 +592,7 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 ## SIDEBAR (WIP) ##
 # sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 # ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
-
+sidebar_header = st.sidebar.subheader('SELECT TIME INTERVAL:')
 sidebar_start = st.sidebar.date_input('START DATE', before)
 sidebar_end = st.sidebar.date_input('END DATE', today)
 if sidebar_start < sidebar_end:
@@ -688,7 +688,6 @@ with tab_1:
                             title=f'HISTORICAL SHARE PRICE ($)',
                             # symbol='*',
                             labels=chart_labels,
-                            text=apartment_reits_close.columns,
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 400],
                             height=800,
