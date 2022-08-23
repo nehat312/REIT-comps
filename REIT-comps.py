@@ -227,17 +227,13 @@ apartment_reits_close = apartment_reits_trading.Close
 apartment_reits_open = apartment_reits_trading.Open
 apartment_reits_volume = apartment_reits_trading.Volume
 
-ticker_list = all_reits_close.columns
+
+#%%
 
 ## DETERMINE START / END DATES ##
 # print(f'START DATE: {all_reits_close.index.min()}')
 # print('*'*50)
 # print(f'END DATE: {all_reits_close.index.max()}')
-
-## PRE-PROCESSING ##
-## FILTER DATA ##
-# disc_facility_filter = exoplanets[exoplanets['facility_count'] > 1]
-# facility_filtered = disc_facility_filter['disc_facility'].unique()
 
 
 #%%
@@ -400,13 +396,14 @@ for i in reit_tickers:
 
 
 #%%
-
-
-returns = {}
+## TOTAL RETURN ##
+# returns = {}
 for stock in apartment_reits_close.columns:
-    returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+    apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+    # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
 
-print(returns)
+# print(returns)
+print(apartment_reits_close)
 
 #%%
 ## VISUALIZATIONS ##
@@ -671,7 +668,28 @@ def display_sector_charts(sector_input):
             )
 
 ## SECTOR TABS ##
-tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
+tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
+with tab_0:
+    st.header('ALL SECTORS')
+    x = all_reits_close.index,
+    # mask = df.continent.isin(continents)
+    st.plotly_chart(px.line(all_reits_close,
+                            # x=apt_x,
+                            # y=apartment_reits_trading.Close,
+                            color=sector_dict,
+                            # color_continuous_scale=Electric,
+
+                            color_discrete_sequence=Ice_r,
+                            color_discrete_map=sector_colors,
+                            title=f'HISTORICAL SHARE PRICE ($)',
+                            # symbol='*',
+                            labels=chart_labels,
+                            range_x=[sidebar_start, sidebar_end],
+                            range_y=[0, 400],
+                            height=800,
+                            width=800,
+                            ))
+
 with tab_1:
     st.header('APARTMENT')
     sector = apartment
