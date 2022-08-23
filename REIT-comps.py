@@ -677,9 +677,9 @@ with tab_1:
     sector = apartment
     apt_x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
-    st.plotly_chart(px.line(#apartment_reits_trading,
-                            x=apt_x,
-                            y=apartment_reits_trading.Close,
+    st.plotly_chart(px.line(apartment_reits_close,
+                            # x=apt_x,
+                            # y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
