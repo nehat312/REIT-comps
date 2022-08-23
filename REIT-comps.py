@@ -682,11 +682,13 @@ with tab_1:
                             # y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
                             # color_continuous_scale=Electric,
+
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
                             title=f'HISTORICAL SHARE PRICE ($)',
                             # symbol='*',
                             labels=chart_labels,
+                            text=apartment_reits_close.columns,
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 400],
                             height=800,
