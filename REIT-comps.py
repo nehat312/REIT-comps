@@ -700,10 +700,11 @@ def display_sector_charts(sector_input):
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
     st.header('ALL SECTORS')
-    all_sectors_x = all_reits_close.columns,
+    # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     st.plotly_chart(px.line(all_reits_close,
-                            x=all_sectors_x,
+                            # x=all_sectors_x,
+
                             # y=apartment_reits_trading.Close,
                             # line_group=all_reits_close['sector'],
                             color=all_reits_close['sector'],
