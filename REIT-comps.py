@@ -105,16 +105,16 @@ healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
-reit_tickers = ["EQR",	"AVB",	"ESS",	"MAA",	"UDR",	"CPT",	"AIV",	"BRG", "APTS",
-               "BXP",	"VNO",	"KRC",	"DEI",	"JBGS",	"CUZ",	"HPP",	"SLG",	"HIW",	"OFC",	"PGRE",	"PDM",	"WRE",	"ESRT",	"BDN", "EQC",
-               "HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ",	"DRH",	"INN",	"HT",	"AHT",	"BHR",
-               "SPG",	"MAC", "PEI", "SKT", "SRG",
+reit_tickers = ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG", "APTS",
+               "BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE",
+               "HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR",
+               "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
                "REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS",
-               "O",	"WPC",	"NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT",
-               "PLD",	"DRE",	"FR",	"EGP",  "GTY",
+               "O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT",
+               "PLD", "DRE", "FR", "EGP", #GTY
                "EXR",	"CUBE",	"REXR",	"LSI",
                "EQIX", "DLR", "AMT",
-               "WELL",	"PEAK",	"VTR",	"OHI",	"HR"]
+               "WELL", "PEAK", "VTR", "OHI", "HR"]
 
 sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG", "APTS"],
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
@@ -215,7 +215,9 @@ apartment_reits_trading = yf.download(tickers = apartment,
 
 #%%
 ## VARIABLE ASSIGNMENT ##
-all_reits_close = all_reits_trading.Close
+all_reits_close = all_reits_trading.Close.T
+# all_reits_close['sector_avg'] = all_reits_close.mean(axis=0)
+
 all_reits_open = all_reits_trading.Open
 all_reits_volume = all_reits_trading.Volume
 
@@ -223,10 +225,39 @@ office_reits_close = office_reits_trading.Close
 office_reits_open = office_reits_trading.Open
 office_reits_volume = office_reits_trading.Volume
 
-apartment_reits_close = apartment_reits_trading.Close
+apartment_reits_close = apartment_reits_trading.Close.T
+apartment_reits_close['sector_avg'] = apartment_reits_close.mean(axis=0)
+# apartment_reits_close['ticker'] = apartment_reits_close.index
+# apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
 apartment_reits_open = apartment_reits_trading.Open
 apartment_reits_volume = apartment_reits_trading.Volume
 
+#%%
+# apartment_reits_close = apartment_reits_close.T
+map_list_apartment = []
+for i in apartment_reits_close.index.values:
+    for k in sector_dict:
+        if i in sector_dict[k]:
+            map_list_apartment.append(k)
+            break
+apartment_reits_close['sector'] = map_list_apartment
+
+#%%
+apartment_reits_close
+# all_reits_close
+
+
+#%%
+map_list_all_sectors = []
+for i in all_reits_close.index.values:
+    for k in sector_dict:
+        if i in sector_dict[k]:
+            map_list_all_sectors.append(k)
+            break
+all_reits_close['sector'] = map_list_all_sectors
+
+#%%
+all_reits_close[:50]
 
 #%%
 
@@ -672,12 +703,13 @@ def display_sector_charts(sector_input):
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
     st.header('ALL SECTORS')
-    x = all_reits_close.index,
+    all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     st.plotly_chart(px.line(all_reits_close,
-                            # x=apt_x,
+                            x=all_sectors_x,
                             # y=apartment_reits_trading.Close,
-                            # color=all_reits_close.map(sector_dict),
+                            # line_group=all_reits_close['sector'],
+                            color=all_reits_close['sector'],
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
