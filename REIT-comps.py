@@ -243,11 +243,6 @@ for i in apartment_reits_close.index.values:
 apartment_reits_close['sector'] = map_list_apartment
 
 #%%
-apartment_reits_close
-# all_reits_close
-
-
-#%%
 map_list_all_sectors = []
 for i in all_reits_close.index.values:
     for k in sector_dict:
@@ -257,7 +252,9 @@ for i in all_reits_close.index.values:
 all_reits_close['sector'] = map_list_all_sectors
 
 #%%
-all_reits_close[:50]
+# all_reits_close[:50]
+# apartment_reits_close
+
 
 #%%
 
