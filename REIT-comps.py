@@ -233,6 +233,27 @@ apartment_reits_open = apartment_reits_trading.Open
 apartment_reits_volume = apartment_reits_trading.Volume
 
 #%%
+map_list_all_sectors = []
+for i in all_reits_close.index.values:
+    for k in sector_dict:
+        if i in sector_dict[k]:
+            map_list_all_sectors.append(k)
+            break
+all_reits_close['sector'] = map_list_all_sectors
+
+# all_reits_close_concat = pd.concat([all_reits_close, map_list_all_sectors])
+# print(all_reits_close_concat)
+
+#%%
+
+# office_financials_group = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
+# all_reits_close_group = all_reits_close.groupby(['sector'], as_index=False)['marketCapitalization'].sum() #, 'reportPeriod'
+all_reits_close_group = all_reits_close.groupby(['sector'], as_index=False).mean() #, 'reportPeriod'
+all_reits_close_group = all_reits_close_group.T
+all_reits_close_group.index = pd.to_datetime(all_reits_close_group.index)
+print(all_reits_close_group.info())
+
+#%%
 # apartment_reits_close = apartment_reits_close.T
 map_list_apartment = []
 for i in apartment_reits_close.index.values:
@@ -243,17 +264,7 @@ for i in apartment_reits_close.index.values:
 apartment_reits_close['sector'] = map_list_apartment
 
 #%%
-map_list_all_sectors = []
-for i in all_reits_close.index.values:
-    for k in sector_dict:
-        if i in sector_dict[k]:
-            map_list_all_sectors.append(k)
-            break
-all_reits_close['sector'] = map_list_all_sectors
-
-#%%
 # all_reits_close[:50]
-# apartment_reits_close
 
 
 #%%
@@ -560,6 +571,11 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                            height=1000,
 #                            # width=800,
 #                            )
+
+
+#%%
+print(all_reits_close.info())
+
 
 
 #%%
