@@ -427,8 +427,8 @@ for i in reit_tickers:
 #%%
 ## TOTAL RETURN ##
 # returns = {}
-for stock in apartment_reits_close.columns:
-    apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+# for stock in apartment_reits_close.columns:
+#     apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
     # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
 
 # print(returns)
