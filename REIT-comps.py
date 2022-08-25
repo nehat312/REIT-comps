@@ -370,8 +370,7 @@ healthcare_reits_open = healthcare_reits_trading['Open']
 healthcare_reits_volume = healthcare_reits_trading['Volume']
 
 
-#%%
-apartment_reits_close
+# apartment_reits_close
 
 #%%
 all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], office_reits_close['office_avg'], hotel_reits_close['hotel_avg'],
@@ -389,7 +388,7 @@ all_sectors_close_df = all_sectors_close_df.T
 # all_sectors_close_df.info()
 
 #%%
-all_sectors_close_df.info()
+# all_sectors_close_df.info()
 
 #%%
 ## SECTOR GROUPBY -- TRADING ##
@@ -714,9 +713,9 @@ sector_market_cap_line = px.line(ticker_output_df,
 #####################
 
 ## CONFIGURATION ##
-st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
-                   layout='wide',
-                   ) #initial_sidebar_state='auto') #, page_icon=":emoji:"
+# st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
+#                    layout='wide',
+#                    ) #initial_sidebar_state='auto') #, page_icon=":emoji:"
 
 
 hide_menu_style = """
