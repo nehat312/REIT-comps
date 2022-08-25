@@ -887,26 +887,19 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
-    # sector = apartment
-    # apt_x = apartment_reits_close.index
-    # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(apartment_reits_close_df,
-                            x=apartment_reits_close_df.index,
                             # ['apartment_avg']
-                            # x=apt_x,
-                            # y=apartment_reits_trading.Close,
-                            # color=ticker_output_df.columns,
+                            # color=apartment_reits_close_df.columns,
                             # color_continuous_scale=Electric,
-
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
                             title=f'HISTORICAL SHARE PRICE ($)',
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            # range_y=[0, 500],
-                            height=800,
-                            width=800,
+                            range_y=[0, 200],
+                            height=600,
+                            width=1200,
                             ))
 
     # returns = {}
