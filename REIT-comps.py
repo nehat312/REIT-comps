@@ -232,15 +232,8 @@ apartment_reits_close['sector_avg'] = apartment_reits_close.mean(axis=0)
 apartment_reits_open = apartment_reits_trading.Open
 apartment_reits_volume = apartment_reits_trading.Volume
 
-#%%
-map_list_all_sectors = []
-for i in all_reits_close.index.values:
-    for k in sector_dict:
-        if i in sector_dict[k]:
-            map_list_all_sectors.append(k)
-            break
-all_reits_close['sector'] = map_list_all_sectors
 
+#%%
 # all_reits_close_concat = pd.concat([all_reits_close, map_list_all_sectors])
 # print(all_reits_close_concat)
 
@@ -260,21 +253,29 @@ sector_mkt_cap_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_i
 sector_multiples_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
 sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
 
-print(all_reits_close_group.info())
+# print(all_reits_close_group.info())
 
 # print(sector_mkt_cap)
 # print(sector_multiples[:30])
 # print(sector_ratios_group)
 
 #%%
-# apartment_reits_close = apartment_reits_close.T
-map_list_apartment = []
-for i in apartment_reits_close.index.values:
-    for k in sector_dict:
-        if i in sector_dict[k]:
-            map_list_apartment.append(k)
-            break
-apartment_reits_close['sector'] = map_list_apartment
+# map_list_all_sectors = []
+# for i in all_reits_close.index.values:
+#     for k in sector_dict:
+#         if i in sector_dict[k]:
+#             map_list_all_sectors.append(k)
+#             break
+
+# map_list_apartment = []
+# for i in apartment_reits_close.index.values:
+#     for k in sector_dict:
+#         if i in sector_dict[k]:
+#             map_list_apartment.append(k)
+#             break
+
+# all_reits_close['sector'] = map_list_all_sectors
+# apartment_reits_close['sector'] = map_list_apartment
 
 #%%
 # all_reits_close[:50]
@@ -575,7 +576,7 @@ sector_market_cap_line = px.line(ticker_output_df,
 
 #%%
 
-print(all_reits_close_group.info())
+# print(all_reits_close_group.info())
 
 #%%
 #####################
@@ -984,6 +985,14 @@ st.stop()
 
 
 ### SCRATCH NOTES ###
+
+## DATE EXTRACTION ##
+# df.index.dt.year
+# df.index.dt.month
+# df.index.dt.day
+# df.index.dt.hour
+# df.index.dt.minute
+
 
 ## EXCEL SAVE WORKAROUND ##
 
