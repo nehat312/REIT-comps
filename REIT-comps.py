@@ -314,14 +314,14 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 all_reits_close = all_reits_trading['Close']
 # all_reits_close['sector_avg'] = all_reits_close.mean(axis=0)
 all_reits_open = all_reits_trading['Open']
-all_reits_volume = all_reits_trading.Volume']
+all_reits_volume = all_reits_trading['Volume']
 
 apartment_reits_close = apartment_reits_trading['Close']
 apartment_reits_close['apartment_avg'] = apartment_reits_close.mean(axis=1)
 # apartment_reits_close['ticker'] = apartment_reits_close.index
 # apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
-apartment_reits_open = apartment_reits_trading.Open']
-apartment_reits_volume = apartment_reits_trading.Volume']
+apartment_reits_open = apartment_reits_trading['Open']
+apartment_reits_volume = apartment_reits_trading['Volume']
 
 office_reits_close = office_reits_trading['Close']
 office_reits_close['office_avg'] = office_reits_close.mean(axis=1)
@@ -370,7 +370,7 @@ healthcare_reits_volume = healthcare_reits_trading['Volume']
 
 
 #%%
-# apartment_reits_close
+apartment_reits_close
 
 #%%
 all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], office_reits_close['office_avg'], hotel_reits_close['hotel_avg'],
@@ -894,7 +894,8 @@ with tab_1:
     sector = apartment
     apt_x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
-    st.plotly_chart(px.line(apartment_reits_close,
+    st.plotly_chart(px.line(all_sectors_close_df['apartment_avg'],
+                            x=all_sectors_close_df.index,
                             # x=apt_x,
                             # y=apartment_reits_trading.Close,
                             # color=ticker_output_df.columns,
