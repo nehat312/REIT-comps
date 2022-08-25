@@ -492,7 +492,17 @@ sector_colors = {'apartment':'#FFDF00',
                  'industrial':'#535865',
                  'self_storage':'#5F8C95',
                  'data_center':'#3AA5C3',
-                 'healthcare':'#FF3363'
+                 'healthcare':'#FF3363',
+                 'apartment_avg':'#FFDF00',
+                 'office_avg':'#29609C',
+                 'hotel_avg':'#E9EDED',
+                 'mall_avg':'#D5FF0A',
+                 'strip_center_avg':'#46D8BF',
+                 'net_lease_avg':'#EEFCF7',
+                 'industrial_avg':'#535865',
+                 'self_storage_avg':'#5F8C95',
+                 'data_center_avg':'#3AA5C3',
+                 'healthcare_avg':'#FF3363',
                  }
 
 ## VISUALIZATION LABELS ##
@@ -897,7 +907,7 @@ with tab_1:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 200],
+                            range_y=[0, 250],
                             height=600,
                             width=1200,
                             ))
