@@ -312,6 +312,8 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 #%%
 ## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading['Close']
+# all_reits_close['all_reits_avg'] = apartment_reits_close.mean(axis=1)
+all_reits_close_df = pd.DataFrame(all_reits_close)
 # all_reits_close['sector_avg'] = all_reits_close.mean(axis=0)
 all_reits_open = all_reits_trading['Open']
 all_reits_volume = all_reits_trading['Volume']
@@ -380,6 +382,7 @@ healthcare_reits_close_df = pd.DataFrame(healthcare_reits_close)
 healthcare_reits_open = healthcare_reits_trading['Open']
 healthcare_reits_volume = healthcare_reits_trading['Volume']
 
+
 #%%
 all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], office_reits_close['office_avg'], hotel_reits_close['hotel_avg'],
                                 mall_reits_close['mall_avg'], strip_center_reits_close['strip_center_avg'], net_lease_reits_close['net_lease_avg'],
@@ -393,7 +396,8 @@ all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], off
                                 # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
 
 all_sectors_close_df = all_sectors_close_df.T
-# all_sectors_close_df.info()
+all_sectors_close_df.info()
+
 
 #%%
 # all_sectors_close_df.info()
@@ -895,6 +899,24 @@ with tab_0:
                             width=1200,
                             ))
 
+    st.header('ALL REITS')
+    # all_sectors_x = all_reits_close.columns,
+    # mask = df.continent.isin(continents)
+    st.plotly_chart(px.line(all_reits_close_df,
+                            # line_group=all_reits_close['sector'],
+                            # color=all_reits_close_group.columns,
+                            # color_continuous_scale=Electric,
+                            color_discrete_sequence=Ice_r,
+                            color_discrete_map=sector_colors,
+                            title=f'HISTORICAL SHARE PRICE ($)',
+                            # symbol='*',
+                            labels=chart_labels,
+                            range_x=[sidebar_start, sidebar_end],
+                            # range_y=[0, 400],
+                            height=600,
+                            width=1200,
+                            ))
+
 with tab_1:
     st.header('APARTMENT')
     st.plotly_chart(px.line(apartment_reits_close_df,
@@ -907,7 +929,7 @@ with tab_1:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 250],
+                            range_y=[0, 300],
                             height=600,
                             width=1200,
                             ))
