@@ -713,9 +713,9 @@ sector_market_cap_line = px.line(ticker_output_df,
 #####################
 
 ## CONFIGURATION ##
-# st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
-#                    layout='wide',
-#                    ) #initial_sidebar_state='auto') #, page_icon=":emoji:"
+st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
+                   layout='wide',
+                   ) #initial_sidebar_state='auto') #, page_icon=":emoji:"
 
 
 hide_menu_style = """
