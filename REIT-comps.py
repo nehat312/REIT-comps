@@ -714,7 +714,10 @@ sector_market_cap_line = px.line(ticker_output_df,
 #####################
 
 ## CONFIGURATION ##
-st.set_page_config(page_title='REIT PUBLIC TRADING COMPS', layout='wide', initial_sidebar_state='auto') #, page_icon=":smirk:"
+st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
+                   layout='wide',
+                   ) #initial_sidebar_state='auto') #, page_icon=":emoji:"
+
 
 hide_menu_style = """
         <style>
@@ -796,24 +799,24 @@ def display_ticker_stats(ticker_input):
     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
-def display_ticker_charts(ticker_input):
-    x = all_reits_close.index
-    y = all_reits_close[ticker_input]
-    px.line(x, y,
-        #all_reits_close[{ticker_input}],
-            # x=ticker_output_df['reportPeriod'],
-            # y=ticker_output_df['marketCapitalization'],
-            # color=ticker_output_df['sector'],
-            # # color_continuous_scale=Electric,
-            # color_discrete_sequence=Electric,
-            # color_discrete_map=sector_colors,
-            # hover_name=ticker_output_df['company'],
-            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-            # title=f'{ticker_input} SHARE PRICE',
-            labels=chart_labels,
-            height=600,
-            width=600,
-            )
+# def display_ticker_charts(ticker_input):
+#     x = all_reits_close.index
+#     y = all_reits_close[ticker_input]
+#     px.line(x, y,
+#         #all_reits_close[{ticker_input}],
+#             # x=ticker_output_df['reportPeriod'],
+#             # y=ticker_output_df['marketCapitalization'],
+#             # color=ticker_output_df['sector'],
+#             # # color_continuous_scale=Electric,
+#             # color_discrete_sequence=Electric,
+#             # color_discrete_map=sector_colors,
+#             # hover_name=ticker_output_df['company'],
+#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+#             # title=f'{ticker_input} SHARE PRICE',
+#             labels=chart_labels,
+#             height=600,
+#             width=600,
+#             )
 
 def display_sector_stats(sector_input):
     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
@@ -860,9 +863,9 @@ with tab_0:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 400],
+                            # range_y=[0, 400],
                             height=800,
-                            width=1200,
+                            width=800,
                             ))
 
 with tab_1:
@@ -883,9 +886,9 @@ with tab_1:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 500],
+                            # range_y=[0, 500],
                             height=800,
-                            width=1200,
+                            width=800,
                             ))
 
     # returns = {}
@@ -951,6 +954,8 @@ with tab_10:
 
 
 
+## APP TERMINATION ##
+st.stop()
 
 ## SELECTION FORMS -- SECTOR / TICKER -- OLD ##
 # @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
@@ -995,7 +1000,7 @@ with tab_10:
 # st.plotly_chart(ticker_input_line, use_container_width=False, sharing="streamlit")
 
 ## REIT SCATTER MATRIX ##
-st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
+# st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streamlit")
 
 ## SECTOR HEATMAP ##
 
@@ -1036,17 +1041,39 @@ st.plotly_chart(reit_scatter_matrix, use_container_width=False, sharing="streaml
 # img_col_3.image(jwst_infra_img_1, caption='INFRARED PANORAMIC (JWST)', width=400)
 
 
-## APP TERMINATION ##
-st.stop()
-
-
-
 
 ### INTERPRETATION ###
 
 
 
 ## STREAMLIT COMPONENTS ##
+
+
+## CONFIG / LAYOUT / PADDING ##
+
+# st.set_page_config(
+#     page_title="4M",
+#     page_icon="chart_with_upwards_trend",
+#     layout="wide",
+#     initial_sidebar_state="expanded",
+#     menu_items={
+#         'Get Help': 'https://www.extremelycoolapp.com/help',
+#         'Report a bug': "https://www.extremelycoolapp.com/bug",
+#         'About': "# > Creator: Gordon D. Pisciotta  ·  4M  ·  [modern.millennial.market.mapping]",
+#     }
+# )
+# st.markdown(
+#     f"""
+#     <style>
+#     #.reportview-container .main .block-container{{
+#         padding-top: {1.3}rem;
+#         padding-right: {2.5}rem;
+#         padding-left: {3.4}rem;
+#         padding-bottom: {3.4}rem;
+#     }}
+#     </style>
+#     """,
+#     unsafe_allow_html=True)
 
 ## CHART SIZING ##
 # col1, col2, col3 = st.columns(3)
