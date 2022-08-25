@@ -850,8 +850,10 @@ with tab_0:
     st.header('ALL SECTORS')
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
-    st.plotly_chart(px.line(all_sectors_close_df,
+    st.plotly_chart(px.line(
                             x=all_sectors_close_df.index,
+        y=all_sectors_close_df,
+
                             # y=apartment_reits_trading.Close,
                             # line_group=all_reits_close['sector'],
                             # color=all_reits_close_group.columns,
