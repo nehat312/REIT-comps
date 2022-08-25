@@ -861,8 +861,8 @@ with tab_0:
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
                             # range_y=[0, 400],
-                            height=800,
-                            width=800,
+                            height=600,
+                            width=1200,
                             ))
 
 with tab_1:
