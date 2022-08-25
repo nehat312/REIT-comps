@@ -705,7 +705,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                            )
 
 
-#%%
 
 # print(all_reits_close_group.info())
 
@@ -812,8 +811,8 @@ def display_ticker_charts(ticker_input):
             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
             # title=f'{ticker_input} SHARE PRICE',
             labels=chart_labels,
-            height=1000,
-            width=1000,
+            height=600,
+            width=600,
             )
 
 def display_sector_stats(sector_input):
@@ -863,13 +862,13 @@ with tab_0:
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 400],
                             height=800,
-                            width=1600,
+                            width=1200,
                             ))
 
 with tab_1:
     st.header('APARTMENT')
-    sector = apartment
-    apt_x = apartment_reits_close.index
+    # sector = apartment
+    # apt_x = apartment_reits_close.index
     # y = apartment_reits_close[ticker_input]
     st.plotly_chart(px.line(all_sectors_close_df['apartment_avg'],
                             x=all_sectors_close_df.index,
@@ -885,7 +884,7 @@ with tab_1:
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 500],
-                            height=600,
+                            height=800,
                             width=1200,
                             ))
 
@@ -900,8 +899,8 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
             # display_ticker_stats(ticker_input)
-            date_x = all_reits_close.index
-            price_y = all_reits_close[ticker_input]
+            date_x = all_sectors_close_df.index
+            price_y = all_sectors_close_df[ticker_input]
             st.plotly_chart(px.line(x=date_x, y=price_y,
                     # all_reits_close[{ticker_input}],
                     # x=ticker_output_df['reportPeriod'],
@@ -917,7 +916,7 @@ with tab_1:
                                     # range_x=TBU,
                                     # range_y=TBU,
                     height=600,
-                    width=600,
+                    width=800,
                     ))
             # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
