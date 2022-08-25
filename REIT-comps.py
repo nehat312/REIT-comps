@@ -318,6 +318,7 @@ all_reits_volume = all_reits_trading['Volume']
 
 apartment_reits_close = apartment_reits_trading['Close']
 apartment_reits_close['apartment_avg'] = apartment_reits_close.mean(axis=1)
+# apartment_reits_close.mean(axis=1, out=apartment_reits_close['apartment_avg'])
 # apartment_reits_close['ticker'] = apartment_reits_close.index
 # apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
 apartment_reits_open = apartment_reits_trading['Open']
@@ -388,8 +389,7 @@ all_sectors_close_df = all_sectors_close_df.T
 # all_sectors_close_df.info()
 
 #%%
-# all_reits_close_concat = pd.concat([all_reits_close, map_list_all_sectors])
-# print(all_reits_close_concat)
+all_sectors_close_df.info()
 
 #%%
 ## SECTOR GROUPBY -- TRADING ##
@@ -428,21 +428,6 @@ all_sectors_close_df = all_sectors_close_df.T
 #             map_list_apartment.append(k)
 #             break
 
-# all_reits_close['sector'] = map_list_all_sectors
-# apartment_reits_close['sector'] = map_list_apartment
-
-#%%
-# all_reits_close[:50]
-
-
-#%%
-
-## DETERMINE START / END DATES ##
-# print(f'START DATE: {all_reits_close.index.min()}')
-# print('*'*50)
-# print(f'END DATE: {all_reits_close.index.max()}')
-
-
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
 # all_reits_close.to_csv(basic_path + '/data/reit_trading_test1.csv')
@@ -467,13 +452,6 @@ all_sectors_close_df = all_sectors_close_df.T
 
 # sector_df_list = [office_comps, residential_comps,  lodging_comps, net_lease_comps, strip_center_comps,
 #                   mall_comps, healthcare_comps, industrial_comps, self_storage_comps, data_center_comps]
-
-#%%
-## MAP SECTORS (??) ##
-# sector_map_df = all_reits_close
-# sector_map_df['sector'] = pd.DataFrame.from_dict(sector_dict)
-# sector_map_df['sector'] = sector_map_df['sector'].map(sector_dict)
-# print(sector_map_df)
 
 ## TOOLBOX FUNCTIONS ##
 
@@ -566,10 +544,10 @@ chart_labels = {'apartment':'APARTMENT',
 #%%
 ## QUARTERLY BALANCE SHEETS - MRY ##
 
-yf_tickers = []
-for i in reit_tickers:
-    i = yf.Ticker(f"{i}")
-    yf_tickers.append(i)
+# yf_tickers = []
+# for i in reit_tickers:
+#     i = yf.Ticker(f"{i}")
+#     yf_tickers.append(i)
     # print(yf_tickers)
 
 # for i in data_center:
@@ -590,7 +568,6 @@ for i in reit_tickers:
 # print(bs_dict.keys())
 
 
-#%%
 ## TOTAL RETURN ##
 # returns = {}
 # for stock in apartment_reits_close.columns:
@@ -738,7 +715,7 @@ sector_market_cap_line = px.line(ticker_output_df,
 #####################
 
 ## CONFIGURATION ##
-st.set_page_config(page_title='REIT PUBLIC MARKET TRADING COMPARABLES', layout='wide', initial_sidebar_state='auto') #, page_icon=":smirk:"
+st.set_page_config(page_title='REIT PUBLIC TRADING COMPS', layout='wide', initial_sidebar_state='auto') #, page_icon=":smirk:"
 
 hide_menu_style = """
         <style>
