@@ -396,7 +396,7 @@ all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], off
                                 # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
 
 all_sectors_close_df = all_sectors_close_df.T
-all_sectors_close_df.info()
+# all_sectors_close_df.info()
 
 
 #%%
@@ -438,6 +438,115 @@ all_sectors_close_df.info()
 #         if i in sector_dict[k]:
 #             map_list_apartment.append(k)
 #             break
+
+
+
+#%%
+## QUARTERLY BALANCE SHEETS - MRY ##
+
+yf_tickers = []
+for i in reit_tickers:
+    i = yf.Ticker(f'{i}')
+    yf_tickers.append(i)
+
+yf_apartment = []
+for i in apartment:
+    i = yf.Ticker(f'{i}')
+    yf_apartment.append(i)
+
+yf_office = []
+for i in office:
+    i = yf.Ticker(f'{i}')
+    yf_office.append(i)
+
+yf_hotel = []
+for i in hotel:
+    i = yf.Ticker(f'{i}')
+    yf_hotel.append(i)
+
+yf_mall = []
+for i in mall:
+    i = yf.Ticker(f'{i}')
+    yf_mall.append(i)
+
+yf_strip_center = []
+for i in strip_center:
+    i = yf.Ticker(f'{i}')
+    yf_strip_center.append(i)
+
+yf_net_lease = []
+for i in net_lease:
+    i = yf.Ticker(f'{i}')
+    yf_net_lease.append(i)
+
+yf_industrial = []
+for i in industrial:
+    i = yf.Ticker(f'{i}')
+    yf_industrial.append(i)
+
+yf_self_storage = []
+for i in self_storage:
+    i = yf.Ticker(f'{i}')
+    yf_self_storage.append(i)
+
+yf_data_center = []
+for i in data_center:
+    i = yf.Ticker(f'{i}')
+    yf_data_center.append(i)
+
+yf_healthcare = []
+for i in healthcare:
+    i = yf.Ticker(f'{i}')
+    yf_healthcare.append(i)
+
+#     print(str(i).upper())
+
+#%%
+
+print(yf_apartment)
+
+#%%
+
+
+#%%
+yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object <AVB>':'AVB', 'yfinance.Ticker object <ESS>':'ESS', 'yfinance.Ticker object <MAA>':'MAA', 'yfinance.Ticker object <UDR>':'UDR', 'yfinance.Ticker object <CPT>':'CPT', 'yfinance.Ticker object <AIV>':'AIV', 'yfinance.Ticker object <BRG>':'BRG', 'yfinance.Ticker object <APTS>':'APTS',
+                  'yfinance.Ticker object <BXP>':'BXP', 'yfinance.Ticker object <VNO>':'VNO', 'yfinance.Ticker object <KRC>':'KRC', 'yfinance.Ticker object <DEI>':'DEI', 'yfinance.Ticker object <JBGS>':'JBGS', 'yfinance.Ticker object <CUZ>':'CUZ', 'yfinance.Ticker object <HPP>':'HPP', 'yfinance.Ticker object <SLG>':'SLG', 'yfinance.Ticker object <HIW>':'HIW', 'yfinance.Ticker object <OFC>':'OFC', 'yfinance.Ticker object <PGRE>':'PGRE', 'yfinance.Ticker object <PDM>':'PDM', 'yfinance.Ticker object <WRE>':'WRE', 'yfinance.Ticker object <ESRT>':'ESRT', 'yfinance.Ticker object <BDN>':'BDN', 'yfinance.Ticker object <EQC>':'EQC', 'yfinance.Ticker object <VRE>':'VRE',
+                  'yfinance.Ticker object <HST>':'HST', 'yfinance.Ticker object <RHP>':'RHP', 'yfinance.Ticker object <PK>':'PK', 'yfinance.Ticker object <APLE>':'APLE', 'yfinance.Ticker object <SHO>':'SHO', 'yfinance.Ticker object <PEB>':'PEB', 'yfinance.Ticker object <RLJ>':'RLJ', 'yfinance.Ticker object <DRH>':'DRH', 'yfinance.Ticker object <INN>':'INN', 'yfinance.Ticker object <HT>':'HT', 'yfinance.Ticker object <AHT>':'AHT', 'yfinance.Ticker object <BHR>':'BHR',
+                  'yfinance.Ticker object <SPG>':'SPG', 'yfinance.Ticker object <MAC>':'MAC', 'yfinance.Ticker object <PEI>':'PEI',
+                  'yfinance.Ticker object <REG>':'REG', 'yfinance.Ticker object <FRT>':'FRT', 'yfinance.Ticker object <KIM>':'KIM', 'yfinance.Ticker object <BRX>':'BRX', 'yfinance.Ticker object <AKR>':'AKR', 'yfinance.Ticker object <UE>':'UE', 'yfinance.Ticker object <ROIC>':'ROIC', 'yfinance.Ticker object <CDR>':'CDR', 'yfinance.Ticker object <SITC>':'SITC', 'yfinance.Ticker object <BFS>':'BFS',
+                  'yfinance.Ticker object <O>':'O', 'yfinance.Ticker object <WPC>':'WPC', 'yfinance.Ticker object <NNN>':'NNN', 'yfinance.Ticker object <STOR>':'STOR', 'yfinance.Ticker object <SRC>':'SRC', 'yfinance.Ticker object <PINE>':'PINE', 'yfinance.Ticker object <FCPT>':'FCPT', 'yfinance.Ticker object <ADC>':'ADC', 'yfinance.Ticker object <EPRT>':'EPRT',
+                  'yfinance.Ticker object <PLD>':'PLD', 'yfinance.Ticker object <DRE>':'DRE', 'yfinance.Ticker object <FR>':'FR', 'yfinance.Ticker object <EGP>':'EGP',
+                  'yfinance.Ticker object <EXR>':'EXR', 'yfinance.Ticker object <CUBE>':'CUBE', 'yfinance.Ticker object <REXR>':'REXR', 'yfinance.Ticker object <LSI>':'LSI',
+                  'yfinance.Ticker object <EQIX>':'EQIX', 'yfinance.Ticker object <DLR>':'DLR', 'yfinance.Ticker object <AMT>':'AMT',
+                  'yfinance.Ticker object <WELL>':'WELL', 'yfinance.Ticker object <PEAK>':'PEAK', 'yfinance.Ticker object <VTR>':'VTR', 'yfinance.Ticker object <OHI>':'OHI', 'yfinance.Ticker object <HR>':'HR',
+                  }
+
+#%%
+print(yf_ticker_dict.values())
+#%%
+assets_df_1 = pd.DataFrame() #columns=yf_ticker_dict.values()
+liabilities_df_1 = pd.DataFrame()
+for j in yf_tickers:
+    # bs_dict[j] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Assets', 'Total Liab']])
+    assets_df_1[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets']
+    # liabilities_df_1[f'{j}'] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Liab']])
+
+
+# print(bs_dict.keys())
+assets_df = assets_df_1.rename(columns=yf_ticker_dict)
+print(assets_df)
+
+#%%
+
+
+## TOTAL RETURN ##
+# returns = {}
+# for stock in apartment_reits_close.columns:
+#     apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+    # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+
+# print(returns)
+# print(apartment_reits_close)
 
 #%%
 ## EXPORT HISTORICAL TRADING DATA ##
@@ -573,42 +682,6 @@ chart_labels = {'apartment':'APARTMENT',
                 'netIncome':'NET INCOME',
                 'netIncomeToNonControllingInterests':'NCI',
                 }
-
-#%%
-## QUARTERLY BALANCE SHEETS - MRY ##
-
-# yf_tickers = []
-# for i in reit_tickers:
-#     i = yf.Ticker(f"{i}")
-#     yf_tickers.append(i)
-    # print(yf_tickers)
-
-# for i in data_center:
-#     i = yf.Ticker(f"{i}")
-#     print(str(i).upper())
-#     print(i.quarterly_balance_sheet)
-
-
-# apt_bs = pd.DataFrame()
-# bs_dict = {j: pd.DataFrame() for j in yf_tickers}
-
-# print(bs_dict)
-
-# bs_dict = {}
-# for j in yf_tickers[:5]:
-#     bs_dict[j] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Assets', 'Total Liab']])
-#
-# print(bs_dict.keys())
-
-
-## TOTAL RETURN ##
-# returns = {}
-# for stock in apartment_reits_close.columns:
-#     apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
-    # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
-
-# print(returns)
-# print(apartment_reits_close)
 
 #%%
 ## VISUALIZATIONS ##
