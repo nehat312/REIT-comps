@@ -245,13 +245,26 @@ all_reits_close['sector'] = map_list_all_sectors
 # print(all_reits_close_concat)
 
 #%%
-
+## SECTOR GROUPBY -- TRADING ##
 # office_financials_group = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
 # all_reits_close_group = all_reits_close.groupby(['sector'], as_index=False)['marketCapitalization'].sum() #, 'reportPeriod'
-all_reits_close_group = all_reits_close.groupby(['sector'], as_index=False).mean() #, 'reportPeriod'
+all_reits_close_group = all_reits_close.groupby(['sector'], as_index=True).mean() #, 'reportPeriod'
 all_reits_close_group = all_reits_close_group.T
 all_reits_close_group.index = pd.to_datetime(all_reits_close_group.index)
+
+# all_reits_close_group.index = pd.to_datetime(all_reits_close_group.index)
+
+## SECTOR GROUPBY -- FINANCIALS ##
+office_financials_group = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
+sector_mkt_cap_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
+sector_multiples_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
+sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
+
 print(all_reits_close_group.info())
+
+# print(sector_mkt_cap)
+# print(sector_multiples[:30])
+# print(sector_ratios_group)
 
 #%%
 # apartment_reits_close = apartment_reits_close.T
@@ -394,19 +407,6 @@ chart_labels = {'apartment':'APARTMENT',
                 'netIncome':'NET INCOME',
                 'netIncomeToNonControllingInterests':'NCI',
                 }
-
-
-#%%
-## GROUPBY SECTOR ##
-office_financials_group = ticker_output_df[ticker_output_df['sector'] == 'OFFICE']
-sector_mkt_cap_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['marketCapitalization'].sum()
-sector_multiples_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['enterpriseValueOverEBIT', 'enterpriseValueOverEBITDA'].sum()
-sector_ratios_group = ticker_output_df.groupby(['sector', 'reportPeriod'], as_index=False)['profitMargin', 'payoutRatio', 'priceToEarningsRatio'].mean()
-
-# print(sector_mkt_cap)
-# print(sector_multiples[:30])
-# print(sector_ratios_group)
-
 
 #%%
 ## QUARTERLY BALANCE SHEETS - MRY ##
@@ -574,9 +574,8 @@ sector_market_cap_line = px.line(ticker_output_df,
 
 
 #%%
-print(all_reits_close.info())
 
-
+print(all_reits_close_group.info())
 
 #%%
 #####################
@@ -718,12 +717,12 @@ with tab_0:
     st.header('ALL SECTORS')
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
-    st.plotly_chart(px.line(all_reits_close,
+    st.plotly_chart(px.line(all_reits_close_group,
                             # x=all_sectors_x,
 
                             # y=apartment_reits_trading.Close,
                             # line_group=all_reits_close['sector'],
-                            color=all_reits_close['sector'],
+                            # color=all_reits_close_group.columns,
                             # color_continuous_scale=Electric,
                             color_discrete_sequence=Ice_r,
                             color_discrete_map=sector_colors,
