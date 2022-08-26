@@ -959,9 +959,9 @@ def display_ticker_stats(ticker_input):
 #             width=600,
 #             )
 
-def display_sector_comps(sector_tab):
+def display_sector_comps(df):
     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-    st.dataframe(apartment_cap_table_T.style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(df.style.format(col_format_dict).set_table_styles(df_styles))
 
 
 def display_sector_stats(sector_input1):
@@ -994,9 +994,7 @@ def display_sector_charts(sector_input2):
 ## SECTOR TABS ##
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
-    st.header('ALL SECTORS')
     st.subheader('ALL SECTORS')
-    st.write('ALL SECTORS')
 
     # st.dataframe(apartment_cap_table_T)
     # st.dataframe(display_sector_comps('apartment'))
@@ -1016,7 +1014,7 @@ with tab_0:
                             width=1200,
                             ))
 
-    st.header('ALL REITS')
+    st.subheader('ALL REITS')
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     st.plotly_chart(px.line(all_reits_close_df,
@@ -1035,9 +1033,9 @@ with tab_0:
                             ))
 
 with tab_1:
-    st.header('APARTMENT')
+    st.subheader('APARTMENT')
     # current_sector_reits =
-    st.dataframe(display_sector_comps(a))
+    st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
 
     st.plotly_chart(px.line(apartment_reits_close_df,
@@ -1093,31 +1091,31 @@ with tab_1:
 
 
 with tab_2:
-    st.header('OFFICE')
+    st.subheader('OFFICE REITS')
 
 with tab_3:
-    st.header('HOTEL')
+    st.subheader('HOTEL REITS')
 
 with tab_4:
-    st.header('MALL')
+    st.subheader('MALL REITS')
 
 with tab_5:
-    st.header('STRIP CENTER')
+    st.subheader('STRIP CENTER REITS')
 
 with tab_6:
-    st.header('NET LEASE')
+    st.subheader('NET LEASE REITS')
 
 with tab_7:
-    st.header('INDUSTRIAL')
+    st.subheader('INDUSTRIAL REITS')
 
 with tab_8:
-    st.header('SELF-STORAGE')
+    st.subheader('SELF-STORAGE REITS')
 
 with tab_9:
-    st.header('DATA CENTER')
+    st.subheader('DATA CENTER REITS')
 
 with tab_10:
-    st.header('HEALTHCARE')
+    st.subheader('HEALTHCARE REITS')
 
 
 
