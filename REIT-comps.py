@@ -580,12 +580,17 @@ apartment_cap_table_T = apartment_cap_table.T
 # apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
 #                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
 
+apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
+
+
+#%%
 # print(apartment_cap_table_T.info())
+# print(apartment_cap_table_T.head())
 # apartment_cap_table_T
 
 #%%
 ## STACK
-apartment_stack = apartment_cap_table_T.stack()
+# apartment_stack = apartment_cap_table_T.stack()
 # apartment_stack
 
 #%%
@@ -834,11 +839,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 
 
 #%%
-display_sector_comps_df = apartment_stack
-# print(display_sector_comps_df)
-
-
-#%%
 #####################
 ### STREAMLIT APP ###
 #####################
@@ -981,6 +981,7 @@ def display_sector_charts(sector_input2):
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
     st.header('ALL SECTORS')
+    st.dataframe(apartment_cap_table_T)
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     st.plotly_chart(px.line(all_sectors_close_df,
