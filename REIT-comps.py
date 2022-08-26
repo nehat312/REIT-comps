@@ -588,19 +588,17 @@ apartment_cap_table_T = apartment_cap_table.T
 
 apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
 # sector_cap_tables={}
-apt_dict = apartment_cap_table_T.to_dict('sector_cap_tables')
+# apt_dict = apartment_cap_table_T.to_dict('sector_cap_tables')
 
 # sector_cap_tables['apt'] = {'apartment':apartment_cap_table_T}
 
 
 #%%
 # print(sector_cap_tables[apartment])
-print(apt_dict)
-
-
+# print(apt_dict)
 
 #%%
-# print(apartment_cap_table_T.info())
+print(apartment_cap_table_T.info())
 # # print(apartment_cap_table_T.head())
 # print(apartment_cap_table_T)
 
@@ -961,8 +959,8 @@ def display_ticker_stats(ticker_input):
 #             width=600,
 #             )
 
-def display_sector_comps(apt_dict):
-    display_sector_comps_df = apt_dict #f'{sector_hardcode}_stack'
+def display_sector_comps(sector_tab):
+    display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
     st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 
@@ -997,9 +995,12 @@ def display_sector_charts(sector_input2):
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
     st.header('ALL SECTORS')
+    st.subheader('ALL SECTORS')
+    st.write('ALL SECTORS')
+
     # st.dataframe(apartment_cap_table_T)
-    # all_sectors_x = all_reits_close.columns,
-    # mask = df.continent.isin(continents)
+    # st.dataframe(display_sector_comps('apartment'))
+
     st.plotly_chart(px.line(all_sectors_close_df,
                             # line_group=all_reits_close['sector'],
                             # color=all_reits_close_group.columns,
@@ -1035,7 +1036,7 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
-    display_sector_comps('apartment')
+    st.dataframe(display_sector_comps('apartment'))
     # st.dataframe(apartment_stack)
 
     st.plotly_chart(px.line(apartment_reits_close_df,
