@@ -960,8 +960,8 @@ def display_ticker_stats(ticker_input):
 #             )
 
 def display_sector_comps(sector_tab):
-    display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-    st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
+    # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
+    st.dataframe(apartment_cap_table_T.style.format(col_format_dict).set_table_styles(df_styles))
 
 
 def display_sector_stats(sector_input1):
@@ -1036,7 +1036,8 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
-    st.dataframe(display_sector_comps('apartment'))
+    # current_sector_reits =
+    st.dataframe(display_sector_comps(a))
     # st.dataframe(apartment_stack)
 
     st.plotly_chart(px.line(apartment_reits_close_df,
