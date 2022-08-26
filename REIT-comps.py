@@ -946,7 +946,7 @@ def display_ticker_stats(ticker_input):
 #             )
 
 def display_sector_comps(sector_hardcode):
-    display_sector_comps_df = apartment_stack#f'{sector_hardcode}_stack'
+    display_sector_comps_df = apartment_cap_table_T#f'{sector_hardcode}_stack'
     st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 
