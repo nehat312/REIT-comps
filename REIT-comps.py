@@ -174,6 +174,15 @@ ticker_output_df = reit_financials[ticker_output_cols]
 #               '10': '4', '11': '4', '12': '4'}
 
 
+## DATA SCRAPE ##
+
+reit_scrape_path = current_path + '/REIT-scrape.py'
+
+# %cd $abspath_util_deep
+
+# %run reit_scrape.py
+
+
 #%%
 # STOCK PRICE TRADING HISTORY
 all_reits_trading = yf.download(tickers = reit_tickers,
@@ -651,6 +660,7 @@ sector_colors = {'apartment':'#FFDF00',
                  'self_storage':'#5F8C95',
                  'data_center':'#3AA5C3',
                  'healthcare':'#FF3363',
+
                  'apartment_avg':'#FFDF00',
                  'office_avg':'#29609C',
                  'hotel_avg':'#E9EDED',
