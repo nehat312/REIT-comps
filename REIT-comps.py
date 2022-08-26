@@ -91,7 +91,7 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG", "APTS"]
+apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG"] #, "APTS"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
@@ -105,7 +105,7 @@ healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
-reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", "APTS",
+reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", #"APTS",
                "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC", "VRE",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
@@ -116,7 +116,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", "APTS",
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
-sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG", "APTS"],
+sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG"], #, "APTS"
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
@@ -312,9 +312,7 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 #%%
 ## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading['Close']
-# all_reits_close['all_reits_avg'] = apartment_reits_close.mean(axis=1)
 all_reits_close_df = pd.DataFrame(all_reits_close)
-# all_reits_close['sector_avg'] = all_reits_close.mean(axis=0)
 all_reits_open = all_reits_trading['Open']
 all_reits_volume = all_reits_trading['Volume']
 
@@ -396,7 +394,6 @@ all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], off
                                 # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
 
 all_sectors_close_df = all_sectors_close_df.T
-# all_sectors_close_df.info()
 
 
 #%%
@@ -438,8 +435,6 @@ all_sectors_close_df = all_sectors_close_df.T
 #         if i in sector_dict[k]:
 #             map_list_apartment.append(k)
 #             break
-
-
 
 #%%
 ## QUARTERLY BALANCE SHEETS - MRY ##
@@ -502,14 +497,7 @@ for i in healthcare:
 #     print(str(i).upper())
 
 #%%
-
-print(yf_apartment)
-
-#%%
-
-
-#%%
-yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object <AVB>':'AVB', 'yfinance.Ticker object <ESS>':'ESS', 'yfinance.Ticker object <MAA>':'MAA', 'yfinance.Ticker object <UDR>':'UDR', 'yfinance.Ticker object <CPT>':'CPT', 'yfinance.Ticker object <AIV>':'AIV', 'yfinance.Ticker object <BRG>':'BRG', 'yfinance.Ticker object <APTS>':'APTS',
+yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object <AVB>':'AVB', 'yfinance.Ticker object <ESS>':'ESS', 'yfinance.Ticker object <MAA>':'MAA', 'yfinance.Ticker object <UDR>':'UDR', 'yfinance.Ticker object <CPT>':'CPT', 'yfinance.Ticker object <AIV>':'AIV', 'yfinance.Ticker object <BRG>':'BRG', # 'yfinance.Ticker object <APTS>':'APTS',
                   'yfinance.Ticker object <BXP>':'BXP', 'yfinance.Ticker object <VNO>':'VNO', 'yfinance.Ticker object <KRC>':'KRC', 'yfinance.Ticker object <DEI>':'DEI', 'yfinance.Ticker object <JBGS>':'JBGS', 'yfinance.Ticker object <CUZ>':'CUZ', 'yfinance.Ticker object <HPP>':'HPP', 'yfinance.Ticker object <SLG>':'SLG', 'yfinance.Ticker object <HIW>':'HIW', 'yfinance.Ticker object <OFC>':'OFC', 'yfinance.Ticker object <PGRE>':'PGRE', 'yfinance.Ticker object <PDM>':'PDM', 'yfinance.Ticker object <WRE>':'WRE', 'yfinance.Ticker object <ESRT>':'ESRT', 'yfinance.Ticker object <BDN>':'BDN', 'yfinance.Ticker object <EQC>':'EQC', 'yfinance.Ticker object <VRE>':'VRE',
                   'yfinance.Ticker object <HST>':'HST', 'yfinance.Ticker object <RHP>':'RHP', 'yfinance.Ticker object <PK>':'PK', 'yfinance.Ticker object <APLE>':'APLE', 'yfinance.Ticker object <SHO>':'SHO', 'yfinance.Ticker object <PEB>':'PEB', 'yfinance.Ticker object <RLJ>':'RLJ', 'yfinance.Ticker object <DRH>':'DRH', 'yfinance.Ticker object <INN>':'INN', 'yfinance.Ticker object <HT>':'HT', 'yfinance.Ticker object <AHT>':'AHT', 'yfinance.Ticker object <BHR>':'BHR',
                   'yfinance.Ticker object <SPG>':'SPG', 'yfinance.Ticker object <MAC>':'MAC', 'yfinance.Ticker object <PEI>':'PEI',
@@ -521,20 +509,95 @@ yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object 
                   'yfinance.Ticker object <WELL>':'WELL', 'yfinance.Ticker object <PEAK>':'PEAK', 'yfinance.Ticker object <VTR>':'VTR', 'yfinance.Ticker object <OHI>':'OHI', 'yfinance.Ticker object <HR>':'HR',
                   }
 
-#%%
-print(yf_ticker_dict.values())
-#%%
-assets_df_1 = pd.DataFrame() #columns=yf_ticker_dict.values()
-liabilities_df_1 = pd.DataFrame()
-for j in yf_tickers:
-    # bs_dict[j] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Assets', 'Total Liab']])
-    assets_df_1[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets']
-    # liabilities_df_1[f'{j}'] = pd.DataFrame(j.quarterly_balance_sheet.loc[['Total Liab']])
+# ['Intangible Assets', 'Capital Surplus', 'Total Liab',
+#        'Total Stockholder Equity', 'Minority Interest', 'Other Current Liab',
+#        'Total Assets', 'Common Stock', 'Other Current Assets', 'Other Liab',
+#        'Gains Losses Not Affecting Retained Earnings', 'Other Assets', 'Cash',
+#        'Total Current Liabilities', 'Short Long Term Debt',
+#        'Other Stockholder Equity', 'Property Plant Equipment',
+#        'Total Current Assets', 'Long Term Investments', 'Net Tangible Assets',
+#        'Net Receivables', 'Long Term Debt', 'Accounts Payable',
+#        'Deferred Long Term Asset Charges']
 
+#%%
+
+common_so_df_temp = pd.DataFrame()
+assets_df_temp = pd.DataFrame()
+liabilities_df_temp = pd.DataFrame()
+nci_df_temp = pd.DataFrame()
+sh_equity_df_temp = pd.DataFrame()
+other_sh_equity_df_temp = pd.DataFrame()
+lt_debt_df_temp = pd.DataFrame()
+st_lt_debt_df_temp = pd.DataFrame()
+cash_df_temp = pd.DataFrame()
+net_tangible_df_temp = pd.DataFrame()
+# cap_surplus_df_temp = pd.DataFrame()
+# _df_temp = pd.DataFrame()
+
+#%%
+
+for j in yf_apartment:
+    common_so_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Common Stock', mrq]
+    assets_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets', mrq]
+    liabilities_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Liab', mrq]
+    nci_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Minority Interest', mrq]
+    sh_equity_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Stockholder Equity', mrq]
+    # other_sh_equity_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Other Stockholder Equity', mrq]
+    lt_debt_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Long Term Debt', mrq]
+    # st_lt_debt_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+    # ttl_debt_df_temp = j.quarterly_balance_sheet.loc['Long Term Debt', mrq] + j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+
+    cash_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Cash', mrq]
+    net_tangible_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Net Tangible Assets', mrq]
+
+    # cap_surplus_df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Capital Surplus', mrq]
+    # _df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['', mrq]
+
+## CAPITALIZATION TABLE ##
+
+    # PRICE
+    # Total Equity Mkt Capitalization
+    # Preferred??
+
+    # Total Debt Capitalization
+    # Equity Cap + Debt Cap = Total Mkt Cap
+    # Enterprise Value == Total Mkt Cap - Cash
+
+## *UNUSED* ##
+    # 'Other Current Assets'
+    # 'Other Current Liab'
+    # 'Total Current Assets'
+    # 'Total Current Liabilities'
+    # 'Long Term Investments'
 
 # print(bs_dict.keys())
-assets_df = assets_df_1.rename(columns=yf_ticker_dict)
-print(assets_df)
+## BALANCE SHEET ##
+# APARTMENT #
+
+apartment_common_so_df = common_so_df_temp.rename(columns=yf_ticker_dict)
+apartment_assets_df = assets_df_temp.rename(columns=yf_ticker_dict)
+apartment_liabilities_df = liabilities_df_temp.rename(columns=yf_ticker_dict)
+apartment_nci_df = nci_df_temp.rename(columns=yf_ticker_dict)
+apartment_sh_equity_df = sh_equity_df_temp.rename(columns=yf_ticker_dict)
+# apartment_other_sh_equity_df = other_sh_equity_df_temp.rename(columns=yf_ticker_dict)
+apartment_lt_debt_df = lt_debt_df_temp.rename(columns=yf_ticker_dict)
+# apartment_st_lt_debt_df = st_lt_debt_df_temp.rename(columns=yf_ticker_dict)
+apartment_cash_df = cash_df_temp.rename(columns=yf_ticker_dict)
+apartment_net_tangible_df = net_tangible_df_temp.rename(columns=yf_ticker_dict)
+
+## COMBINE BY SECTOR ##
+apartment_cap_table_noT = pd.concat([apartment_common_so_df, apartment_assets_df, apartment_liabilities_df,
+                                     apartment_nci_df, apartment_sh_equity_df, apartment_lt_debt_df, #apartment_st_lt_debt_df, #apartment_other_sh_equity_df,
+                                     apartment_cash_df, apartment_net_tangible_df],
+                                    keys=['S/O', 'TTL ASSETS', 'TTL LIABILITIES', 'NCI',
+                                          'S.H. EQUITY', 'LT DEBT', 'CASH', 'NET TBV'])
+
+apartment_cap_table_T = apartment_cap_table_noT.T
+# apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
+#                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
+
+print(apartment_cap_table_T.head())
+print(apartment_cap_table_T.info())
 
 #%%
 
@@ -992,6 +1055,8 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
+    st.dataframe(apartment_cap_table_T.style.format(col_format_dict).set_table_styles(df_styles))
+    
     st.plotly_chart(px.line(apartment_reits_close_df,
                             # ['apartment_avg']
                             # color=apartment_reits_close_df.columns,
