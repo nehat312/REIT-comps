@@ -580,7 +580,7 @@ apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, ap
     # 'Total Current Liabilities'
     # 'Long Term Investments'
 
-#%%
+
 
 apartment_cap_table_T = apartment_cap_table.T
 # apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
@@ -597,7 +597,7 @@ apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
 # print(sector_cap_tables[apartment])
 # print(apt_dict)
 
-#%%
+
 print(apartment_cap_table_T.info())
 # # print(apartment_cap_table_T.head())
 # print(apartment_cap_table_T)
@@ -961,7 +961,7 @@ def display_ticker_stats(ticker_input):
 
 def display_sector_comps(df):
     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-    st.dataframe(df.style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(df.style.set_table_styles(df_styles))
 
 
 def display_sector_stats(sector_input1):
@@ -1066,26 +1066,7 @@ with tab_1:
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
 
-            # display_ticker_stats(ticker_input)
-            date_x = all_sectors_close_df.index
-            price_y = all_sectors_close_df[ticker_input]
-            st.plotly_chart(px.line(x=date_x, y=price_y,
-                    # all_reits_close[{ticker_input}],
-                    # x=ticker_output_df['reportPeriod'],
-                    # y=ticker_output_df['marketCapitalization'],
-                    # color=ticker_output_df['sector'],
-                    # # color_continuous_scale=Electric,
-                    # color_discrete_sequence=Electric,
-                    # color_discrete_map=sector_colors,
-                    # hover_name=ticker_output_df['company'],
-                    # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-                    title=f'{ticker_input} SHARE PRICE',
-                    labels=chart_labels,
-                                    # range_x=TBU,
-                                    # range_y=TBU,
-                    height=600,
-                    width=800,
-                    ))
+            display_ticker_stats(ticker_input)
             # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
 
