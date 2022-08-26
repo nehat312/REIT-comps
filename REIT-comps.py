@@ -1027,7 +1027,7 @@ with tab_1:
                             width=1200,
                             ))
 
-    st.dataframe(apartment_stack)  # .style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(apartment_stack.style.set_table_styles(df_styles))  # .style.format(col_format_dict).set_table_styles(df_styles))
 
     # returns = {}
     # for stock in apartment_reits_close.columns:
