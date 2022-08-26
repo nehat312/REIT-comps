@@ -1030,7 +1030,7 @@ with tab_0:
                             # symbol='*',
                             labels=chart_labels,
                             range_x=[sidebar_start, sidebar_end],
-                            # range_y=[0, 400],
+                            range_y=[0, 500],
                             height=600,
                             width=1200,
                             ))
@@ -1055,8 +1055,8 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
-    st.dataframe(apartment_cap_table_T.style.format(col_format_dict).set_table_styles(df_styles))
-    
+    st.dataframe(apartment_cap_table_T)#.style.format(col_format_dict).set_table_styles(df_styles))
+
     st.plotly_chart(px.line(apartment_reits_close_df,
                             # ['apartment_avg']
                             # color=apartment_reits_close_df.columns,
