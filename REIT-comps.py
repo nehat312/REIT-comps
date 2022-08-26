@@ -586,7 +586,7 @@ apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
 #%%
 # print(apartment_cap_table_T.info())
 # print(apartment_cap_table_T.head())
-# apartment_cap_table_T
+apartment_cap_table_T
 
 #%%
 ## STACK
