@@ -50,21 +50,15 @@ import time
 current_path = r'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 basic_path = 'https://raw.githubusercontent.com/nehat312/REIT-comps/main'
 
-# directory = os.path.dirname(current_path + '/data/')
-# if not os.path.exists(directory):
-#     os.makedirs(directory)
-
 #%%
 ## TIME INTERVALS ##
-
 today = datetime.date.today()
 before = today - datetime.timedelta(days=1095) #700
 start_date = '2000-01-01'
 end_date = today #'2022-06-30'  #'2022-03-31'
 mrq = '2022-06-30'
+mrq_prior = '2022-03-31'
 mry = '2021-12-31'
-
-
 
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
@@ -141,206 +135,88 @@ mil_cols = ['operatingIncome', 'operatingExpenses', 'netIncome',
             'shares', 'weightedAverageShares',
             ]
 
-ticker_output_df = reit_financials[ticker_output_cols]
-
-# reit_comps = reit_comps[model_cols]
-
-# mo_qtr_map = {'01': '1', '02': '1', '03': '1',
-#               '04': '2', '05': '2', '06': '2',
-#               '07': '3', '08': '3', '09': '3',
-#               '10': '4', '11': '4', '12': '4'}
-
-
 #%%
 ## YAHOO FINANCE ##
 headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'}
-
-# soup = bs.BeautifulSoup(r.content,'lxml')
-
 base_yahoo_url = 'https://finance.yahoo.com/quote/' #https://finance.yahoo.com/quote/AVB/key-statistics?p=AVB
 ext_yahoo_url = 'key-statistics?p='
 
-
 #%%
 ##  YAHOOOOOOOO ####
-yahoo_cols = ['METRICS', 'CURRENT', '6/30/2022', '3/31/2022','12/31/2021', '9/30/2021', '6/30/2021']
-yahoo_link_dict = {link : pd.DataFrame() for link in reit_tickers}
-yahoo_df = pd.DataFrame()
+yahoo_cols = ['METRICS', 'CURRENT', '06-30-2022', '03-31-2022', '12-31-2021', '09-30-2021', '06-30-2021']
+yahoo_data_dict = {i : pd.DataFrame() for i in apartment} # reit_tickers
 
 
 #%%
-yahoo_key_stats = requests.get(base_yahoo_url + f'{i}/' + ext_yahoo_url + f'{i}', headers=headers)
-soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser') #r.content,'lxml' # .text,'html.parser'
-# table = soup.find("table", class_="W(100%) Bdcl(c)  M(0) Whs(n) BdEnd Bdc($seperatorColor) D(itb)")
-table = soup.find_all('table')[0]
-# table = soup.find('table')
-cols = yahoo_cols
-# cols = [each.text for each in table.find_all('th')]
-rows = table.find_all('tr')
-
-for row in rows:
-    data = [each.text for each in row.find_all('td')]
-    temp_df = pd.DataFrame([data])
-    yahoo_df = yahoo_df.append(temp_df, sort=True).reset_index(drop=True)
-
-
-
-#%%
-
-##  WORTH ITERATING OVER ALL TICKERS IN ONE GIANT DATAFRAME?? ##
-
 ## ONLY NEED CURRENT QTR ##
-for i in reit_tickers:
-    yahoo_key_stats = requests.get(base_yahoo_url + f'{i}/' + ext_yahoo_url + f'{i}', headers=headers)
-    soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser') #r.content,'lxml' # .text,'html.parser'
-    # table = soup.find("table", class_="W(100%) Bdcl(c)  M(0) Whs(n) BdEnd Bdc($seperatorColor) D(itb)")
-    table = soup.find_all('table')[0]
-    # table = soup.find('table')
-    cols = yahoo_cols
-    # cols = [each.text for each in table.find_all('th')]
-    rows = table.find_all('tr')
+for ticker in apartment: # reit_tickers
+    yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
+    section = soup.find_all('section')[0]  # [0] == 
+    div = soup.find_all('div')[0]  # [0] ==
+    table0 = soup.find_all('table')[0] # [0] == Valuation Measures
+    table1 = soup.find_all('table')[1] # [1] == Stock Price History
+    table2 = soup.find_all('table')[2] # [2] == Share Statistics
+    table3 = soup.find_all('table')[3] # [3] == Dividends & Splits
+        # table = soup.find("table", class_="W(100%) Bdcl(c)  M(0) Whs(n) BdEnd Bdc($seperatorColor) D(itb)")
+        # table = soup.find('table')
+    tables = [table0, table1, table2, table3]
+    for x in tables:
+        cols = [each.text for each in x.find_all('th')]
+        rows = x.find_all('tr')
+    for y in section:
+        cols = [each.text for each in y.find_all('th')]
+        rows = y.find_all('tr')
+    for z in div:
+        cols = [each.text for each in y.find_all('th')]
+        rows = y.find_all('tr')
+    # cols0 = [each.text for each in table0.find_all('th')]
+    # rows0 = table0.find_all('tr')
+    # cols1 = [each.text for each in table1.find_all('th')]
+    # rows1 = table1.find_all('tr')
+    # cols2 = [each.text for each in table2.find_all('th')]
+    # rows2 = table2.find_all('tr')
+    # cols3 = [each.text for each in table3.find_all('th')]
+    # rows3 = table3.find_all('tr')
 
-    for row in rows:
-        data = [each.text for each in row.find_all('td')]
-        temp_df = pd.DataFrame([data])
-        yahoo_df = yahoo_df.append(temp_df, sort=True).reset_index(drop=True)
-
-#https://stackoverflow.com/questions/71207430/scraping-from-yahoo-finance-with-beautifulsoup-resulting-in-status-code-404
+        for row in rows:
+            data = [each.text for each in row.find_all('td')]
+            temp_df = pd.DataFrame([data])
+            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+            # yahoo_data_dict[ticker] = yahoo_data_dict[ticker].dropna() #.fillna()
 
 #%%
-# print(soup)
-# print(table)
+for reit in yahoo_data_dict:
+    yahoo_data_dict[reit].columns = yahoo_cols
+    yahoo_data_dict[reit].index = yahoo_data_dict[reit]['METRICS']
+    # yahoo_data_dict[ticker][ticker] = yahoo_data_dict[ticker]['2021']
+    # yahoo_data_dict[reit].drop(columns=['METRICS', '6/30/2022', '3/31/2022', '12/31/2021', '9/30/2021', '6/30/2021'], inplace=True)
 
-print(yahoo_df)
-print(yahoo_df.info())
+    # return yahoo_data_dict[ticker]
+
+
 
 
 #%%
-## QUARTERLY BALANCE SHEETS - MRY ##
+yahoo_data_dict_copy = yahoo_data_dict
 
-yf_tickers = []
-for i in reit_tickers:
-    i = yf.Ticker(f'{i}')
-    yf_tickers.append(i)
+#%%
+print(yahoo_data_dict_copy['EQR'])
 
-yf_apartment = []
+#%%
+print(section)
+
+#%%
+print(yahoo_data_dict_copy)
+
+
+#%%
+## GROUP BY SECTOR ##
 for i in apartment:
-    i = yf.Ticker(f'{i}')
-    yf_apartment.append(i)
-
-yf_office = []
-for i in office:
-    i = yf.Ticker(f'{i}')
-    yf_office.append(i)
-
-yf_hotel = []
-for i in hotel:
-    i = yf.Ticker(f'{i}')
-    yf_hotel.append(i)
-
-yf_mall = []
-for i in mall:
-    i = yf.Ticker(f'{i}')
-    yf_mall.append(i)
-
-yf_strip_center = []
-for i in strip_center:
-    i = yf.Ticker(f'{i}')
-    yf_strip_center.append(i)
-
-yf_net_lease = []
-for i in net_lease:
-    i = yf.Ticker(f'{i}')
-    yf_net_lease.append(i)
-
-yf_industrial = []
-for i in industrial:
-    i = yf.Ticker(f'{i}')
-    yf_industrial.append(i)
-
-yf_self_storage = []
-for i in self_storage:
-    i = yf.Ticker(f'{i}')
-    yf_self_storage.append(i)
-
-yf_data_center = []
-for i in data_center:
-    i = yf.Ticker(f'{i}')
-    yf_data_center.append(i)
-
-yf_healthcare = []
-for i in healthcare:
-    i = yf.Ticker(f'{i}')
-    yf_healthcare.append(i)
-
-#     print(str(i).upper())
+    yahoo_apartment_data = pd.concat([])
+    print(yahoo_data_dict_copy[i])
 
 #%%
-yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object <AVB>':'AVB', 'yfinance.Ticker object <ESS>':'ESS', 'yfinance.Ticker object <MAA>':'MAA', 'yfinance.Ticker object <UDR>':'UDR', 'yfinance.Ticker object <CPT>':'CPT', 'yfinance.Ticker object <AIV>':'AIV', 'yfinance.Ticker object <BRG>':'BRG', # 'yfinance.Ticker object <APTS>':'APTS',
-                  'yfinance.Ticker object <BXP>':'BXP', 'yfinance.Ticker object <VNO>':'VNO', 'yfinance.Ticker object <KRC>':'KRC', 'yfinance.Ticker object <DEI>':'DEI', 'yfinance.Ticker object <JBGS>':'JBGS', 'yfinance.Ticker object <CUZ>':'CUZ', 'yfinance.Ticker object <HPP>':'HPP', 'yfinance.Ticker object <SLG>':'SLG', 'yfinance.Ticker object <HIW>':'HIW', 'yfinance.Ticker object <OFC>':'OFC', 'yfinance.Ticker object <PGRE>':'PGRE', 'yfinance.Ticker object <PDM>':'PDM', 'yfinance.Ticker object <WRE>':'WRE', 'yfinance.Ticker object <ESRT>':'ESRT', 'yfinance.Ticker object <BDN>':'BDN', 'yfinance.Ticker object <EQC>':'EQC', 'yfinance.Ticker object <VRE>':'VRE',
-                  'yfinance.Ticker object <HST>':'HST', 'yfinance.Ticker object <RHP>':'RHP', 'yfinance.Ticker object <PK>':'PK', 'yfinance.Ticker object <APLE>':'APLE', 'yfinance.Ticker object <SHO>':'SHO', 'yfinance.Ticker object <PEB>':'PEB', 'yfinance.Ticker object <RLJ>':'RLJ', 'yfinance.Ticker object <DRH>':'DRH', 'yfinance.Ticker object <INN>':'INN', 'yfinance.Ticker object <HT>':'HT', 'yfinance.Ticker object <AHT>':'AHT', 'yfinance.Ticker object <BHR>':'BHR',
-                  'yfinance.Ticker object <SPG>':'SPG', 'yfinance.Ticker object <MAC>':'MAC', 'yfinance.Ticker object <PEI>':'PEI',
-                  'yfinance.Ticker object <REG>':'REG', 'yfinance.Ticker object <FRT>':'FRT', 'yfinance.Ticker object <KIM>':'KIM', 'yfinance.Ticker object <BRX>':'BRX', 'yfinance.Ticker object <AKR>':'AKR', 'yfinance.Ticker object <UE>':'UE', 'yfinance.Ticker object <ROIC>':'ROIC', 'yfinance.Ticker object <CDR>':'CDR', 'yfinance.Ticker object <SITC>':'SITC', 'yfinance.Ticker object <BFS>':'BFS',
-                  'yfinance.Ticker object <O>':'O', 'yfinance.Ticker object <WPC>':'WPC', 'yfinance.Ticker object <NNN>':'NNN', 'yfinance.Ticker object <STOR>':'STOR', 'yfinance.Ticker object <SRC>':'SRC', 'yfinance.Ticker object <PINE>':'PINE', 'yfinance.Ticker object <FCPT>':'FCPT', 'yfinance.Ticker object <ADC>':'ADC', 'yfinance.Ticker object <EPRT>':'EPRT',
-                  'yfinance.Ticker object <PLD>':'PLD', 'yfinance.Ticker object <DRE>':'DRE', 'yfinance.Ticker object <FR>':'FR', 'yfinance.Ticker object <EGP>':'EGP',
-                  'yfinance.Ticker object <EXR>':'EXR', 'yfinance.Ticker object <CUBE>':'CUBE', 'yfinance.Ticker object <REXR>':'REXR', 'yfinance.Ticker object <LSI>':'LSI',
-                  'yfinance.Ticker object <EQIX>':'EQIX', 'yfinance.Ticker object <DLR>':'DLR', 'yfinance.Ticker object <AMT>':'AMT',
-                  'yfinance.Ticker object <WELL>':'WELL', 'yfinance.Ticker object <PEAK>':'PEAK', 'yfinance.Ticker object <VTR>':'VTR', 'yfinance.Ticker object <OHI>':'OHI', 'yfinance.Ticker object <HR>':'HR',
-                  }
-
-
-#%%
-## APARTMENT ##
-apartment_common_so_temp = pd.DataFrame()
-apartment_assets_temp = pd.DataFrame()
-apartment_liabilities_temp = pd.DataFrame()
-apartment_nci_temp = pd.DataFrame()
-apartment_sh_equity_temp = pd.DataFrame()
-apartment_other_sh_equity_temp = pd.DataFrame()
-apartment_lt_debt_temp = pd.DataFrame()
-apartment_st_lt_debt_temp = pd.DataFrame()
-apartment_cash_temp = pd.DataFrame()
-apartment_net_tangible_temp = pd.DataFrame()
-# apartment_cap_surplus_temp = pd.DataFrame()
-# _df_temp = pd.DataFrame()
-
-for j in yf_apartment:
-    apartment_common_so_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Common Stock', mrq]
-    apartment_assets_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets', mrq]
-    apartment_liabilities_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Liab', mrq]
-    apartment_nci_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Minority Interest', mrq]
-    apartment_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Stockholder Equity', mrq]
-        # apartment_other_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Other Stockholder Equity', mrq]
-    apartment_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Long Term Debt', mrq]
-        # apartment_st_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
-        # apartment_ttl_debt_temp = j.quarterly_balance_sheet.loc['Long Term Debt', mrq] + j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
-        # cap_surplus_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Capital Surplus', mrq]
-    apartment_cash_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Cash', mrq]
-    apartment_net_tangible_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Net Tangible Assets', mrq]
-
-    # _df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['', mrq]
-
-#%%
-
-apartment_common_so_df = apartment_common_so_temp.rename(columns=yf_ticker_dict)
-apartment_assets_df = apartment_assets_temp.rename(columns=yf_ticker_dict)
-apartment_liabilities_df = apartment_liabilities_temp.rename(columns=yf_ticker_dict)
-apartment_nci_df = apartment_nci_temp.rename(columns=yf_ticker_dict)
-apartment_sh_equity_df = apartment_sh_equity_temp.rename(columns=yf_ticker_dict)
-# apartment_other_sh_equity_df = apartment_other_sh_equity_temp.rename(columns=yf_ticker_dict)
-apartment_lt_debt_df = apartment_lt_debt_temp.rename(columns=yf_ticker_dict)
-# apartment_st_lt_debt_df = apartment_st_lt_debt_temp.rename(columns=yf_ticker_dict)
-apartment_cash_df = apartment_cash_temp.rename(columns=yf_ticker_dict)
-apartment_net_tangible_df = apartment_net_tangible_temp.rename(columns=yf_ticker_dict)
-
-## COMBINE BY SECTOR ##
-apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, apartment_liabilities_df,
-                                     apartment_nci_df, apartment_sh_equity_df, apartment_lt_debt_df, #apartment_st_lt_debt_df, #apartment_other_sh_equity_df,
-                                     apartment_cash_df, apartment_net_tangible_df],
-                                    keys=['SHARES', 'TTL_ASSETS', 'TTL_LIABILITIES', 'NCI',
-                                          'SH_EQUITY', 'LT_DEBT', 'CASH', 'NET_TBV'])
-
-
 
 ## CAPITALIZATION TABLE ##
 
@@ -352,33 +228,6 @@ apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, ap
     # Equity Cap + Debt Cap = Total Mkt Cap
     # Enterprise Value == Total Mkt Cap - Cash
 
-## *UNUSED* ##
-    # 'Other Current Assets'
-    # 'Other Current Liab'
-    # 'Total Current Assets'
-    # 'Total Current Liabilities'
-    # 'Long Term Investments'
-
-
-
-apartment_cap_table_T = apartment_cap_table.T
-# apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
-#                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
-
-apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
-# sector_cap_tables={}
-# apt_dict = apartment_cap_table_T.to_dict('sector_cap_tables')
-
-# sector_cap_tables['apt'] = {'apartment':apartment_cap_table_T}
-
-
-#%%
-# print(sector_cap_tables[apartment])
-# print(apt_dict)
-
-print(apartment_cap_table_T.info())
-# # print(apartment_cap_table_T.head())
-# print(apartment_cap_table_T)
 
 
 
