@@ -580,7 +580,6 @@ apartment_cap_table_T = apartment_cap_table.T
 # apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
 #                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
 
-#%%
 # print(apartment_cap_table_T.info())
 # apartment_cap_table_T
 
@@ -835,6 +834,11 @@ sector_market_cap_line = px.line(ticker_output_df,
 
 
 #%%
+display_sector_comps_df = apartment_stack
+print(display_sector_comps_df)
+
+
+#%%
 #####################
 ### STREAMLIT APP ###
 #####################
@@ -908,8 +912,6 @@ github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
 propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
 
-## WILLARD SPONSOR? ##
-
 link_col_1, link_col_2, link_col_3 = st.columns(3)
 ext_link_1 = link_col_1.markdown(github_link, unsafe_allow_html=True)
 ext_link_2 = link_col_2.markdown(propswap_link, unsafe_allow_html=True)
@@ -943,15 +945,20 @@ def display_ticker_stats(ticker_input):
 #             width=600,
 #             )
 
-def display_sector_stats(sector_input):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input]
+def display_sector_comps(sector_hardcode):
+    display_sector_comps_df = f'{sector_hardcode}_stack'
+    st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
+
+
+def display_sector_stats(sector_input1):
+    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
     st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
     # .applymap(color_negative_red, subset=[''])
     # .highlight_max(subset=[''])
     # .set_caption(f'CUSTOM CAPTION')
 
-def display_sector_charts(sector_input):
+def display_sector_charts(sector_input2):
     x = all_reits_close.index
     y = all_reits_close[ticker_input]
     px.line(x, y,
@@ -1011,6 +1018,8 @@ with tab_0:
 
 with tab_1:
     st.header('APARTMENT')
+    display_sector_comps('apartment')
+    # st.dataframe(apartment_stack)
 
     st.plotly_chart(px.line(apartment_reits_close_df,
                             # ['apartment_avg']
@@ -1027,7 +1036,7 @@ with tab_1:
                             width=1200,
                             ))
 
-    st.dataframe(apartment_stack.style.set_table_styles(df_styles))  # .style.format(col_format_dict).set_table_styles(df_styles))
+     # .style.format(col_format_dict).set_table_styles(df_styles))
 
     # returns = {}
     # for stock in apartment_reits_close.columns:
@@ -1039,6 +1048,7 @@ with tab_1:
         ticker_input = st.selectbox('TICKER', (apartment))
         ticker_submit = st.form_submit_button('TICKER METRICS')
         if ticker_submit:
+
             # display_ticker_stats(ticker_input)
             date_x = all_sectors_close_df.index
             price_y = all_sectors_close_df[ticker_input]
@@ -1130,7 +1140,7 @@ st.stop()
 
 
 
-## IMAGES ## -- SPONSOR WILLARD?
+## IMAGES ## -- ## WILLARD SPONSOR? ##
     # tele_col_1, tele_col_2, tele_col_3, tele_col_4 = st.columns(4)
     # tele_col_1.image(jwst_tele_img_1, caption='JAMES WEBB SPACE TELESCOPE (JWST)', width=200)
     # tele_col_2.image(tess_tele_img_1, caption='TRANSITING EXOPLANET SURVEY SATELLITE (TESS)', width=200)
