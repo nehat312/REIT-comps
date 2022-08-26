@@ -835,7 +835,7 @@ sector_market_cap_line = px.line(ticker_output_df,
 
 #%%
 display_sector_comps_df = apartment_stack
-print(display_sector_comps_df)
+# print(display_sector_comps_df)
 
 
 #%%
@@ -946,7 +946,7 @@ def display_ticker_stats(ticker_input):
 #             )
 
 def display_sector_comps(sector_hardcode):
-    display_sector_comps_df = f'{sector_hardcode}_stack'
+    display_sector_comps_df = apartment_stack#f'{sector_hardcode}_stack'
     st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 
