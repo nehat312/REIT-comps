@@ -511,56 +511,55 @@ yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object 
 
 
 #%%
-## APARTMENT ##
-apartment_common_so_temp = pd.DataFrame()
-apartment_assets_temp = pd.DataFrame()
-apartment_liabilities_temp = pd.DataFrame()
-apartment_nci_temp = pd.DataFrame()
-apartment_sh_equity_temp = pd.DataFrame()
-apartment_other_sh_equity_temp = pd.DataFrame()
-apartment_lt_debt_temp = pd.DataFrame()
-apartment_st_lt_debt_temp = pd.DataFrame()
-apartment_cash_temp = pd.DataFrame()
-apartment_net_tangible_temp = pd.DataFrame()
-# apartment_cap_surplus_temp = pd.DataFrame()
-# _df_temp = pd.DataFrame()
-
-for j in yf_apartment:
-    apartment_common_so_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Common Stock', mrq]
-    apartment_assets_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets', mrq]
-    apartment_liabilities_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Liab', mrq]
-    apartment_nci_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Minority Interest', mrq]
-    apartment_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Stockholder Equity', mrq]
-        # apartment_other_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Other Stockholder Equity', mrq]
-    apartment_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Long Term Debt', mrq]
-        # apartment_st_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
-        # apartment_ttl_debt_temp = j.quarterly_balance_sheet.loc['Long Term Debt', mrq] + j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
-        # cap_surplus_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Capital Surplus', mrq]
-    apartment_cash_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Cash', mrq]
-    apartment_net_tangible_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Net Tangible Assets', mrq]
-
-    # _df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['', mrq]
-
-#%%
-
-apartment_common_so_df = apartment_common_so_temp.rename(columns=yf_ticker_dict)
-apartment_assets_df = apartment_assets_temp.rename(columns=yf_ticker_dict)
-apartment_liabilities_df = apartment_liabilities_temp.rename(columns=yf_ticker_dict)
-apartment_nci_df = apartment_nci_temp.rename(columns=yf_ticker_dict)
-apartment_sh_equity_df = apartment_sh_equity_temp.rename(columns=yf_ticker_dict)
-# apartment_other_sh_equity_df = apartment_other_sh_equity_temp.rename(columns=yf_ticker_dict)
-apartment_lt_debt_df = apartment_lt_debt_temp.rename(columns=yf_ticker_dict)
-# apartment_st_lt_debt_df = apartment_st_lt_debt_temp.rename(columns=yf_ticker_dict)
-apartment_cash_df = apartment_cash_temp.rename(columns=yf_ticker_dict)
-apartment_net_tangible_df = apartment_net_tangible_temp.rename(columns=yf_ticker_dict)
-
-## COMBINE BY SECTOR ##
-apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, apartment_liabilities_df,
-                                     apartment_nci_df, apartment_sh_equity_df, apartment_lt_debt_df, #apartment_st_lt_debt_df, #apartment_other_sh_equity_df,
-                                     apartment_cash_df, apartment_net_tangible_df],
-                                    keys=['SHARES', 'TTL_ASSETS', 'TTL_LIABILITIES', 'NCI',
-                                          'SH_EQUITY', 'LT_DEBT', 'CASH', 'NET_TBV'])
-
+# ## APARTMENT ##
+# apartment_common_so_temp = pd.DataFrame()
+# apartment_assets_temp = pd.DataFrame()
+# apartment_liabilities_temp = pd.DataFrame()
+# apartment_nci_temp = pd.DataFrame()
+# apartment_sh_equity_temp = pd.DataFrame()
+# apartment_other_sh_equity_temp = pd.DataFrame()
+# apartment_lt_debt_temp = pd.DataFrame()
+# apartment_st_lt_debt_temp = pd.DataFrame()
+# apartment_cash_temp = pd.DataFrame()
+# apartment_net_tangible_temp = pd.DataFrame()
+# # apartment_cap_surplus_temp = pd.DataFrame()
+# # _df_temp = pd.DataFrame()
+#
+# for j in yf_apartment:
+#     apartment_common_so_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Common Stock', mrq]
+#     apartment_assets_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets', mrq]
+#     apartment_liabilities_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Liab', mrq]
+#     apartment_nci_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Minority Interest', mrq]
+#     apartment_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Stockholder Equity', mrq]
+#         # apartment_other_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Other Stockholder Equity', mrq]
+#     apartment_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Long Term Debt', mrq]
+#         # apartment_st_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+#         # apartment_ttl_debt_temp = j.quarterly_balance_sheet.loc['Long Term Debt', mrq] + j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+#         # cap_surplus_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Capital Surplus', mrq]
+#     apartment_cash_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Cash', mrq]
+#     apartment_net_tangible_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Net Tangible Assets', mrq]
+#
+#     # _df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['', mrq]
+#
+# #%%
+#
+# apartment_common_so_df = apartment_common_so_temp.rename(columns=yf_ticker_dict)
+# apartment_assets_df = apartment_assets_temp.rename(columns=yf_ticker_dict)
+# apartment_liabilities_df = apartment_liabilities_temp.rename(columns=yf_ticker_dict)
+# apartment_nci_df = apartment_nci_temp.rename(columns=yf_ticker_dict)
+# apartment_sh_equity_df = apartment_sh_equity_temp.rename(columns=yf_ticker_dict)
+# # apartment_other_sh_equity_df = apartment_other_sh_equity_temp.rename(columns=yf_ticker_dict)
+# apartment_lt_debt_df = apartment_lt_debt_temp.rename(columns=yf_ticker_dict)
+# # apartment_st_lt_debt_df = apartment_st_lt_debt_temp.rename(columns=yf_ticker_dict)
+# apartment_cash_df = apartment_cash_temp.rename(columns=yf_ticker_dict)
+# apartment_net_tangible_df = apartment_net_tangible_temp.rename(columns=yf_ticker_dict)
+#
+# ## COMBINE BY SECTOR ##
+# apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, apartment_liabilities_df,
+#                                      apartment_nci_df, apartment_sh_equity_df, apartment_lt_debt_df, #apartment_st_lt_debt_df, #apartment_other_sh_equity_df,
+#                                      apartment_cash_df, apartment_net_tangible_df],
+#                                     keys=['SHARES', 'TTL_ASSETS', 'TTL_LIABILITIES', 'NCI',
+#                                           'SH_EQUITY', 'LT_DEBT', 'CASH', 'NET_TBV'])
 
 
 ## CAPITALIZATION TABLE ##
@@ -580,13 +579,11 @@ apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, ap
     # 'Total Current Liabilities'
     # 'Long Term Investments'
 
-
-
-apartment_cap_table_T = apartment_cap_table.T
-# apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
-#                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
-
-apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
+# apartment_cap_table_T = apartment_cap_table.T
+# # apartment_cap_table_T.rename(columns=['SHARES1', 'SHARES2', 'SHARES3', 'SHARES4',
+# #                                       'SHARES5', 'SHARES6', 'SHARES7', 'SHARES8'])
+#
+# apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
 # sector_cap_tables={}
 # apt_dict = apartment_cap_table_T.to_dict('sector_cap_tables')
 
@@ -598,7 +595,7 @@ apartment_cap_table_T.columns = apartment_cap_table_T.columns.droplevel(1)
 # print(apt_dict)
 
 
-print(apartment_cap_table_T.info())
+# print(apartment_cap_table_T.info())
 # # print(apartment_cap_table_T.head())
 # print(apartment_cap_table_T)
 
@@ -1035,7 +1032,7 @@ with tab_0:
 with tab_1:
     st.subheader('APARTMENT')
     # current_sector_reits =
-    st.dataframe(display_sector_comps(apartment_cap_table_T))
+    # st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
 
     st.plotly_chart(px.line(apartment_reits_close_df,
