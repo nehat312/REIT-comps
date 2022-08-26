@@ -962,9 +962,8 @@ def display_ticker_stats(ticker_input):
 #             )
 
 def display_sector_comps(apt_dict):
-    for i in apt_dict:
-        display_sector_comps_df = apt_dict[i] #f'{sector_hardcode}_stack'
-        st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
+    display_sector_comps_df = apt_dict #f'{sector_hardcode}_stack'
+    st.dataframe(display_sector_comps_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 
 def display_sector_stats(sector_input1):
@@ -998,7 +997,7 @@ def display_sector_charts(sector_input2):
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
     st.header('ALL SECTORS')
-    st.dataframe(apartment_cap_table_T)
+    # st.dataframe(apartment_cap_table_T)
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     st.plotly_chart(px.line(all_sectors_close_df,
