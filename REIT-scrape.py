@@ -143,78 +143,140 @@ ext_yahoo_url = 'key-statistics?p='
 
 #%%
 ##  YAHOOOOOOOO ####
-yahoo_cols = ['METRICS', 'CURRENT', '06-30-2022', '03-31-2022', '12-31-2021', '09-30-2021', '06-30-2021']
+
+# INITIALIZE DICTIONARY #
 yahoo_data_dict = {i : pd.DataFrame() for i in apartment} # reit_tickers
+
+# og_yahoo_cols = ['METRICS', 'CURRENT', '06-30-2022', '03-31-2022', '12-31-2021', '09-30-2021', '06-30-2021']
 
 
 #%%
-## ONLY NEED CURRENT QTR ##
+## APARTMENT ##
 for ticker in apartment: # reit_tickers
     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
-    section = soup.find_all('section')[0]  # [0] == 
-    div = soup.find_all('div')[0]  # [0] ==
-    table0 = soup.find_all('table')[0] # [0] == Valuation Measures
-    table1 = soup.find_all('table')[1] # [1] == Stock Price History
-    table2 = soup.find_all('table')[2] # [2] == Share Statistics
-    table3 = soup.find_all('table')[3] # [3] == Dividends & Splits
-        # table = soup.find("table", class_="W(100%) Bdcl(c)  M(0) Whs(n) BdEnd Bdc($seperatorColor) D(itb)")
-        # table = soup.find('table')
-    tables = [table0, table1, table2, table3]
-    for x in tables:
-        cols = [each.text for each in x.find_all('th')]
-        rows = x.find_all('tr')
-    for y in section:
-        cols = [each.text for each in y.find_all('th')]
-        rows = y.find_all('tr')
-    for z in div:
-        cols = [each.text for each in y.find_all('th')]
-        rows = y.find_all('tr')
-    # cols0 = [each.text for each in table0.find_all('th')]
-    # rows0 = table0.find_all('tr')
-    # cols1 = [each.text for each in table1.find_all('th')]
-    # rows1 = table1.find_all('tr')
-    # cols2 = [each.text for each in table2.find_all('th')]
-    # rows2 = table2.find_all('tr')
-    # cols3 = [each.text for each in table3.find_all('th')]
-    # rows3 = table3.find_all('tr')
-
-        for row in rows:
-            data = [each.text for each in row.find_all('td')]
-            temp_df = pd.DataFrame([data])
+    div0 = soup.find_all('div')[0]  # [0] ==
+    for z in div0:
+        div0_cols = [each.text for each in z.find_all('th')]
+        div0_rows = z.find_all('tr')
+        for row in div0_rows:
+            div0_data = [each.text for each in row.find_all('td')]
+            temp_df = pd.DataFrame([div0_data], columns=['CURRENT METRICS', f'{ticker}'])
             yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker]['CURRENT METRICS']
+        yahoo_data_dict[ticker].drop(columns=['CURRENT METRICS'], inplace=True)
+
+
+
+    # table0 = soup.find_all('table')[0] # [0] == Valuation Measures
+    # table1 = soup.find_all('table')[1] # [1] == Stock Price History
+    # table2 = soup.find_all('table')[2] # [2] == Share Statistics
+    # table3 = soup.find_all('table')[3] # [3] == Dividends & Splits
+    # tables = [table0, table1, table2, table3]
+    # for x in tables:
+    #     tables_cols = [each.text for each in x.find_all('th')]
+    #     tables_rows = x.find_all('tr')
+    #     for row in tables_rows:
+    #         tables_data = [each.text for each in row.find_all('td')]
+    #         temp_df = pd.DataFrame([tables_data])
+    #         yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        # for row in tables_rows:
+        #     tables_data = [each.text for each in row.find_all('td')]
+        #
+        #     temp_df = pd.DataFrame([tables_data])
+        #     yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
             # yahoo_data_dict[ticker] = yahoo_data_dict[ticker].dropna() #.fillna()
 
 #%%
-for reit in yahoo_data_dict:
-    yahoo_data_dict[reit].columns = yahoo_cols
-    yahoo_data_dict[reit].index = yahoo_data_dict[reit]['METRICS']
-    # yahoo_data_dict[ticker][ticker] = yahoo_data_dict[ticker]['2021']
-    # yahoo_data_dict[reit].drop(columns=['METRICS', '6/30/2022', '3/31/2022', '12/31/2021', '9/30/2021', '6/30/2021'], inplace=True)
-
-    # return yahoo_data_dict[ticker]
-
-
-
-
-#%%
 yahoo_data_dict_copy = yahoo_data_dict
-
-#%%
-print(yahoo_data_dict_copy['EQR'])
-
-#%%
-print(section)
-
-#%%
-print(yahoo_data_dict_copy)
-
+print(yahoo_data_dict_copy['EQR'][:65])
 
 #%%
 ## GROUP BY SECTOR ##
+yahoo_apartment_data = pd.DataFrame()
 for i in apartment:
-    yahoo_apartment_data = pd.concat([])
-    print(yahoo_data_dict_copy[i])
+    # temp_df = pd.DataFrame(yahoo_data_dict[i], columns=['CURRENT METRICS', f'{i}'])
+    # yahoo_apartment_data = yahoo_data_dict[i].append(temp_df, sort=True).reset_index(drop=True)
+    yahoo_apartment_data[i] = yahoo_data_dict[i]
+
+#%%
+print(yahoo_apartment_data.info())
+print(yahoo_apartment_data.index)
+
+#%%
+
+clean_yahoo_index = ['Market Cap (intraday) ', 'Enterprise Value ', 'Shares Outstanding 5', 'Float 8', #'Implied Shares Outstanding 6':'',
+                    'Forward P/E ', 'Trailing P/E ', # 'PEG Ratio (5 yr expected) ',
+                    'Price/Sales (ttm)', 'Price/Book (mrq)',
+                    'Enterprise Value/Revenue ', 'Enterprise Value/EBITDA ',
+                    '52 Week High 3', '52 Week Low 3', #'52-Week Change 3':'52-WEEK %',
+                    # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
+                    '50-Day Moving Average 3', '200-Day Moving Average 3',
+                    'Avg Vol (3 month) 3', 'Avg Vol (10 day) 3',
+                    '% Held by Insiders 1', '% Held by Institutions 1',
+                    'Shares Short (Jul 28, 2022) 4', 'Short Ratio (Jul 28, 2022) 4',
+                    'Forward Annual Dividend Rate 4', 'Trailing Annual Dividend Rate 3',
+                    'Forward Annual Dividend Yield 4', 'Trailing Annual Dividend Yield 3',
+                    '5 Year Average Dividend Yield 4',
+                    'Payout Ratio 4',
+                    #'Dividend Date 3', 'Ex-Dividend Date 4',
+                    # 'Last Split Factor 2', 'Last Split Date 3',
+                    # #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
+                    'Profit Margin ', 'Operating Margin (ttm)',
+                    'Return on Assets (ttm)', 'Return on Equity (ttm)',
+                    'Revenue (ttm)', #'Revenue Per Share (ttm)',
+                    'Gross Profit (ttm)', 'EBITDA ',
+                    'Quarterly Revenue Growth (yoy)', 'Quarterly Earnings Growth (yoy)',
+                    'Total Cash (mrq)', 'Book Value Per Share (mrq)',
+                     'Total Debt (mrq)', 'Total Debt/Equity (mrq)',
+                    'Operating Cash Flow (ttm)', 'Levered Free Cash Flow (ttm)']
+
+working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
+                       'Enterprise Value ':'ENTERPRISE VALUE',
+                       'Shares Outstanding 5':'SHARES OUTSTANDING', 'Float 8':'PUBLIC FLOAT', #'Implied Shares Outstanding 6':'',
+                       'Forward P/E ':'FORWARD PRICE/EARNINGS', 'Trailing P/E ':'TRAILING PRICE/EARNINGS', # 'PEG Ratio (5 yr expected) ',
+                       'Price/Sales (ttm)':'PRICE/SALES RATIO (TTM)', 'Price/Book (mrq)':'PRICE/BOOK (MRQ)',
+                       'Enterprise Value/Revenue ':'EV/REVENUE', 'Enterprise Value/EBITDA ':'EV/EBITDA',
+                       '52 Week High 3':'52-WEEK HIGH', '52 Week Low 3':'52-WEEK LOW', #'52-Week Change 3':'52-WEEK %',
+                       # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
+                       '50-Day Moving Average 3':'50-MA', '200-Day Moving Average 3':'200-MA',
+                       'Avg Vol (3 month) 3':'AVG. VOLUME (3 MONTH)', 'Avg Vol (10 day) 3':'AVG. VOLUME (10 DAY)',
+                       '% Held by Insiders 1':'INSIDERS %', '% Held by Institutions 1':'INSTITUTIONAL %',
+                       'Shares Short (Jul 28, 2022) 4':'SHARES SHORT', 'Short Ratio (Jul 28, 2022) 4':'SHORT RATIO',
+                       #'Short % of Float (Jul 28, 2022) 4':'', 'Short % of Shares Outstanding (Jul 28, 2022) 4':'',
+                       #'Shares Short (prior month Jun 29, 2022) 4':'',
+                       'Forward Annual Dividend Rate 4':'FORWARD ANN. DIVIDEND/SHARE', 'Trailing Annual Dividend Rate 3':'TRAILING ANN. DIVIDEND/SHARE',
+                       'Forward Annual Dividend Yield 4':'FORWARD ANN. DIVIDEND YIELD', 'Trailing Annual Dividend Yield 3':'TRAILING ANN. DIVIDEND YIELD',
+                       '5 Year Average Dividend Yield 4':'5-YEAR AVG. DIVIDEND YIELD',
+                       'Payout Ratio 4':'DIVIDEND PAYOUT RATIO',
+                       #'Dividend Date 3', 'Ex-Dividend Date 4',
+                       # 'Last Split Factor 2', 'Last Split Date 3',
+                       #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
+                       'Profit Margin ':'PROFIT MARGIN', 'Operating Margin (ttm)':'OPERATING MARGIN (TTM)',
+                       'Return on Assets (ttm)':'RETURN ON ASSETS (TTM)', 'Return on Equity (ttm)':'RETURN ON EQUITY (TTM)',
+                       'Revenue (ttm)':'REVENUE (TTM)', #'Revenue Per Share (ttm)',
+                       'Gross Profit (ttm)':'GROSS PROFIT (TTM)', 'EBITDA ':'EBITDA',
+                       'Quarterly Revenue Growth (yoy)':'QTR. REVENUE GROWTH (YoY)', 'Quarterly Earnings Growth (yoy)':'QTR. EARNINGS GROWTH (YoY)',
+                       'Total Cash (mrq)':'CASH (MRQ)', #'Total Cash Per Share (mrq)':'',
+                       'Book Value Per Share (mrq)':'BV/SHARE (MRQ)',
+
+                       'Total Debt (mrq)':'TOTAL DEBT (MRQ)',
+                       'Total Debt/Equity (mrq)':'TOTAL DEBT/EQUITY (MRQ)', # 'Current Ratio (mrq)':'',
+                       'Operating Cash Flow (ttm)':'OPERATING CF (MRQ)',
+                       'Levered Free Cash Flow (ttm)':'LEVERED FCF (TTM)'}
+
+                        #'Net Income Avi to Common (ttm)':'', 'Diluted EPS (ttm)':'',
+
+
+#%%
+yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
+# yahoo_apartment_data_new.index = working_sector_dict
+#yahoo_apartment_data.index = yahoo_apartment_data.index.map(working_sector_dict)
+# print(yahoo_apartment_data[:10])
+#%%
+print(yahoo_apartment_data_new.info())
+
+print(yahoo_apartment_data_new[:20])
 
 #%%
 
