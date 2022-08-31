@@ -157,14 +157,15 @@ for ticker in apartment: # reit_tickers
     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
     div0 = soup.find_all('div')[0]  # [0] ==
     for z in div0:
-        div0_cols = [each.text for each in z.find_all('th')]
+        div0_cols = z.find_all('th')[0:1] #[each.text for each in z.find_all('th')]
         div0_rows = z.find_all('tr')
         for row in div0_rows:
             div0_data = [each.text for each in row.find_all('td')]
-            temp_df = pd.DataFrame([div0_data], columns=['CURRENT METRICS', f'{ticker}'])
-            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker]['CURRENT METRICS']
-        yahoo_data_dict[ticker].drop(columns=['CURRENT METRICS'], inplace=True)
+            temp_df = pd.DataFrame([div0_data]) #, columns=['CURRENT METRICS', f'{ticker}']
+            slice_df = temp_df[0:1]
+            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(slice_df, sort=True).reset_index(drop=True)
+        # yahoo_data_dict[ticker].index = yahoo_data_dict[ticker]['CURRENT METRICS']
+        # yahoo_data_dict[ticker].drop(columns=['CURRENT METRICS'], inplace=True)
 
 
 
