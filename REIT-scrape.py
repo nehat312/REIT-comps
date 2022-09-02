@@ -157,15 +157,16 @@ for ticker in apartment: # reit_tickers
     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
     div0 = soup.find_all('div')[0]  # [0] ==
     for z in div0:
-        div0_cols = z.find_all('th')[0:1] #[each.text for each in z.find_all('th')]
+        div0_cols = z.find_all('th') #[each.text for each in z.find_all('th')]
         div0_rows = z.find_all('tr')
         for row in div0_rows:
             div0_data = [each.text for each in row.find_all('td')]
             temp_df = pd.DataFrame([div0_data]) #, columns=['CURRENT METRICS', f'{ticker}']
-            slice_df = temp_df[0:1]
-            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(slice_df, sort=True).reset_index(drop=True)
+            # slice_df = temp_df[0:1]
+            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].loc[:, [0, 1]]
         # yahoo_data_dict[ticker].index = yahoo_data_dict[ticker]['CURRENT METRICS']
-        # yahoo_data_dict[ticker].drop(columns=['CURRENT METRICS'], inplace=True)
+        # yahoo_data_dict[ticker].drop(columns=['2'], inplace=True)
 
 
 
@@ -192,17 +193,31 @@ for ticker in apartment: # reit_tickers
 yahoo_data_dict_copy = yahoo_data_dict
 print(yahoo_data_dict_copy['EQR'][:65])
 
-#%%
-## GROUP BY SECTOR ##
-yahoo_apartment_data = pd.DataFrame()
-for i in apartment:
-    # temp_df = pd.DataFrame(yahoo_data_dict[i], columns=['CURRENT METRICS', f'{i}'])
-    # yahoo_apartment_data = yahoo_data_dict[i].append(temp_df, sort=True).reset_index(drop=True)
-    yahoo_apartment_data[i] = yahoo_data_dict[i]
 
 #%%
-print(yahoo_apartment_data.info())
-print(yahoo_apartment_data.index)
+## GROUP BY SECTOR ##
+apartment_yf_data = {i: pd.DataFrame() for i in apartment}
+office_yf_data = {i: pd.DataFrame() for i in office}
+strip_center_yf_data = {i: pd.DataFrame() for i in strip_center}
+net_lease_yf_data = {i: pd.DataFrame() for i in net_lease}
+mall_yf_data = {i: pd.DataFrame() for i in mall}
+hotel_yf_data = {i: pd.DataFrame() for i in hotel}
+data_center_yf_data = {i: pd.DataFrame() for i in data_center}
+industrial_yf_data = {i: pd.DataFrame() for i in industrial}
+self_storage_yf_data = {i: pd.DataFrame() for i in self_storage}
+healthcare_yf_data = {i: pd.DataFrame() for i in healthcare}
+for sector in sector_list_of_lists:
+    for ticker in sector:
+
+
+for i in apartment:
+    # temp_df = pd.DataFrame(yahoo_data_dict[i], columns=['CURRENT METRICS', f'{i}'])
+    yahoo_apartment_data[i] = yahoo_data_dict[i]#.append(temp_df, sort=True).reset_index(drop=True)
+
+
+
+#%%
+print(yahoo_apartment_data.keys())
 
 #%%
 
