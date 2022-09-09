@@ -206,13 +206,37 @@ data_center_yf_data = {i: pd.DataFrame() for i in data_center}
 industrial_yf_data = {i: pd.DataFrame() for i in industrial}
 self_storage_yf_data = {i: pd.DataFrame() for i in self_storage}
 healthcare_yf_data = {i: pd.DataFrame() for i in healthcare}
-for sector in sector_list_of_lists:
-    for ticker in sector:
-
 
 for i in apartment:
     # temp_df = pd.DataFrame(yahoo_data_dict[i], columns=['CURRENT METRICS', f'{i}'])
-    yahoo_apartment_data[i] = yahoo_data_dict[i]#.append(temp_df, sort=True).reset_index(drop=True)
+    apartment_yf_data[i] = yahoo_data_dict[i]
+
+for i in office:
+    office_yf_data[i] = yahoo_data_dict[i]
+
+for i in strip_center:
+    strip_center_yf_data[i] = yahoo_data_dict[i]
+
+for i in net_lease:
+    net_lease_yf_data[i] = yahoo_data_dict[i]
+
+for i in mall:
+    mall_yf_data[i] = yahoo_data_dict[i]
+
+for i in hotel:
+    hotel_yf_data[i] = yahoo_data_dict[i]
+
+for i in data_center:
+    data_center_yf_data[i] = yahoo_data_dict[i]
+
+for i in industrial:
+    industrial_yf_data[i] = yahoo_data_dict[i]
+
+for i in self_storage:
+    self_storage_yf_data[i] = yahoo_data_dict[i]
+
+for i in healthcare:
+    healthcare_yf_data[i] = yahoo_data_dict[i]
 
 
 
