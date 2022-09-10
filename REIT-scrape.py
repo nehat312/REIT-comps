@@ -62,7 +62,7 @@ mry = '2021-12-31'
 
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG"] #, "APTS"
+apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV",] #, "APTS"  "BRG"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
@@ -76,7 +76,7 @@ healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
-reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", #"APTS",
+reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS",
                "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC", "VRE",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
@@ -87,7 +87,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", #"APTS",
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
-sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG"], #, "APTS"
+sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	], #, "APTS" "BRG"
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
@@ -209,13 +209,11 @@ ext_yahoo_url = 'key-statistics?p='
 
 #%%
 # INITIALIZE DICTIONARY #
-yahoo_data_dict = {i : pd.DataFrame() for i in apartment} # reit_tickers
-# og_yahoo_cols = ['METRICS', 'CURRENT', '06-30-2022', '03-31-2022', '12-31-2021', '09-30-2021', '06-30-2021']
-
+yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers} # reit_tickers
 
 #%%
 ## APARTMENT ##
-for ticker in apartment:
+for ticker in reit_tickers:
     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
     div0 = soup.find_all('div') #[0]
@@ -246,89 +244,94 @@ print(yahoo_all_reits['EQR'])
 
 #%%
 ## GROUP BY SECTOR ##
-
-
-# apartment_yf_data = {i: pd.DataFrame() for i in apartment}
-# office_yf_data = {i: pd.DataFrame() for i in office}
-# strip_center_yf_data = {i: pd.DataFrame() for i in strip_center}
-# net_lease_yf_data = {i: pd.DataFrame() for i in net_lease}
-# mall_yf_data = {i: pd.DataFrame() for i in mall}
-# hotel_yf_data = {i: pd.DataFrame() for i in hotel}
-# data_center_yf_data = {i: pd.DataFrame() for i in data_center}
-# industrial_yf_data = {i: pd.DataFrame() for i in industrial}
-# self_storage_yf_data = {i: pd.DataFrame() for i in self_storage}
-# healthcare_yf_data = {i: pd.DataFrame() for i in healthcare}
+apartment_yf_data = pd.DataFrame()
+office_yf_data = pd.DataFrame()
+strip_center_yf_data = pd.DataFrame()
+net_lease_yf_data = pd.DataFrame()
+mall_yf_data = pd.DataFrame()
+hotel_yf_data = pd.DataFrame()
+data_center_yf_data = pd.DataFrame()
+industrial_yf_data = pd.DataFrame()
+self_storage_yf_data = pd.DataFrame()
+healthcare_yf_data = pd.DataFrame()
 
 #%%
-apartment_yf_data = pd.DataFrame(index=yahoo_data_dict['EQR'].loc[:, [0]])
-
 for i in apartment:
-    # temp_df = pd.DataFrame(yahoo_data_dict[i], columns=['CURRENT METRICS', f'{i}'])
-    # apartment_yf_data[i] = yahoo_data_dict[i]
-    apartment_yf_data[i] = yahoo_data_dict[i].loc[:, [1]] #[:65] before .loc
-    apartment_yf_data = apartment_yf_data.iloc[1:, :]
-
-print(apartment_yf_data)
-#%%
+    apartment_yf_data[i] = yahoo_data_dict[i]
+    # apartment_yf_data[i] = apartment_yf_data[i].loc[:, [1]]
+    # apartment_yf_data = apartment_yf_data.iloc[1:, :]
 
 for i in office:
     office_yf_data[i] = yahoo_data_dict[i]
+    # office_yf_data[i] = office_yf_data[i].loc[:, [1]]
+    # office_yf_data = office_yf_data.iloc[1:, :]
 
-for i in strip_center:
-    strip_center_yf_data[i] = yahoo_data_dict[i]
+
+## JACKED UP ?? WHICH TICKER ?? ##
+# for i in strip_center:
+#     strip_center_yf_data[i] = yahoo_data_dict[i]
+#     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
+#     # strip_center_yf_data = strip_center_yf_data.iloc[1:, :]
+#
+# print(strip_center_yf_data)
+
 
 for i in net_lease:
     net_lease_yf_data[i] = yahoo_data_dict[i]
+    # net_lease_yf_data[i] = net_lease_yf_data[i].loc[:, [1]]
+    # net_lease_yf_data = net_lease_yf_data.iloc[1:, :]
 
 for i in mall:
     mall_yf_data[i] = yahoo_data_dict[i]
+    # mall_yf_data[i] = mall_yf_data[i].loc[:, [1]]
+    # mall_yf_data = mall_yf_data.iloc[1:, :]
 
 for i in hotel:
     hotel_yf_data[i] = yahoo_data_dict[i]
+    # hotel_yf_data[i] = hotel_yf_data[i].loc[:, [1]]
+    # hotel_yf_data = hotel_yf_data.iloc[1:, :]
 
 for i in data_center:
     data_center_yf_data[i] = yahoo_data_dict[i]
+    # data_center_yf_data[i] = data_center_yf_data[i].loc[:, [1]]
+    # data_center_yf_data = data_center_yf_data.iloc[1:, :]
 
 for i in industrial:
     industrial_yf_data[i] = yahoo_data_dict[i]
+    # industrial_yf_data[i] = industrial_yf_data[i].loc[:, [1]]
+    # industrial_yf_data = industrial_yf_data.iloc[1:, :]
 
 for i in self_storage:
     self_storage_yf_data[i] = yahoo_data_dict[i]
+    # self_storage_yf_data[i] = self_storage_yf_data[i].loc[:, [1]]
+    # self_storage_yf_data = self_storage_yf_data.iloc[1:, :]
 
 for i in healthcare:
     healthcare_yf_data[i] = yahoo_data_dict[i]
+    # healthcare_yf_data[i] = healthcare_yf_data[i].loc[:, [1]]
+    # healthcare_yf_data = healthcare_yf_data.iloc[1:, :]
+
+
+print(apartment_yf_data.info())
+print(office_yf_data.info())
+# print(strip_center_yf_data)
+print(net_lease_yf_data.info())
+print(mall_yf_data.info())
+print(hotel_yf_data.info())
+print(data_center_yf_data.info())
+print(industrial_yf_data.info())
+print(self_storage_yf_data.info())
+print(healthcare_yf_data.info())
+
 
 #%%
-# print(apartment_yf_data.keys())
-# print(office_yf_data.keys())
-# print(strip_center_yf_data.keys())
-# print(net_lease_yf_data.keys())
-# print(mall_yf_data.keys())
-# print(data_center_yf_data.keys())
-# print(industrial_yf_data.keys())
-# print(self_storage_yf_data.keys())
-# print(healthcare_yf_data.keys())
-
-
-print(apartment_yf_data)
-#%%
-apartment_yf_df = pd.DataFrame(data=apartment_yf_data) #index=clean_yahoo_index,
-print(apartment_yf_df.info())
-
-#%%
-for col in clean_yahoo_index:
-    apartment_yf_df[col] = apartment_yf_data[clean_yahoo_index]]
-apartment_yf_df.info()
-
-#%%
-yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
+# yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
 # yahoo_apartment_data_new.index = working_sector_dict
 #yahoo_apartment_data.index = yahoo_apartment_data.index.map(working_sector_dict)
 # print(yahoo_apartment_data[:10])
-#%%
-print(yahoo_apartment_data_new.info())
 
-print(yahoo_apartment_data_new[:20])
+# print(yahoo_apartment_data_new[:20])
+# print(yahoo_apartment_data_new.info())
 
 #%%
 
@@ -372,5 +375,9 @@ print(yahoo_apartment_data_new[:20])
         #     yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
             # yahoo_data_dict[ticker] = yahoo_data_dict[ticker].dropna() #.fillna()
 
+
+#%%
+
+# og_yahoo_cols = ['METRICS', 'CURRENT', '06-30-2022', '03-31-2022', '12-31-2021', '09-30-2021', '06-30-2021']
 
 #%%

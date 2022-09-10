@@ -25,10 +25,7 @@ from PIL import Image
 
 import yfinance as yf
 import datetime
-import requests
-from bs4 import BeautifulSoup
-import time
-
+# from datetime import date
 
 # import tensorflow_technical_indicators as tfti
 # from tensorflow_technical_indicators import <indicator>
@@ -94,8 +91,7 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
-## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV",] #, "APTS"  "BRG"
+apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV", "BRG"] #, "APTS"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
@@ -109,7 +105,7 @@ healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease, industrial, self_storage, data_center, healthcare]
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
-reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS",
+reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", "BRG", #"APTS",
                "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC", "VRE",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
@@ -120,7 +116,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
-sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	], #, "APTS" "BRG"
+sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	"BRG"], #, "APTS"
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
@@ -178,220 +174,13 @@ ticker_output_df = reit_financials[ticker_output_cols]
 #               '10': '4', '11': '4', '12': '4'}
 
 
-#%%
-## DATA SCRAPE IMPORT ##
+## DATA SCRAPE ##
+
 reit_scrape_path = current_path + '/REIT-scrape.py'
-# %run reit_scrape_path
+
 # %cd $abspath_util_deep
 
-#%%
-
-clean_yahoo_index = ['Market Cap (intraday) ', 'Enterprise Value ', 'Shares Outstanding 5', 'Float 8', #'Implied Shares Outstanding 6':'',
-                    'Forward P/E ', 'Trailing P/E ', # 'PEG Ratio (5 yr expected) ',
-                    'Price/Sales (ttm)', 'Price/Book (mrq)',
-                    'Enterprise Value/Revenue ', 'Enterprise Value/EBITDA ',
-                    '52 Week High 3', '52 Week Low 3', #'52-Week Change 3':'52-WEEK %',
-                    # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
-                    '50-Day Moving Average 3', '200-Day Moving Average 3',
-                    'Avg Vol (3 month) 3', 'Avg Vol (10 day) 3',
-                    '% Held by Insiders 1', '% Held by Institutions 1',
-                    'Shares Short (Jul 28, 2022) 4', 'Short Ratio (Jul 28, 2022) 4',
-                    'Forward Annual Dividend Rate 4', 'Trailing Annual Dividend Rate 3',
-                    'Forward Annual Dividend Yield 4', 'Trailing Annual Dividend Yield 3',
-                    '5 Year Average Dividend Yield 4',
-                    'Payout Ratio 4',
-                    #'Dividend Date 3', 'Ex-Dividend Date 4',
-                    # 'Last Split Factor 2', 'Last Split Date 3',
-                    # #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
-                    'Profit Margin ', 'Operating Margin (ttm)',
-                    'Return on Assets (ttm)', 'Return on Equity (ttm)',
-                    'Revenue (ttm)', #'Revenue Per Share (ttm)',
-                    'Gross Profit (ttm)', 'EBITDA ',
-                    'Quarterly Revenue Growth (yoy)', 'Quarterly Earnings Growth (yoy)',
-                    'Total Cash (mrq)', 'Book Value Per Share (mrq)',
-                     'Total Debt (mrq)', 'Total Debt/Equity (mrq)',
-                    'Operating Cash Flow (ttm)', 'Levered Free Cash Flow (ttm)']
-
-working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
-                       'Enterprise Value ':'ENTERPRISE VALUE',
-                       'Shares Outstanding 5':'SHARES OUTSTANDING', 'Float 8':'PUBLIC FLOAT', #'Implied Shares Outstanding 6':'',
-                       'Forward P/E ':'FORWARD PRICE/EARNINGS', 'Trailing P/E ':'TRAILING PRICE/EARNINGS', # 'PEG Ratio (5 yr expected) ',
-                       'Price/Sales (ttm)':'PRICE/SALES RATIO (TTM)', 'Price/Book (mrq)':'PRICE/BOOK (MRQ)',
-                       'Enterprise Value/Revenue ':'EV/REVENUE', 'Enterprise Value/EBITDA ':'EV/EBITDA',
-                       '52 Week High 3':'52-WEEK HIGH', '52 Week Low 3':'52-WEEK LOW', #'52-Week Change 3':'52-WEEK %',
-                       # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
-                       '50-Day Moving Average 3':'50-MA', '200-Day Moving Average 3':'200-MA',
-                       'Avg Vol (3 month) 3':'AVG. VOLUME (3 MONTH)', 'Avg Vol (10 day) 3':'AVG. VOLUME (10 DAY)',
-                       '% Held by Insiders 1':'INSIDERS %', '% Held by Institutions 1':'INSTITUTIONAL %',
-                       'Shares Short (Jul 28, 2022) 4':'SHARES SHORT', 'Short Ratio (Jul 28, 2022) 4':'SHORT RATIO',
-                       #'Short % of Float (Jul 28, 2022) 4':'', 'Short % of Shares Outstanding (Jul 28, 2022) 4':'',
-                       #'Shares Short (prior month Jun 29, 2022) 4':'',
-                       'Forward Annual Dividend Rate 4':'FORWARD ANN. DIVIDEND/SHARE', 'Trailing Annual Dividend Rate 3':'TRAILING ANN. DIVIDEND/SHARE',
-                       'Forward Annual Dividend Yield 4':'FORWARD ANN. DIVIDEND YIELD', 'Trailing Annual Dividend Yield 3':'TRAILING ANN. DIVIDEND YIELD',
-                       '5 Year Average Dividend Yield 4':'5-YEAR AVG. DIVIDEND YIELD',
-                       'Payout Ratio 4':'DIVIDEND PAYOUT RATIO',
-                       #'Dividend Date 3', 'Ex-Dividend Date 4',
-                       # 'Last Split Factor 2', 'Last Split Date 3',
-                       #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
-                       'Profit Margin ':'PROFIT MARGIN', 'Operating Margin (ttm)':'OPERATING MARGIN (TTM)',
-                       'Return on Assets (ttm)':'RETURN ON ASSETS (TTM)', 'Return on Equity (ttm)':'RETURN ON EQUITY (TTM)',
-                       'Revenue (ttm)':'REVENUE (TTM)', #'Revenue Per Share (ttm)',
-                       'Gross Profit (ttm)':'GROSS PROFIT (TTM)', 'EBITDA ':'EBITDA',
-                       'Quarterly Revenue Growth (yoy)':'QTR. REVENUE GROWTH (YoY)', 'Quarterly Earnings Growth (yoy)':'QTR. EARNINGS GROWTH (YoY)',
-                       'Total Cash (mrq)':'CASH (MRQ)', #'Total Cash Per Share (mrq)':'',
-                       'Book Value Per Share (mrq)':'BV PER SHARE (MRQ)',
-
-                       'Total Debt (mrq)':'TOTAL DEBT (MRQ)',
-                       'Total Debt/Equity (mrq)':'TOTAL DEBT/EQUITY (MRQ)', # 'Current Ratio (mrq)':'',
-                       'Operating Cash Flow (ttm)':'OPERATING CF (MRQ)',
-                       'Levered Free Cash Flow (ttm)':'LEVERED FCF (TTM)'}
-
-                        #'Net Income Avi to Common (ttm)':'', 'Diluted EPS (ttm)':'',
-
-
-#%%
-## YAHOO FINANCE ##
-headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'}
-base_yahoo_url = 'https://finance.yahoo.com/quote/' #https://finance.yahoo.com/quote/AVB/key-statistics?p=AVB
-ext_yahoo_url = 'key-statistics?p='
-
-#%%
-# INITIALIZE DICTIONARY #
-yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers} # reit_tickers
-
-#%%
-## APARTMENT ##
-for ticker in reit_tickers:
-    yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
-    div0 = soup.find_all('div') #[0]
-    for z in div0:
-        div0_cols = z.find_all('th') #[each.text for each in z.find_all('th')]
-        div0_rows = z.find_all('tr')
-        for row in div0_rows:
-            div0_data = [each.text for each in row.find_all('td')]
-            temp_df = pd.DataFrame([div0_data])
-            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-    yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-    yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-    # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-
-
-#%%
-yahoo_all_reits = yahoo_data_dict
-
-#%%
-
-print(yahoo_all_reits['EQR'])
-# print(yahoo_all_reits['EQR'][:65])
-# print(yahoo_all_reits['EQR'][:65].loc[:, [1]])
-#df.iloc[row_start:row_end , col_start, col_end]
-
-
-#%%
-## GROUP BY SECTOR ##
-apartment_yf_data = pd.DataFrame()
-office_yf_data = pd.DataFrame()
-strip_center_yf_data = pd.DataFrame()
-net_lease_yf_data = pd.DataFrame()
-mall_yf_data = pd.DataFrame()
-hotel_yf_data = pd.DataFrame()
-data_center_yf_data = pd.DataFrame()
-industrial_yf_data = pd.DataFrame()
-self_storage_yf_data = pd.DataFrame()
-healthcare_yf_data = pd.DataFrame()
-
-#%%
-for i in apartment:
-    apartment_yf_data[i] = yahoo_data_dict[i]
-    # apartment_yf_data[i] = apartment_yf_data[i].loc[:, [1]]
-    # apartment_yf_data = apartment_yf_data.iloc[1:, :]
-
-for i in office:
-    office_yf_data[i] = yahoo_data_dict[i]
-    # office_yf_data[i] = office_yf_data[i].loc[:, [1]]
-    # office_yf_data = office_yf_data.iloc[1:, :]
-
-
-## JACKED UP ?? WHICH TICKER ?? ##
-# for i in strip_center:
-#     strip_center_yf_data[i] = yahoo_data_dict[i]
-#     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
-#     # strip_center_yf_data = strip_center_yf_data.iloc[1:, :]
-#
-# print(strip_center_yf_data)
-
-
-for i in net_lease:
-    net_lease_yf_data[i] = yahoo_data_dict[i]
-    # net_lease_yf_data[i] = net_lease_yf_data[i].loc[:, [1]]
-    # net_lease_yf_data = net_lease_yf_data.iloc[1:, :]
-
-for i in mall:
-    mall_yf_data[i] = yahoo_data_dict[i]
-    # mall_yf_data[i] = mall_yf_data[i].loc[:, [1]]
-    # mall_yf_data = mall_yf_data.iloc[1:, :]
-
-for i in hotel:
-    hotel_yf_data[i] = yahoo_data_dict[i]
-    # hotel_yf_data[i] = hotel_yf_data[i].loc[:, [1]]
-    # hotel_yf_data = hotel_yf_data.iloc[1:, :]
-
-for i in data_center:
-    data_center_yf_data[i] = yahoo_data_dict[i]
-    # data_center_yf_data[i] = data_center_yf_data[i].loc[:, [1]]
-    # data_center_yf_data = data_center_yf_data.iloc[1:, :]
-
-for i in industrial:
-    industrial_yf_data[i] = yahoo_data_dict[i]
-    # industrial_yf_data[i] = industrial_yf_data[i].loc[:, [1]]
-    # industrial_yf_data = industrial_yf_data.iloc[1:, :]
-
-for i in self_storage:
-    self_storage_yf_data[i] = yahoo_data_dict[i]
-    # self_storage_yf_data[i] = self_storage_yf_data[i].loc[:, [1]]
-    # self_storage_yf_data = self_storage_yf_data.iloc[1:, :]
-
-for i in healthcare:
-    healthcare_yf_data[i] = yahoo_data_dict[i]
-    # healthcare_yf_data[i] = healthcare_yf_data[i].loc[:, [1]]
-    # healthcare_yf_data = healthcare_yf_data.iloc[1:, :]
-
-
-# print(apartment_yf_data.info())
-# print(office_yf_data.info())
-# # print(strip_center_yf_data)
-# print(net_lease_yf_data.info())
-# print(mall_yf_data.info())
-# print(hotel_yf_data.info())
-# print(data_center_yf_data.info())
-# print(industrial_yf_data.info())
-# print(self_storage_yf_data.info())
-# print(healthcare_yf_data.info())
-
-
-#%%
-# yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
-# yahoo_apartment_data_new.index = working_sector_dict
-#yahoo_apartment_data.index = yahoo_apartment_data.index.map(working_sector_dict)
-# print(yahoo_apartment_data[:10])
-
-# print(yahoo_apartment_data_new[:20])
-# print(yahoo_apartment_data_new.info())
-
-#%%
-
-## CAPITALIZATION TABLE ##
-
-    # PRICE
-    # Total Equity Mkt Capitalization
-    # Preferred??
-
-    # Total Debt Capitalization
-    # Equity Cap + Debt Cap = Total Mkt Cap
-    # Enterprise Value == Total Mkt Cap - Cash
+# %run reit_scrape.py
 
 
 #%%
@@ -642,6 +431,146 @@ all_sectors_close_df = all_sectors_close_df.T
 # # print(sector_ratios_group)
 
 #%%
+# map_list_all_sectors = []
+# for i in all_reits_close.index.values:
+#     for k in sector_dict:
+#         if i in sector_dict[k]:
+#             map_list_all_sectors.append(k)
+#             break
+
+# map_list_apartment = []
+# for i in apartment_reits_close.index.values:
+#     for k in sector_dict:
+#         if i in sector_dict[k]:
+#             map_list_apartment.append(k)
+#             break
+
+#%%
+## QUARTERLY BALANCE SHEETS - MRY ##
+
+yf_tickers = []
+for i in reit_tickers:
+    i = yf.Ticker(f'{i}')
+    yf_tickers.append(i)
+
+yf_apartment = []
+for i in apartment:
+    i = yf.Ticker(f'{i}')
+    yf_apartment.append(i)
+
+yf_office = []
+for i in office:
+    i = yf.Ticker(f'{i}')
+    yf_office.append(i)
+
+yf_hotel = []
+for i in hotel:
+    i = yf.Ticker(f'{i}')
+    yf_hotel.append(i)
+
+yf_mall = []
+for i in mall:
+    i = yf.Ticker(f'{i}')
+    yf_mall.append(i)
+
+yf_strip_center = []
+for i in strip_center:
+    i = yf.Ticker(f'{i}')
+    yf_strip_center.append(i)
+
+yf_net_lease = []
+for i in net_lease:
+    i = yf.Ticker(f'{i}')
+    yf_net_lease.append(i)
+
+yf_industrial = []
+for i in industrial:
+    i = yf.Ticker(f'{i}')
+    yf_industrial.append(i)
+
+yf_self_storage = []
+for i in self_storage:
+    i = yf.Ticker(f'{i}')
+    yf_self_storage.append(i)
+
+yf_data_center = []
+for i in data_center:
+    i = yf.Ticker(f'{i}')
+    yf_data_center.append(i)
+
+yf_healthcare = []
+for i in healthcare:
+    i = yf.Ticker(f'{i}')
+    yf_healthcare.append(i)
+
+#     print(str(i).upper())
+
+#%%
+yf_ticker_dict = {'yfinance.Ticker object <EQR>':'EQR', 'yfinance.Ticker object <AVB>':'AVB', 'yfinance.Ticker object <ESS>':'ESS', 'yfinance.Ticker object <MAA>':'MAA', 'yfinance.Ticker object <UDR>':'UDR', 'yfinance.Ticker object <CPT>':'CPT', 'yfinance.Ticker object <AIV>':'AIV', 'yfinance.Ticker object <BRG>':'BRG', # 'yfinance.Ticker object <APTS>':'APTS',
+                  'yfinance.Ticker object <BXP>':'BXP', 'yfinance.Ticker object <VNO>':'VNO', 'yfinance.Ticker object <KRC>':'KRC', 'yfinance.Ticker object <DEI>':'DEI', 'yfinance.Ticker object <JBGS>':'JBGS', 'yfinance.Ticker object <CUZ>':'CUZ', 'yfinance.Ticker object <HPP>':'HPP', 'yfinance.Ticker object <SLG>':'SLG', 'yfinance.Ticker object <HIW>':'HIW', 'yfinance.Ticker object <OFC>':'OFC', 'yfinance.Ticker object <PGRE>':'PGRE', 'yfinance.Ticker object <PDM>':'PDM', 'yfinance.Ticker object <WRE>':'WRE', 'yfinance.Ticker object <ESRT>':'ESRT', 'yfinance.Ticker object <BDN>':'BDN', 'yfinance.Ticker object <EQC>':'EQC', 'yfinance.Ticker object <VRE>':'VRE',
+                  'yfinance.Ticker object <HST>':'HST', 'yfinance.Ticker object <RHP>':'RHP', 'yfinance.Ticker object <PK>':'PK', 'yfinance.Ticker object <APLE>':'APLE', 'yfinance.Ticker object <SHO>':'SHO', 'yfinance.Ticker object <PEB>':'PEB', 'yfinance.Ticker object <RLJ>':'RLJ', 'yfinance.Ticker object <DRH>':'DRH', 'yfinance.Ticker object <INN>':'INN', 'yfinance.Ticker object <HT>':'HT', 'yfinance.Ticker object <AHT>':'AHT', 'yfinance.Ticker object <BHR>':'BHR',
+                  'yfinance.Ticker object <SPG>':'SPG', 'yfinance.Ticker object <MAC>':'MAC', 'yfinance.Ticker object <PEI>':'PEI',
+                  'yfinance.Ticker object <REG>':'REG', 'yfinance.Ticker object <FRT>':'FRT', 'yfinance.Ticker object <KIM>':'KIM', 'yfinance.Ticker object <BRX>':'BRX', 'yfinance.Ticker object <AKR>':'AKR', 'yfinance.Ticker object <UE>':'UE', 'yfinance.Ticker object <ROIC>':'ROIC', 'yfinance.Ticker object <CDR>':'CDR', 'yfinance.Ticker object <SITC>':'SITC', 'yfinance.Ticker object <BFS>':'BFS',
+                  'yfinance.Ticker object <O>':'O', 'yfinance.Ticker object <WPC>':'WPC', 'yfinance.Ticker object <NNN>':'NNN', 'yfinance.Ticker object <STOR>':'STOR', 'yfinance.Ticker object <SRC>':'SRC', 'yfinance.Ticker object <PINE>':'PINE', 'yfinance.Ticker object <FCPT>':'FCPT', 'yfinance.Ticker object <ADC>':'ADC', 'yfinance.Ticker object <EPRT>':'EPRT',
+                  'yfinance.Ticker object <PLD>':'PLD', 'yfinance.Ticker object <DRE>':'DRE', 'yfinance.Ticker object <FR>':'FR', 'yfinance.Ticker object <EGP>':'EGP',
+                  'yfinance.Ticker object <EXR>':'EXR', 'yfinance.Ticker object <CUBE>':'CUBE', 'yfinance.Ticker object <REXR>':'REXR', 'yfinance.Ticker object <LSI>':'LSI',
+                  'yfinance.Ticker object <EQIX>':'EQIX', 'yfinance.Ticker object <DLR>':'DLR', 'yfinance.Ticker object <AMT>':'AMT',
+                  'yfinance.Ticker object <WELL>':'WELL', 'yfinance.Ticker object <PEAK>':'PEAK', 'yfinance.Ticker object <VTR>':'VTR', 'yfinance.Ticker object <OHI>':'OHI', 'yfinance.Ticker object <HR>':'HR',
+                  }
+
+
+#%%
+# ## APARTMENT ##
+# apartment_common_so_temp = pd.DataFrame()
+# apartment_assets_temp = pd.DataFrame()
+# apartment_liabilities_temp = pd.DataFrame()
+# apartment_nci_temp = pd.DataFrame()
+# apartment_sh_equity_temp = pd.DataFrame()
+# apartment_other_sh_equity_temp = pd.DataFrame()
+# apartment_lt_debt_temp = pd.DataFrame()
+# apartment_st_lt_debt_temp = pd.DataFrame()
+# apartment_cash_temp = pd.DataFrame()
+# apartment_net_tangible_temp = pd.DataFrame()
+# # apartment_cap_surplus_temp = pd.DataFrame()
+# # _df_temp = pd.DataFrame()
+#
+# for j in yf_apartment:
+#     apartment_common_so_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Common Stock', mrq]
+#     apartment_assets_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Assets', mrq]
+#     apartment_liabilities_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Liab', mrq]
+#     apartment_nci_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Minority Interest', mrq]
+#     apartment_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Total Stockholder Equity', mrq]
+#         # apartment_other_sh_equity_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Other Stockholder Equity', mrq]
+#     apartment_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Long Term Debt', mrq]
+#         # apartment_st_lt_debt_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+#         # apartment_ttl_debt_temp = j.quarterly_balance_sheet.loc['Long Term Debt', mrq] + j.quarterly_balance_sheet.loc['Short Long Term Debt', mrq]
+#         # cap_surplus_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Capital Surplus', mrq]
+#     apartment_cash_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Cash', mrq]
+#     apartment_net_tangible_temp[f'{j}'] = j.quarterly_balance_sheet.loc['Net Tangible Assets', mrq]
+#
+#     # _df_temp[f'{j}'] = j.quarterly_balance_sheet.loc['', mrq]
+#
+# #%%
+#
+# apartment_common_so_df = apartment_common_so_temp.rename(columns=yf_ticker_dict)
+# apartment_assets_df = apartment_assets_temp.rename(columns=yf_ticker_dict)
+# apartment_liabilities_df = apartment_liabilities_temp.rename(columns=yf_ticker_dict)
+# apartment_nci_df = apartment_nci_temp.rename(columns=yf_ticker_dict)
+# apartment_sh_equity_df = apartment_sh_equity_temp.rename(columns=yf_ticker_dict)
+# # apartment_other_sh_equity_df = apartment_other_sh_equity_temp.rename(columns=yf_ticker_dict)
+# apartment_lt_debt_df = apartment_lt_debt_temp.rename(columns=yf_ticker_dict)
+# # apartment_st_lt_debt_df = apartment_st_lt_debt_temp.rename(columns=yf_ticker_dict)
+# apartment_cash_df = apartment_cash_temp.rename(columns=yf_ticker_dict)
+# apartment_net_tangible_df = apartment_net_tangible_temp.rename(columns=yf_ticker_dict)
+#
+# ## COMBINE BY SECTOR ##
+# apartment_cap_table = pd.concat([apartment_common_so_df, apartment_assets_df, apartment_liabilities_df,
+#                                      apartment_nci_df, apartment_sh_equity_df, apartment_lt_debt_df, #apartment_st_lt_debt_df, #apartment_other_sh_equity_df,
+#                                      apartment_cash_df, apartment_net_tangible_df],
+#                                     keys=['SHARES', 'TTL_ASSETS', 'TTL_LIABILITIES', 'NCI',
+#                                           'SH_EQUITY', 'LT_DEBT', 'CASH', 'NET_TBV'])
+
+
 ## CAPITALIZATION TABLE ##
 
     # PRICE
