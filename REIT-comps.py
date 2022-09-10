@@ -81,6 +81,13 @@ reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer
 # reit_trading = pd.read_csv(trading_csv, header=0, index_col='Index', infer_datetime_format=True) #, index_col='loc_rowid'
 
 
+#%%
+## DATA SCRAPE IMPORT ##
+reit_scrape_path = current_path + '/REIT-scrape.py'
+# %run reit_scrape_path
+# %cd $abspath_util_deep
+
+#%%
 ## IMAGE IMPORT ##
 # jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
 
@@ -178,11 +185,6 @@ ticker_output_df = reit_financials[ticker_output_cols]
 #               '10': '4', '11': '4', '12': '4'}
 
 
-#%%
-## DATA SCRAPE IMPORT ##
-reit_scrape_path = current_path + '/REIT-scrape.py'
-# %run reit_scrape_path
-# %cd $abspath_util_deep
 
 #%%
 
@@ -211,6 +213,10 @@ clean_yahoo_index = ['Market Cap (intraday) ', 'Enterprise Value ', 'Shares Outs
                     'Total Cash (mrq)', 'Book Value Per Share (mrq)',
                      'Total Debt (mrq)', 'Total Debt/Equity (mrq)',
                     'Operating Cash Flow (ttm)', 'Levered Free Cash Flow (ttm)']
+
+cap_stack = ['Market Cap (intraday) ',
+
+             ]
 
 working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
                        'Enterprise Value ':'ENTERPRISE VALUE',
@@ -282,9 +288,7 @@ for ticker in reit_tickers:
 #%%
 yahoo_all_reits = yahoo_data_dict
 
-#%%
-
-print(yahoo_all_reits['EQR'])
+# print(yahoo_all_reits['EQR'])
 # print(yahoo_all_reits['EQR'][:65])
 # print(yahoo_all_reits['EQR'][:65].loc[:, [1]])
 #df.iloc[row_start:row_end , col_start, col_end]
@@ -1089,7 +1093,7 @@ with tab_0:
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 500],
                             height=600,
-                            width=1200,
+                            width=800,
                             ))
 
     st.subheader('ALL REITS')
@@ -1107,7 +1111,7 @@ with tab_0:
                             range_x=[sidebar_start, sidebar_end],
                             # range_y=[0, 400],
                             height=600,
-                            width=1200,
+                            width=800,
                             ))
 
 with tab_1:
@@ -1115,6 +1119,7 @@ with tab_1:
     # current_sector_reits =
     # st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
+    st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     st.plotly_chart(px.line(apartment_reits_close_df,
                             # ['apartment_avg']
@@ -1128,7 +1133,7 @@ with tab_1:
                             range_x=[sidebar_start, sidebar_end],
                             range_y=[0, 300],
                             height=600,
-                            width=1200,
+                            width=800,
                             ))
 
      # .style.format(col_format_dict).set_table_styles(df_styles))
@@ -1151,30 +1156,39 @@ with tab_1:
 
 with tab_2:
     st.subheader('OFFICE REITS')
+    st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_3:
     st.subheader('HOTEL REITS')
+    st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_4:
     st.subheader('MALL REITS')
+    st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_5:
     st.subheader('STRIP CENTER REITS')
+    st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_6:
     st.subheader('NET LEASE REITS')
+    st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_7:
     st.subheader('INDUSTRIAL REITS')
+    st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_8:
     st.subheader('SELF-STORAGE REITS')
+    st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_9:
     st.subheader('DATA CENTER REITS')
+    st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_10:
     st.subheader('HEALTHCARE REITS')
+    st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 
 
