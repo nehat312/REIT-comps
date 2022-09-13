@@ -1073,6 +1073,17 @@ def display_sector_charts(sector_input2):
             width=1000,
             )
 
+## DATAFRAME STYLING ##
+
+# def df_style_map(val):
+#     if val == 'United States':
+#         color = 'black'
+#     else:
+#         color = 'pink'
+#         return f'background-color: {color}'
+#
+# st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
+
 ## SECTOR TABS ##
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
@@ -1121,20 +1132,20 @@ with tab_1:
     # st.dataframe(apartment_stack)
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
-    st.plotly_chart(px.line(apartment_reits_close_df,
-                            # ['apartment_avg']
-                            # color=apartment_reits_close_df.columns,
-                            # color_continuous_scale=Electric,
-                            color_discrete_sequence=Ice_r,
-                            color_discrete_map=sector_colors,
-                            title=f'HISTORICAL SHARE PRICE ($)',
-                            # symbol='*',
-                            labels=chart_labels,
-                            range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 300],
-                            height=600,
-                            width=800,
-                            ))
+    # st.plotly_chart(px.line(apartment_reits_close_df,
+    #                         # ['apartment_avg']
+    #                         # color=apartment_reits_close_df.columns,
+    #                         # color_continuous_scale=Electric,
+    #                         color_discrete_sequence=Ice_r,
+    #                         color_discrete_map=sector_colors,
+    #                         title=f'HISTORICAL SHARE PRICE ($)',
+    #                         # symbol='*',
+    #                         labels=chart_labels,
+    #                         range_x=[sidebar_start, sidebar_end],
+    #                         range_y=[0, 300],
+    #                         height=600,
+    #                         width=800,
+    #                         ))
 
      # .style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1263,16 +1274,7 @@ st.stop()
     # subplots.add_trace(scatter_3d_1, row=1, col=1)
     # subplots.add_trace(scatter_3d_1, row=1, col=2)
 
-        ## DATAFRAME STYLING ##
 
-        # def df_style_map(val):
-        #     if val == 'United States':
-        #         color = 'black'
-        #     else:
-        #         color = 'pink'
-        #         return f'background-color: {color}'
-        #
-        # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
 ## GALAXY IMAGES ##
 # img_col_1, img_col_2, img_col_3 = st.columns(3)
@@ -1608,4 +1610,21 @@ st.stop()
 # print(all_reits_cap_table_T.head())
 # print(all_reits_cap_table_T.info())
 # print(all_reits_cap_table_T[-20:])
+
+
+
+#%%
+
+## DATAFRAME STYLING ##
+
+# def df_style_map(val):
+#     if val == 'United States':
+#         color = 'black'
+#     else:
+#         color = 'pink'
+#         return f'background-color: {color}'
+#
+# st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
+
+#%%
 
