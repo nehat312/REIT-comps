@@ -890,7 +890,8 @@ th_props = [('font-size', '12px'),
             ('color', "#438029"), ## '#EBEDE9' light green?     #6d6d6d #29609C
             ('background-color', '#29609C'), #f7f7f9
             ('word-wrap', 'break-word'),
-            ('max-width', '150px')
+            ('max-width', '150px'),
+            ('min-width', '35px')
             ]
 
 td_props = [('font-size', '12px'),
@@ -1039,7 +1040,8 @@ with tab_0:
     #                         width=800,
     #                         ))
 
-    st.subheader('ALL REITS')
+
+    # st.subheader('ALL REITS')
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
     # st.plotly_chart(px.line(all_reits_close_df,
@@ -1076,16 +1078,16 @@ with tab_1:
         yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
         yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
-    # current_sector_reits =
-    # st.dataframe(display_sector_comps(apartment_cap_table_T))
-    # st.dataframe(apartment_stack)
-
     for i in apartment:
         apartment_yf_data[i] = yahoo_data_dict[i]
 
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     # st.line_chart(apartment_yf_data, x=)
+
+    # current_sector_reits =
+    # st.dataframe(display_sector_comps(apartment_cap_table_T))
+    # st.dataframe(apartment_stack)
 
     # st.plotly_chart(px.line(apartment_reits_close_df,
     #                         # ['apartment_avg']
@@ -1182,11 +1184,11 @@ with tab_4:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                mall_data_dict[ticker] = mall_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        mall_data_dict[ticker] = mall_data_dict[ticker].iloc[1:61, [0, 1]]
+        mall_data_dict[ticker].index = mall_data_dict[ticker][0]
+        mall_data_dict[ticker].drop(columns=[0], inplace=True)
+        mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in mall:
         mall_yf_data[i] = yahoo_data_dict[i]
@@ -1206,11 +1208,11 @@ with tab_5:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                strip_center_data_dict[ticker] = strip_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
+        strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
+        strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
+        strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     ## JACKED UP ?? WHICH TICKER ?? ##
     # for i in strip_center:
@@ -1236,14 +1238,14 @@ with tab_6:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                net_lease_data_dict[ticker] = net_lease_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        net_lease_data_dict[ticker] = net_lease_data_dict[ticker].iloc[1:61, [0, 1]]
+        net_lease_data_dict[ticker].index = net_lease_data_dict[ticker][0]
+        net_lease_data_dict[ticker].drop(columns=[0], inplace=True)
+        net_lease_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in net_lease:
-        net_lease_yf_data[i] = yahoo_data_dict[i]
+        net_lease_yf_data[i] = net_lease_data_dict[i]
 
     st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1260,14 +1262,14 @@ with tab_7:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                industrial_data_dict[ticker] = industrial_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
+        industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
+        industrial_data_dict[ticker].drop(columns=[0], inplace=True)
+        industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in industrial:
-        industrial_yf_data[i] = yahoo_data_dict[i]
+        industrial_yf_data[i] = industrial_data_dict[i]
 
     st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1284,14 +1286,14 @@ with tab_8:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                self_storage_data_dict[ticker] = self_storage_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        self_storage_data_dict[ticker] = self_storage_data_dict[ticker].iloc[1:61, [0, 1]]
+        self_storage_data_dict[ticker].index = self_storage_data_dict[ticker][0]
+        self_storage_data_dict[ticker].drop(columns=[0], inplace=True)
+        self_storage_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in self_storage:
-        self_storage_yf_data[i] = yahoo_data_dict[i]
+        self_storage_yf_data[i] = self_storage_data_dict[i]
 
 
     st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
@@ -1309,14 +1311,14 @@ with tab_9:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                data_center_data_dict[ticker] = data_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        data_center_data_dict[ticker] = data_center_data_dict[ticker].iloc[1:61, [0, 1]]
+        data_center_data_dict[ticker].index = data_center_data_dict[ticker][0]
+        data_center_data_dict[ticker].drop(columns=[0], inplace=True)
+        data_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in data_center:
-        data_center_yf_data[i] = yahoo_data_dict[i]
+        data_center_yf_data[i] = data_center_data_dict[i]
 
     st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1333,14 +1335,14 @@ with tab_10:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                healthcare_data_dict[ticker] = healthcare_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        healthcare_data_dict[ticker] = healthcare_data_dict[ticker].iloc[1:61, [0, 1]]
+        healthcare_data_dict[ticker].index = healthcare_data_dict[ticker][0]
+        healthcare_data_dict[ticker].drop(columns=[0], inplace=True)
+        healthcare_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in healthcare:
-        healthcare_yf_data[i] = yahoo_data_dict[i]
+        healthcare_yf_data[i] = healthcare_data_dict[i]
 
     st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
