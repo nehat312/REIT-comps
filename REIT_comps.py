@@ -1081,7 +1081,7 @@ with tab_1:
     for i in apartment:
         apartment_yf_data[i] = apartment_data_dict[i]
 
-    ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
+    # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
     #     if ticker_submit:
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
