@@ -287,8 +287,17 @@ ext_yahoo_url = 'key-statistics?p='
 
 #%%
 # INITIALIZE DICTIONARY #
-yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers} # reit_tickers
-apartment_data_dict = {i : pd.DataFrame() for i in apartment} # reit_tickers
+yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers}
+apartment_data_dict = {i : pd.DataFrame() for i in apartment}
+office_data_dict = {i : pd.DataFrame() for i in office}
+hotel_data_dict = {i : pd.DataFrame() for i in hotel}
+mall_data_dict = {i : pd.DataFrame() for i in mall}
+strip_center_data_dict = {i : pd.DataFrame() for i in strip_center}
+net_lease_data_dict = {i : pd.DataFrame() for i in net_lease}
+industrial_data_dict = {i : pd.DataFrame() for i in industrial}
+self_storage_data_dict = {i : pd.DataFrame() for i in self_storage}
+data_center_data_dict = {i : pd.DataFrame() for i in data_center}
+healthcare_data_dict = {i : pd.DataFrame() for i in healthcare}
 
 #%%
 ## ALL REITS ##
@@ -1125,14 +1134,14 @@ with tab_2:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
+        office_data_dict[ticker].index = office_data_dict[ticker][0]
+        office_data_dict[ticker].drop(columns=[0], inplace=True)
+        office_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in office:
-        office_yf_data[i] = yahoo_data_dict[i]
+        office_yf_data[i] = office_data_dict[i]
 
     st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1149,14 +1158,14 @@ with tab_3:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                hotel_data_dict[ticker] = hotel_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        hotel_data_dict[ticker] = hotel_data_dict[ticker].iloc[1:61, [0, 1]]
+        hotel_data_dict[ticker].index = hotel_data_dict[ticker][0]
+        hotel_data_dict[ticker].drop(columns=[0], inplace=True)
+        hotel_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in hotel:
-        hotel_yf_data[i] = yahoo_data_dict[i]
+        hotel_yf_data[i] = hotel_data_dict[i]
 
     st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
