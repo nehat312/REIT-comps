@@ -1072,11 +1072,11 @@ with tab_1:
             for row in div0_rows:
                 div0_data = [each.text for each in row.find_all('td')]
                 temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
-        yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+                apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
+        apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
+        apartment_data_dict[ticker].drop(columns=[0], inplace=True)
+        apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in apartment:
         apartment_yf_data[i] = apartment_data_dict[i]
