@@ -1030,7 +1030,7 @@ def yahoo_finance_pull(sector):
         yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
         # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
-
+yahoo_finance_pull(apartment)
 # def display_sector_comps(df):
 #     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
 #     st.dataframe(df.style.set_table_styles(df_styles))
@@ -1140,7 +1140,7 @@ with tab_0:
     #                         height=600,
     #                         width=800,
     #                         ))
-yahoo_finance_pull(apartment)
+
 with tab_1:
     st.subheader('APARTMENT')
 
