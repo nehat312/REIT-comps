@@ -288,6 +288,7 @@ ext_yahoo_url = 'key-statistics?p='
 #%%
 # INITIALIZE DICTIONARY #
 yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers} # reit_tickers
+apartment_data_dict = {i : pd.DataFrame() for i in apartment} # reit_tickers
 
 #%%
 ## ALL REITS ##
@@ -1008,7 +1009,25 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
 
-# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+def yahoo_finance_pull(sector):
+    for ticker in sector:
+        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+        div0 = soup.find_all('div')  # [0]
+        for z in div0:
+            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+            div0_rows = z.find_all('tr')
+            for row in div0_rows:
+                div0_data = [each.text for each in row.find_all('td')]
+                temp_df = pd.DataFrame([div0_data])
+                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
+        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
+        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
+        # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
 
 # def display_sector_comps(df):
 #     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
@@ -1122,21 +1141,25 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
-    for ticker in apartment:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
+
+    yahoo_finance_pull(apartment)
+    # for ticker in apartment:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
+    #     yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
         # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+
     # current_sector_reits =
     # st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
