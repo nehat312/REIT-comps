@@ -30,7 +30,7 @@ from bs4 import BeautifulSoup
 import time
 # import r'https://raw.githubusercontent.com/nehat312/REIT-comps/main/REIT-scrape.py'
 # from REIT-scrape import *
-from
+# from ..code import REIT_scrape
 
 
 
@@ -106,14 +106,14 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR",	"AVB", "ESS", "MAA", "UDR",	"CPT", "AIV",] #, "APTS"  "BRG"
-office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"] #"CLI"
+apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] #, "APTS"  "BRG"
+office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "CDR", "SITC", "BFS"]   #"WRI", "RPAI",
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
 industrial = ["PLD", "DRE",	"FR", "EGP"]
-self_storage = ["EXR",	"CUBE",	"REXR",	"LSI"]
+self_storage = ["EXR", "CUBE", "REXR", "LSI"]
 data_center = ["EQIX", "DLR", "AMT"] #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
 
@@ -188,6 +188,18 @@ ticker_output_df = reit_financials[ticker_output_cols]
 #               '07': '3', '08': '3', '09': '3',
 #               '10': '4', '11': '4', '12': '4'}
 
+## CAPITALIZATION TABLE ##
+
+# cap_stack = ['Market Cap (intraday) ',
+#              # 'share price as of' ... ,
+#              #'Total Equity Market Capitalization',
+#              # Preferred??
+#
+#              # Total Debt Capitalization
+#              # Equity Cap + Debt Cap = Total Mkt Cap
+#              # Enterprise Value == Total Mkt Cap - Cash
+#
+#              ]
 
 
 #%%
@@ -217,10 +229,6 @@ clean_yahoo_index = ['Market Cap (intraday) ', 'Enterprise Value ', 'Shares Outs
                     'Total Cash (mrq)', 'Book Value Per Share (mrq)',
                      'Total Debt (mrq)', 'Total Debt/Equity (mrq)',
                     'Operating Cash Flow (ttm)', 'Levered Free Cash Flow (ttm)']
-
-cap_stack = ['Market Cap (intraday) ',
-
-             ]
 
 working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
                        'Enterprise Value ':'ENTERPRISE VALUE',
@@ -258,6 +266,18 @@ working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
 
                         #'Net Income Avi to Common (ttm)':'', 'Diluted EPS (ttm)':'',
 
+## CAPITALIZATION TABLE ##
+
+# cap_stack = ['Market Cap (intraday) ',
+#              # 'share price as of' ... ,
+#              #'Total Equity Market Capitalization',
+#              # Preferred??
+#
+#              # Total Debt Capitalization
+#              # Equity Cap + Debt Cap = Total Mkt Cap
+#              # Enterprise Value == Total Mkt Cap - Cash
+#
+#              ]
 
 #%%
 ## YAHOO FINANCE ##
@@ -388,19 +408,6 @@ for i in healthcare:
 
 # print(yahoo_apartment_data_new[:20])
 # print(yahoo_apartment_data_new.info())
-
-#%%
-
-## CAPITALIZATION TABLE ##
-
-    # PRICE
-    # Total Equity Mkt Capitalization
-    # Preferred??
-
-    # Total Debt Capitalization
-    # Equity Cap + Debt Cap = Total Mkt Cap
-    # Enterprise Value == Total Mkt Cap - Cash
-
 
 #%%
 # STOCK PRICE TRADING HISTORY
@@ -541,14 +548,12 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 ## VARIABLE ASSIGNMENT ##
 all_reits_close = all_reits_trading['Close']
 all_reits_close_df = pd.DataFrame(all_reits_close)
-all_reits_open = all_reits_trading['Open']
 all_reits_volume = all_reits_trading['Volume']
 
 apartment_reits_close = apartment_reits_trading['Close']
 apartment_reits_close['apartment_avg'] = apartment_reits_close.mean(axis=1)
 # apartment_reits_close.mean(axis=1, out=apartment_reits_close['apartment_avg'])
 apartment_reits_close_df = pd.DataFrame(apartment_reits_close)
-apartment_reits_open = apartment_reits_trading['Open']
 apartment_reits_volume = apartment_reits_trading['Volume']
 # apartment_reits_close['ticker'] = apartment_reits_close.index
 # apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
@@ -557,55 +562,46 @@ apartment_reits_volume = apartment_reits_trading['Volume']
 office_reits_close = office_reits_trading['Close']
 office_reits_close['office_avg'] = office_reits_close.mean(axis=1)
 office_reits_close_df = pd.DataFrame(office_reits_close)
-office_reits_open = office_reits_trading['Open']
 office_reits_volume = office_reits_trading['Volume']
 
 hotel_reits_close = hotel_reits_trading['Close']
 hotel_reits_close['hotel_avg'] = hotel_reits_close.mean(axis=1)
 hotel_reits_close_df = pd.DataFrame(hotel_reits_close)
-hotel_reits_open = hotel_reits_trading['Open']
 hotel_reits_volume = hotel_reits_trading['Volume']
 
 mall_reits_close = mall_reits_trading['Close']
 mall_reits_close['mall_avg'] = mall_reits_close.mean(axis=1)
 mall_reits_close_df = pd.DataFrame(mall_reits_close)
-mall_reits_open = mall_reits_trading['Open']
 mall_reits_volume = mall_reits_trading['Volume']
 
 strip_center_reits_close = strip_center_reits_trading['Close']
 strip_center_reits_close['strip_center_avg'] = strip_center_reits_close.mean(axis=1)
 strip_center_reits_close_df = pd.DataFrame(strip_center_reits_close)
-strip_center_reits_open = strip_center_reits_trading['Open']
 strip_center_reits_volume = strip_center_reits_trading['Volume']
 
 net_lease_reits_close = net_lease_reits_trading['Close']
 net_lease_reits_close['net_lease_avg'] = net_lease_reits_close.mean(axis=1)
 net_lease_reits_close_df = pd.DataFrame(net_lease_reits_close)
-net_lease_reits_open = net_lease_reits_trading['Open']
 net_lease_reits_volume = net_lease_reits_trading['Volume']
 
 industrial_reits_close = industrial_reits_trading['Close']
 industrial_reits_close['industrial_avg'] = industrial_reits_close.mean(axis=1)
 industrial_reits_close_df = pd.DataFrame(industrial_reits_close)
-industrial_reits_open = industrial_reits_trading['Open']
 industrial_reits_volume = industrial_reits_trading['Volume']
 
 self_storage_reits_close = self_storage_reits_trading['Close']
 self_storage_reits_close['self_storage_avg'] = self_storage_reits_close.mean(axis=1)
 self_storage_reits_close_df = pd.DataFrame(self_storage_reits_close)
-self_storage_reits_open = self_storage_reits_trading['Open']
 self_storage_reits_volume = self_storage_reits_trading['Volume']
 
 data_center_reits_close = data_center_reits_trading['Close']
 data_center_reits_close['data_center_avg'] = data_center_reits_close.mean(axis=1)
 data_center_reits_close_df = pd.DataFrame(data_center_reits_close)
-data_center_reits_open = data_center_reits_trading['Open']
 data_center_reits_volume = data_center_reits_trading['Volume']
 
 healthcare_reits_close = healthcare_reits_trading['Close']
 healthcare_reits_close['healthcare_avg'] = healthcare_reits_close.mean(axis=1)
 healthcare_reits_close_df = pd.DataFrame(healthcare_reits_close)
-healthcare_reits_open = healthcare_reits_trading['Open']
 healthcare_reits_volume = healthcare_reits_trading['Volume']
 
 
@@ -892,11 +888,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                                  # width=600,
 #                                  )
 
-# reit_density_map = px.density_contour(ticker_output_df,
-#                                    title='REIT ',
-#                                    labels=chart_labels,
-#                                    )
-
 
 # scatter_3d_1 = px.scatter_3d(reit_financials,
 #                              x=reit_financials['ra'],
@@ -952,10 +943,8 @@ th_props = [('font-size', '12px'),
             ]
 
 td_props = [('font-size', '12px'),
-            # ('text-align', 'center'),
-            # ('font-weight', 'bold'),
-            # ('color', '#EBEDE9'), #6d6d6d #29609C
-            # ('background-color', '#29609C') #f7f7f9
+            # ('text-align', 'center'),     # ('font-weight', 'bold'),
+            # ('color', '#EBEDE9'), #6d6d6d #29609C     # ('background-color', '#29609C') #f7f7f9
             ]
 
 df_styles = [dict(selector="th", props=th_props),
@@ -1169,7 +1158,7 @@ with tab_4:
 
 with tab_5:
     st.subheader('STRIP CENTER REITS')
-    st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_6:
     st.subheader('NET LEASE REITS')
