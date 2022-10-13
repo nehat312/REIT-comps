@@ -28,7 +28,10 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 import time
-import r'https://raw.githubusercontent.com/nehat312/REIT-comps/main/REIT-scrape.py'
+# import r'https://raw.githubusercontent.com/nehat312/REIT-comps/main/REIT-scrape.py'
+# from REIT-scrape import *
+from REIT-comps import
+/Users/nehat312/GitHub/REIT-comps
 
 
 # import tensorflow_technical_indicators as tfti
