@@ -28,7 +28,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 import time
-# import
+import r'https://raw.githubusercontent.com/nehat312/REIT-comps/main/REIT-scrape.py'
 
 
 # import tensorflow_technical_indicators as tfti
@@ -84,7 +84,7 @@ reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer
 
 #%%
 ## DATA SCRAPE IMPORT ##
-reit_scrape_path = current_path + '/REIT-scrape.py'
+# reit_scrape_path = current_path + '/REIT-scrape.py'
 # %run reit_scrape_path
 # %cd $abspath_util_deep
 
