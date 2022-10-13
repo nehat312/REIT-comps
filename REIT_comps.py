@@ -290,27 +290,28 @@ ext_yahoo_url = 'key-statistics?p='
 yahoo_data_dict = {i : pd.DataFrame() for i in reit_tickers} # reit_tickers
 
 #%%
-## APARTMENT ##
-for ticker in reit_tickers:
-    yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
-    div0 = soup.find_all('div') #[0]
-    for z in div0:
-        div0_cols = z.find_all('th') #[each.text for each in z.find_all('th')]
-        div0_rows = z.find_all('tr')
-        for row in div0_rows:
-            div0_data = [each.text for each in row.find_all('td')]
-            temp_df = pd.DataFrame([div0_data])
-            yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
-    yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
-    yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
+## ALL REITS ##
+# for ticker in reit_tickers:
+#     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+#     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')   #r.content,'lxml'     #.text,'html.parser'
+#     div0 = soup.find_all('div') #[0]
+#     for z in div0:
+#         div0_cols = z.find_all('th') #[each.text for each in z.find_all('th')]
+#         div0_rows = z.find_all('tr')
+#         for row in div0_rows:
+#             div0_data = [each.text for each in row.find_all('td')]
+#             temp_df = pd.DataFrame([div0_data])
+#             yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+#     yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
+#     yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
+#     yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
+
     # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
 
 
 #%%
-yahoo_all_reits = yahoo_data_dict
+# yahoo_all_reits = yahoo_data_dict
 
 # print(yahoo_all_reits['EQR'])
 # print(yahoo_all_reits['EQR'][:65])
@@ -333,16 +334,16 @@ healthcare_yf_data = pd.DataFrame()
 
 
 #%%
-print(industrial_yf_data)
+# print(industrial_yf_data)
 
 #%%
-for i in apartment:
-    apartment_yf_data[i] = yahoo_data_dict[i]
+# for i in apartment:
+#     apartment_yf_data[i] = yahoo_data_dict[i]
     # apartment_yf_data[i] = apartment_yf_data[i].loc[:, [1]]
     # apartment_yf_data = apartment_yf_data.iloc[1:, :]
 
-for i in office:
-    office_yf_data[i] = yahoo_data_dict[i]
+# for i in office:
+#     office_yf_data[i] = yahoo_data_dict[i]
     # office_yf_data[i] = office_yf_data[i].loc[:, [1]]
     # office_yf_data = office_yf_data.iloc[1:, :]
 
@@ -356,38 +357,45 @@ for i in office:
 # print(strip_center_yf_data)
 
 
-for i in net_lease:
-    net_lease_yf_data[i] = yahoo_data_dict[i]
+# for i in net_lease:
+#     net_lease_yf_data[i] = yahoo_data_dict[i]
+
     # net_lease_yf_data[i] = net_lease_yf_data[i].loc[:, [1]]
     # net_lease_yf_data = net_lease_yf_data.iloc[1:, :]
 
-for i in mall:
-    mall_yf_data[i] = yahoo_data_dict[i]
+# for i in mall:
+#     mall_yf_data[i] = yahoo_data_dict[i]
+
     # mall_yf_data[i] = mall_yf_data[i].loc[:, [1]]
     # mall_yf_data = mall_yf_data.iloc[1:, :]
 
-for i in hotel:
-    hotel_yf_data[i] = yahoo_data_dict[i]
+# for i in hotel:
+#     hotel_yf_data[i] = yahoo_data_dict[i]
+
     # hotel_yf_data[i] = hotel_yf_data[i].loc[:, [1]]
     # hotel_yf_data = hotel_yf_data.iloc[1:, :]
 
-for i in data_center:
-    data_center_yf_data[i] = yahoo_data_dict[i]
+# for i in data_center:
+#     data_center_yf_data[i] = yahoo_data_dict[i]
+
     # data_center_yf_data[i] = data_center_yf_data[i].loc[:, [1]]
     # data_center_yf_data = data_center_yf_data.iloc[1:, :]
 
-for i in industrial:
-    industrial_yf_data[i] = yahoo_data_dict[i]
+# for i in industrial:
+#     industrial_yf_data[i] = yahoo_data_dict[i]
+
     # industrial_yf_data[i] = industrial_yf_data[i].loc[:, [1]]
     # industrial_yf_data = industrial_yf_data.iloc[1:, :]
 
-for i in self_storage:
-    self_storage_yf_data[i] = yahoo_data_dict[i]
+# for i in self_storage:
+#     self_storage_yf_data[i] = yahoo_data_dict[i]
+
     # self_storage_yf_data[i] = self_storage_yf_data[i].loc[:, [1]]
     # self_storage_yf_data = self_storage_yf_data.iloc[1:, :]
 
-for i in healthcare:
-    healthcare_yf_data[i] = yahoo_data_dict[i]
+# for i in healthcare:
+#     healthcare_yf_data[i] = yahoo_data_dict[i]
+
     # healthcare_yf_data[i] = healthcare_yf_data[i].loc[:, [1]]
     # healthcare_yf_data = healthcare_yf_data.iloc[1:, :]
 
@@ -1114,9 +1122,28 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
+    for ticker in apartment:
+        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+        div0 = soup.find_all('div')  # [0]
+        for z in div0:
+            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+            div0_rows = z.find_all('tr')
+            for row in div0_rows:
+                div0_data = [each.text for each in row.find_all('td')]
+                temp_df = pd.DataFrame([div0_data])
+                yahoo_data_dict[ticker] = yahoo_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+        yahoo_data_dict[ticker] = yahoo_data_dict[ticker].iloc[1:61, [0, 1]]
+        yahoo_data_dict[ticker].index = yahoo_data_dict[ticker][0]
+        yahoo_data_dict[ticker].drop(columns=[0], inplace=True)
+        # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
     # current_sector_reits =
     # st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
+
+    for i in apartment:
+        apartment_yf_data[i] = yahoo_data_dict[i]
+
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     # st.plotly_chart(px.line(apartment_reits_close_df,
