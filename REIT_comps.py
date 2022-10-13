@@ -999,7 +999,14 @@ ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+# def display_sector_comps(df):
+#     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
+#     st.dataframe(df.style.set_table_styles(df_styles))
+#
+
 
 # def display_ticker_stats(ticker_input):
 #     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
@@ -1024,10 +1031,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #             width=600,
 #             )
 
-# def display_sector_comps(df):
-#     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-#     st.dataframe(df.style.set_table_styles(df_styles))
-#
+
 #
 # def display_sector_stats(sector_input1):
 #     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
