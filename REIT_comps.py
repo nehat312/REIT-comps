@@ -951,8 +951,10 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 th_props = [('font-size', '12px'),
             ('text-align', 'center'),
             ('font-weight', 'bold'),
-            ('color', '#EBEDE9'), #6d6d6d #29609C
-            ('background-color', '#29609C') #f7f7f9
+            ('color', "#438029"), ## '#EBEDE9' light green?     #6d6d6d #29609C
+            ('background-color', '#29609C'), #f7f7f9
+            ('word-wrap', 'break-word'),
+            ('max-width', '150px')
             ]
 
 td_props = [('font-size', '12px'),
@@ -1167,7 +1169,7 @@ with tab_1:
     for i in apartment:
         apartment_yf_data[i] = yahoo_data_dict[i]
 
-    st.dataframe(apartment_yf_data.T.style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
     # st.line_chart(apartment_yf_data, x=)
 
     # st.plotly_chart(px.line(apartment_reits_close_df,
