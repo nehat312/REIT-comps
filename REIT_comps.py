@@ -1167,7 +1167,8 @@ with tab_1:
     for i in apartment:
         apartment_yf_data[i] = yahoo_data_dict[i]
 
-    st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(apartment_yf_data.T.style.format(col_format_dict).set_table_styles(df_styles))
+    # st.line_chart(apartment_yf_data, x=)
 
     # st.plotly_chart(px.line(apartment_reits_close_df,
     #                         # ['apartment_avg']
