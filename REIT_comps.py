@@ -331,6 +331,10 @@ industrial_yf_data = pd.DataFrame()
 self_storage_yf_data = pd.DataFrame()
 healthcare_yf_data = pd.DataFrame()
 
+
+#%%
+print(industrial_yf_data)
+
 #%%
 for i in apartment:
     apartment_yf_data[i] = yahoo_data_dict[i]
@@ -546,78 +550,78 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 
 #%%
 ## VARIABLE ASSIGNMENT ##
-all_reits_close = all_reits_trading['Close']
-all_reits_close_df = pd.DataFrame(all_reits_close)
-all_reits_volume = all_reits_trading['Volume']
-
-apartment_reits_close = apartment_reits_trading['Close']
-apartment_reits_close['apartment_avg'] = apartment_reits_close.mean(axis=1)
-# apartment_reits_close.mean(axis=1, out=apartment_reits_close['apartment_avg'])
-apartment_reits_close_df = pd.DataFrame(apartment_reits_close)
-apartment_reits_volume = apartment_reits_trading['Volume']
-# apartment_reits_close['ticker'] = apartment_reits_close.index
-# apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
-
-
-office_reits_close = office_reits_trading['Close']
-office_reits_close['office_avg'] = office_reits_close.mean(axis=1)
-office_reits_close_df = pd.DataFrame(office_reits_close)
-office_reits_volume = office_reits_trading['Volume']
-
-hotel_reits_close = hotel_reits_trading['Close']
-hotel_reits_close['hotel_avg'] = hotel_reits_close.mean(axis=1)
-hotel_reits_close_df = pd.DataFrame(hotel_reits_close)
-hotel_reits_volume = hotel_reits_trading['Volume']
-
-mall_reits_close = mall_reits_trading['Close']
-mall_reits_close['mall_avg'] = mall_reits_close.mean(axis=1)
-mall_reits_close_df = pd.DataFrame(mall_reits_close)
-mall_reits_volume = mall_reits_trading['Volume']
-
-strip_center_reits_close = strip_center_reits_trading['Close']
-strip_center_reits_close['strip_center_avg'] = strip_center_reits_close.mean(axis=1)
-strip_center_reits_close_df = pd.DataFrame(strip_center_reits_close)
-strip_center_reits_volume = strip_center_reits_trading['Volume']
-
-net_lease_reits_close = net_lease_reits_trading['Close']
-net_lease_reits_close['net_lease_avg'] = net_lease_reits_close.mean(axis=1)
-net_lease_reits_close_df = pd.DataFrame(net_lease_reits_close)
-net_lease_reits_volume = net_lease_reits_trading['Volume']
-
-industrial_reits_close = industrial_reits_trading['Close']
-industrial_reits_close['industrial_avg'] = industrial_reits_close.mean(axis=1)
-industrial_reits_close_df = pd.DataFrame(industrial_reits_close)
-industrial_reits_volume = industrial_reits_trading['Volume']
-
-self_storage_reits_close = self_storage_reits_trading['Close']
-self_storage_reits_close['self_storage_avg'] = self_storage_reits_close.mean(axis=1)
-self_storage_reits_close_df = pd.DataFrame(self_storage_reits_close)
-self_storage_reits_volume = self_storage_reits_trading['Volume']
-
-data_center_reits_close = data_center_reits_trading['Close']
-data_center_reits_close['data_center_avg'] = data_center_reits_close.mean(axis=1)
-data_center_reits_close_df = pd.DataFrame(data_center_reits_close)
-data_center_reits_volume = data_center_reits_trading['Volume']
-
-healthcare_reits_close = healthcare_reits_trading['Close']
-healthcare_reits_close['healthcare_avg'] = healthcare_reits_close.mean(axis=1)
-healthcare_reits_close_df = pd.DataFrame(healthcare_reits_close)
-healthcare_reits_volume = healthcare_reits_trading['Volume']
-
-
-#%%
-all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], office_reits_close['office_avg'], hotel_reits_close['hotel_avg'],
-                                mall_reits_close['mall_avg'], strip_center_reits_close['strip_center_avg'], net_lease_reits_close['net_lease_avg'],
-                                industrial_reits_close['industrial_avg'], self_storage_reits_close['self_storage_avg'],
-                                data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
-
-    # pd.concat([apartment_reits_close['apartment_avg'], office_reits_close['office_avg']], ignore_index=False, axis=0)
-                                # hotel_reits_close['hotel_avg'],
-                                # mall_reits_close['mall_avg'], strip_center_reits_close['strip_center_avg'], net_lease_reits_close['net_lease_avg'],
-                                # industrial_reits_close['industrial_avg'], self_storage_reits_close['self_storage_avg'],
-                                # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
-
-all_sectors_close_df = all_sectors_close_df.T
+# all_reits_close = all_reits_trading['Close']
+# all_reits_close_df = pd.DataFrame(all_reits_close)
+# all_reits_volume = all_reits_trading['Volume']
+#
+# apartment_reits_close = apartment_reits_trading['Close']
+# apartment_reits_close['apartment_avg'] = apartment_reits_close.mean(axis=1)
+# # apartment_reits_close.mean(axis=1, out=apartment_reits_close['apartment_avg'])
+# apartment_reits_close_df = pd.DataFrame(apartment_reits_close)
+# apartment_reits_volume = apartment_reits_trading['Volume']
+# # apartment_reits_close['ticker'] = apartment_reits_close.index
+# # apartment_reits_close['sector'] = apartment_reits_close['ticker'].map(sector_dict)
+#
+#
+# office_reits_close = office_reits_trading['Close']
+# office_reits_close['office_avg'] = office_reits_close.mean(axis=1)
+# office_reits_close_df = pd.DataFrame(office_reits_close)
+# office_reits_volume = office_reits_trading['Volume']
+#
+# hotel_reits_close = hotel_reits_trading['Close']
+# hotel_reits_close['hotel_avg'] = hotel_reits_close.mean(axis=1)
+# hotel_reits_close_df = pd.DataFrame(hotel_reits_close)
+# hotel_reits_volume = hotel_reits_trading['Volume']
+#
+# mall_reits_close = mall_reits_trading['Close']
+# mall_reits_close['mall_avg'] = mall_reits_close.mean(axis=1)
+# mall_reits_close_df = pd.DataFrame(mall_reits_close)
+# mall_reits_volume = mall_reits_trading['Volume']
+#
+# strip_center_reits_close = strip_center_reits_trading['Close']
+# strip_center_reits_close['strip_center_avg'] = strip_center_reits_close.mean(axis=1)
+# strip_center_reits_close_df = pd.DataFrame(strip_center_reits_close)
+# strip_center_reits_volume = strip_center_reits_trading['Volume']
+#
+# net_lease_reits_close = net_lease_reits_trading['Close']
+# net_lease_reits_close['net_lease_avg'] = net_lease_reits_close.mean(axis=1)
+# net_lease_reits_close_df = pd.DataFrame(net_lease_reits_close)
+# net_lease_reits_volume = net_lease_reits_trading['Volume']
+#
+# industrial_reits_close = industrial_reits_trading['Close']
+# industrial_reits_close['industrial_avg'] = industrial_reits_close.mean(axis=1)
+# industrial_reits_close_df = pd.DataFrame(industrial_reits_close)
+# industrial_reits_volume = industrial_reits_trading['Volume']
+#
+# self_storage_reits_close = self_storage_reits_trading['Close']
+# self_storage_reits_close['self_storage_avg'] = self_storage_reits_close.mean(axis=1)
+# self_storage_reits_close_df = pd.DataFrame(self_storage_reits_close)
+# self_storage_reits_volume = self_storage_reits_trading['Volume']
+#
+# data_center_reits_close = data_center_reits_trading['Close']
+# data_center_reits_close['data_center_avg'] = data_center_reits_close.mean(axis=1)
+# data_center_reits_close_df = pd.DataFrame(data_center_reits_close)
+# data_center_reits_volume = data_center_reits_trading['Volume']
+#
+# healthcare_reits_close = healthcare_reits_trading['Close']
+# healthcare_reits_close['healthcare_avg'] = healthcare_reits_close.mean(axis=1)
+# healthcare_reits_close_df = pd.DataFrame(healthcare_reits_close)
+# healthcare_reits_volume = healthcare_reits_trading['Volume']
+#
+#
+# #%%
+# all_sectors_close_df = pd.DataFrame([apartment_reits_close['apartment_avg'], office_reits_close['office_avg'], hotel_reits_close['hotel_avg'],
+#                                 mall_reits_close['mall_avg'], strip_center_reits_close['strip_center_avg'], net_lease_reits_close['net_lease_avg'],
+#                                 industrial_reits_close['industrial_avg'], self_storage_reits_close['self_storage_avg'],
+#                                 data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
+#
+#     # pd.concat([apartment_reits_close['apartment_avg'], office_reits_close['office_avg']], ignore_index=False, axis=0)
+#                                 # hotel_reits_close['hotel_avg'],
+#                                 # mall_reits_close['mall_avg'], strip_center_reits_close['strip_center_avg'], net_lease_reits_close['net_lease_avg'],
+#                                 # industrial_reits_close['industrial_avg'], self_storage_reits_close['self_storage_avg'],
+#                                 # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
+#
+# all_sectors_close_df = all_sectors_close_df.T
 
 
 #%%
@@ -815,34 +819,34 @@ chart_labels = {'apartment':'APARTMENT',
 
 #%%
 ## VISUALIZATIONS ##
-reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
-                                     dimensions=scatter_cols_5x5,
-                                     color=ticker_output_df['sector'],
-                                     # color_continuous_scale=Temps,
-                                     # color_discrete_sequence=Temps,
-                                     color_discrete_map=sector_colors,
-                                     hover_name=ticker_output_df['company'],
-                                     hover_data=ticker_output_df[['sector','reportPeriod',]],
-                                     title='REIT COMPS SCATTER MATRIX',
-                                     labels=chart_labels,
-                                 height=1000,
-                                 width=1000,
-                                 )
-
-sector_market_cap_line = px.line(ticker_output_df,
-                                 x=ticker_output_df['reportPeriod'],
-                                 y=ticker_output_df['marketCapitalization'],
-                                 color=ticker_output_df['sector'],
-                                 # color_continuous_scale=Ice_r,
-                                 color_discrete_sequence=Ice_r,
-                                 color_discrete_map=sector_colors,
-                                 hover_name=ticker_output_df['company'],
-                                 hover_data=ticker_output_df[['sector','reportPeriod']],
-                                 title='REIT SECTORS MARKET CAPITALIZATION',
-                                 labels=chart_labels,
-                                 height=1000,
-                                 width=1000,
-                                 )
+# reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
+#                                      dimensions=scatter_cols_5x5,
+#                                      color=ticker_output_df['sector'],
+#                                      # color_continuous_scale=Temps,
+#                                      # color_discrete_sequence=Temps,
+#                                      color_discrete_map=sector_colors,
+#                                      hover_name=ticker_output_df['company'],
+#                                      hover_data=ticker_output_df[['sector','reportPeriod',]],
+#                                      title='REIT COMPS SCATTER MATRIX',
+#                                      labels=chart_labels,
+#                                  height=1000,
+#                                  width=1000,
+#                                  )
+#
+# sector_market_cap_line = px.line(ticker_output_df,
+#                                  x=ticker_output_df['reportPeriod'],
+#                                  y=ticker_output_df['marketCapitalization'],
+#                                  color=ticker_output_df['sector'],
+#                                  # color_continuous_scale=Ice_r,
+#                                  color_discrete_sequence=Ice_r,
+#                                  color_discrete_map=sector_colors,
+#                                  hover_name=ticker_output_df['company'],
+#                                  hover_data=ticker_output_df[['sector','reportPeriod']],
+#                                  title='REIT SECTORS MARKET CAPITALIZATION',
+#                                  labels=chart_labels,
+#                                  height=1000,
+#                                  width=1000,
+#                                  )
 
 # ticker_price_line = px.line(ticker_output_df[ticker_input],
 #                                  x=ticker_output_df['reportPeriod'],
@@ -997,9 +1001,9 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 
 @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 
-def display_ticker_stats(ticker_input):
-    display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-    st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
+# def display_ticker_stats(ticker_input):
+#     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+#     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
 
 # def display_ticker_charts(ticker_input):
 #     x = all_reits_close.index
@@ -1020,37 +1024,37 @@ def display_ticker_stats(ticker_input):
 #             width=600,
 #             )
 
-def display_sector_comps(df):
-    # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-    st.dataframe(df.style.set_table_styles(df_styles))
-
-
-def display_sector_stats(sector_input1):
-    display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
-    # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-    st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
-    # .applymap(color_negative_red, subset=[''])
-    # .highlight_max(subset=[''])
-    # .set_caption(f'CUSTOM CAPTION')
-
-def display_sector_charts(sector_input2):
-    x = all_reits_close.index
-    y = all_reits_close[ticker_input]
-    px.line(x, y,
-        #all_reits_close[{ticker_input}],
-            # x=ticker_output_df['reportPeriod'],
-            # y=ticker_output_df['marketCapitalization'],
-            # color=ticker_output_df['sector'],
-            # # color_continuous_scale=Electric,
-            # color_discrete_sequence=Electric,
-            # color_discrete_map=sector_colors,
-            # hover_name=ticker_output_df['company'],
-            # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-            # title=f'{ticker_input} SHARE PRICE',
-            labels=chart_labels,
-            height=1000,
-            width=1000,
-            )
+# def display_sector_comps(df):
+#     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
+#     st.dataframe(df.style.set_table_styles(df_styles))
+#
+#
+# def display_sector_stats(sector_input1):
+#     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
+#     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+#     st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
+#     # .applymap(color_negative_red, subset=[''])
+#     # .highlight_max(subset=[''])
+#     # .set_caption(f'CUSTOM CAPTION')
+#
+# def display_sector_charts(sector_input2):
+#     x = all_reits_close.index
+#     y = all_reits_close[ticker_input]
+#     px.line(x, y,
+#         #all_reits_close[{ticker_input}],
+#             # x=ticker_output_df['reportPeriod'],
+#             # y=ticker_output_df['marketCapitalization'],
+#             # color=ticker_output_df['sector'],
+#             # # color_continuous_scale=Electric,
+#             # color_discrete_sequence=Electric,
+#             # color_discrete_map=sector_colors,
+#             # hover_name=ticker_output_df['company'],
+#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+#             # title=f'{ticker_input} SHARE PRICE',
+#             labels=chart_labels,
+#             height=1000,
+#             width=1000,
+#             )
 
 ## DATAFRAME STYLING ##
 
@@ -1071,38 +1075,38 @@ with tab_0:
     # st.dataframe(apartment_cap_table_T)
     # st.dataframe(display_sector_comps('apartment'))
 
-    st.plotly_chart(px.line(all_sectors_close_df,
-                            # line_group=all_reits_close['sector'],
-                            # color=all_reits_close_group.columns,
-                            # color_continuous_scale=Electric,
-                            color_discrete_sequence=Ice_r,
-                            color_discrete_map=sector_colors,
-                            title=f'HISTORICAL SHARE PRICE ($)',
-                            # symbol='*',
-                            labels=chart_labels,
-                            range_x=[sidebar_start, sidebar_end],
-                            range_y=[0, 500],
-                            height=600,
-                            width=800,
-                            ))
+    # st.plotly_chart(px.line(all_sectors_close_df,
+    #                         # line_group=all_reits_close['sector'],
+    #                         # color=all_reits_close_group.columns,
+    #                         # color_continuous_scale=Electric,
+    #                         color_discrete_sequence=Ice_r,
+    #                         color_discrete_map=sector_colors,
+    #                         title=f'HISTORICAL SHARE PRICE ($)',
+    #                         # symbol='*',
+    #                         labels=chart_labels,
+    #                         range_x=[sidebar_start, sidebar_end],
+    #                         range_y=[0, 500],
+    #                         height=600,
+    #                         width=800,
+    #                         ))
 
     st.subheader('ALL REITS')
     # all_sectors_x = all_reits_close.columns,
     # mask = df.continent.isin(continents)
-    st.plotly_chart(px.line(all_reits_close_df,
-                            # line_group=all_reits_close['sector'],
-                            # color=all_reits_close_group.columns,
-                            # color_continuous_scale=Electric,
-                            color_discrete_sequence=Ice_r,
-                            color_discrete_map=sector_colors,
-                            title=f'HISTORICAL SHARE PRICE ($)',
-                            # symbol='*',
-                            labels=chart_labels,
-                            range_x=[sidebar_start, sidebar_end],
-                            # range_y=[0, 400],
-                            height=600,
-                            width=800,
-                            ))
+    # st.plotly_chart(px.line(all_reits_close_df,
+    #                         # line_group=all_reits_close['sector'],
+    #                         # color=all_reits_close_group.columns,
+    #                         # color_continuous_scale=Electric,
+    #                         color_discrete_sequence=Ice_r,
+    #                         color_discrete_map=sector_colors,
+    #                         title=f'HISTORICAL SHARE PRICE ($)',
+    #                         # symbol='*',
+    #                         labels=chart_labels,
+    #                         range_x=[sidebar_start, sidebar_end],
+    #                         # range_y=[0, 400],
+    #                         height=600,
+    #                         width=800,
+    #                         ))
 
 with tab_1:
     st.subheader('APARTMENT')
@@ -1133,13 +1137,14 @@ with tab_1:
     #     returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
     #     st.dataframe(returns)
 
-    with st.form('APARTMENT TICKER METRICS'):
-        ticker_prompt = st.subheader('SELECT TICKER:')
-        ticker_input = st.selectbox('TICKER', (apartment))
-        ticker_submit = st.form_submit_button('TICKER METRICS')
-        if ticker_submit:
+    # with st.form('APARTMENT TICKER METRICS'):
+    #     ticker_prompt = st.subheader('SELECT TICKER:')
+    #     ticker_input = st.selectbox('TICKER', (apartment))
+    #     ticker_submit = st.form_submit_button('TICKER METRICS')
+    #     if ticker_submit:
+    #
+    #         display_ticker_stats(ticker_input)
 
-            display_ticker_stats(ticker_input)
             # display_ticker_charts(ticker_input)
         # display_sector_stats('RESIDENTIAL')
 
