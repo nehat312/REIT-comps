@@ -215,10 +215,6 @@ clean_yahoo_index = ['Market Cap (intraday) ', 'Enterprise Value ', 'Shares Outs
                      'Total Debt (mrq)', 'Total Debt/Equity (mrq)',
                     'Operating Cash Flow (ttm)', 'Levered Free Cash Flow (ttm)']
 
-cap_stack = ['Market Cap (intraday) ',
-
-             ]
-
 working_sector_dict = {'Market Cap (intraday) ':'MARKET CAPITALIZATION',
                        'Enterprise Value ':'ENTERPRISE VALUE',
                        'Shares Outstanding 5':'SHARES OUTSTANDING', 'Float 8':'PUBLIC FLOAT', #'Implied Shares Outstanding 6':'',
