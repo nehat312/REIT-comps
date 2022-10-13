@@ -1079,7 +1079,7 @@ with tab_1:
         yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in apartment:
-        apartment_yf_data[i] = yahoo_data_dict[i]
+        apartment_yf_data[i] = apartment_data_dict[i]
 
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
@@ -1191,7 +1191,7 @@ with tab_4:
         mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     for i in mall:
-        mall_yf_data[i] = yahoo_data_dict[i]
+        mall_yf_data[i] = mall_data_dict[i]
 
     st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
