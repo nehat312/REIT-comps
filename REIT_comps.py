@@ -1140,11 +1140,11 @@ with tab_0:
     #                         height=600,
     #                         width=800,
     #                         ))
-
+yahoo_finance_pull(apartment)
 with tab_1:
     st.subheader('APARTMENT')
 
-    yahoo_finance_pull(apartment)
+
     # for ticker in apartment:
     #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
     #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
