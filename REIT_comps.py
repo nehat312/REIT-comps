@@ -1081,6 +1081,8 @@ with tab_1:
     for i in apartment:
         apartment_yf_data[i] = apartment_data_dict[i]
 
+    ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
+    #     if ticker_submit:
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     # st.line_chart(apartment_yf_data, x=)
@@ -1266,12 +1268,12 @@ with tab_7:
         industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
         industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
         industrial_data_dict[ticker].drop(columns=[0], inplace=True)
-        industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+        # industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
-    for i in industrial:
-        industrial_yf_data[i] = industrial_data_dict[i]
-
-    st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for i in industrial:
+    #     industrial_yf_data[i] = industrial_data_dict[i]
+    #
+    # st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_8:
     st.subheader('SELF-STORAGE REITS')
