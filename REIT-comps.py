@@ -28,6 +28,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 import time
+import
 
 
 # import tensorflow_technical_indicators as tfti
@@ -918,20 +919,6 @@ sector_market_cap_line = px.line(ticker_output_df,
 #                              width=1600,
 #                              )
 
-# disc_info_1 = px.histogram(disc_facility_filter,
-#                            y=disc_facility_filter['disc_facility'],
-#                            color=disc_facility_filter['disc_method'],
-#                            color_discrete_sequence=Ice_r,
-#                            hover_name=disc_facility_filter['pl_name'],
-#                            hover_data=disc_facility_filter[['host_name', 'disc_facility', 'disc_telescope', 'sy_star_count', 'sy_planet_count']],
-#                            # animation_frame=disc_facility_filter['disc_year'],
-#                            # animation_group=disc_facility_filter['disc_facility'],
-#                            title='EXOPLANET DISCOVERY FACILITY (BY DISCOVERY METHOD)',
-#                            labels=chart_labels,
-#                            range_x=[0,2500],
-#                            height=1000,
-#                            # width=800,
-#                            )
 
 
 #%%
