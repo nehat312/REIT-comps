@@ -891,7 +891,7 @@ th_props = [('font-size', '12px'),
             ('background-color', '#29609C'), #f7f7f9
             ('word-wrap', 'break-word'),
             ('max-width', '150px'),
-            ('min-width', '35px')
+            ('min-width', '50px')
             ]
 
 td_props = [('font-size', '12px'),
@@ -923,13 +923,13 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 ## SIDEBAR (WIP) ##
 # sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 # ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
-sidebar_header = st.sidebar.subheader('VISUALIZATION TIMEFRAME:')
-sidebar_start = st.sidebar.date_input('START DATE', before)
-sidebar_end = st.sidebar.date_input('END DATE', today)
-if sidebar_start < sidebar_end:
-    st.sidebar.success('START DATE: `%s`\n\nEND DATE: `%s`' % (sidebar_start, sidebar_end))
-else:
-    st.sidebar.error('ERROR: END DATE BEFORE START DATE')
+# sidebar_header = st.sidebar.subheader('VISUALIZATION TIMEFRAME:')
+# sidebar_start = st.sidebar.date_input('START DATE', before)
+# sidebar_end = st.sidebar.date_input('END DATE', today)
+# if sidebar_start < sidebar_end:
+#     st.sidebar.success('START DATE: `%s`\n\nEND DATE: `%s`' % (sidebar_start, sidebar_end))
+# else:
+#     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
 
 ## HEADER ##
 st.container()
@@ -1080,6 +1080,8 @@ with tab_1:
 
     for i in apartment:
         apartment_yf_data[i] = apartment_data_dict[i]
+
+    apartment_yf_data = apartment_yf_data.T
 
     # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
     #     if ticker_submit:
