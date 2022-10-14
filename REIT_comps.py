@@ -1081,11 +1081,11 @@ with tab_1:
     for i in apartment:
         apartment_yf_data[i] = apartment_data_dict[i]
 
-    apartment_yf_data_T = apartment_yf_data.T
+    # apartment_yf_data_T = apartment_yf_data.T
 
     # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
     #     if ticker_submit:
-    st.dataframe(apartment_yf_data_T.style.format(col_format_dict).set_table_styles(df_styles))
+    st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     # st.line_chart(apartment_yf_data, x=)
 
