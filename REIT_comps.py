@@ -1087,9 +1087,6 @@ with tab_1:
     #     if ticker_submit:
     st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
-    st.line_chart(apartment_yf_data, x='Total Cash (mrq)', y='Total Debt (mrq)')
-    # st.line_chart(apartment_yf_data, x='RevenuePerShare(ttm)', y='Enterprise Value/EBITDA ')
-
     # current_sector_reits =
     # st.dataframe(display_sector_comps(apartment_cap_table_T))
     # st.dataframe(apartment_stack)
