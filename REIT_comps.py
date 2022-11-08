@@ -947,7 +947,7 @@ ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 # st.write('*TBU*')
 
-# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 # def display_sector_comps(df):
 #     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
 #     st.dataframe(df.style.set_table_styles(df_styles))
@@ -1017,6 +1017,291 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
+
+def compute_tab1():
+    try:
+        for ticker in apartment:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                        drop=True)
+            apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
+            apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
+            apartment_data_dict[ticker].drop(columns=[0], inplace=True)
+            apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in apartment:
+            apartment_yf_data[i] = apartment_data_dict[i]
+
+        st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+
+def compute_tab2():
+    try:
+        for ticker in office:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                        drop=True)
+            office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
+            office_data_dict[ticker].index = office_data_dict[ticker][0]
+            office_data_dict[ticker].drop(columns=[0], inplace=True)
+            office_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in office:
+            office_yf_data[i] = office_data_dict[i]
+
+        st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab3():
+    try:
+        for ticker in hotel:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    hotel_data_dict[ticker] = hotel_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+            hotel_data_dict[ticker] = hotel_data_dict[ticker].iloc[1:61, [0, 1]]
+            hotel_data_dict[ticker].index = hotel_data_dict[ticker][0]
+            hotel_data_dict[ticker].drop(columns=[0], inplace=True)
+            hotel_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in hotel:
+            hotel_yf_data[i] = hotel_data_dict[i]
+
+        st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab4():
+    try:
+        for ticker in mall:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    mall_data_dict[ticker] = mall_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+            mall_data_dict[ticker] = mall_data_dict[ticker].iloc[1:61, [0, 1]]
+            mall_data_dict[ticker].index = mall_data_dict[ticker][0]
+            mall_data_dict[ticker].drop(columns=[0], inplace=True)
+            mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in mall:
+            mall_yf_data[i] = mall_data_dict[i]
+
+        st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab5():
+    try:
+        for ticker in strip_center:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    strip_center_data_dict[ticker] = strip_center_data_dict[ticker].append(temp_df,
+                                                                                           sort=True).reset_index(
+                        drop=True)
+            strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
+            strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
+            strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
+            strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'},
+                                                  inplace=True)  # axis='columns', '0': 'METRIC',
+
+        ## JACKED UP ?? WHICH TICKER ?? ##
+
+        # for i in strip_center:
+        #     strip_center_yf_data[i] = yahoo_data_dict[i]
+        #     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
+        #     # strip_center_yf_data = strip_center_yf_data.iloc[1:, :]
+        #
+        # print(strip_center_yf_data)
+
+        # st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab6():
+    try:
+        for ticker in net_lease:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    net_lease_data_dict[ticker] = net_lease_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                        drop=True)
+            net_lease_data_dict[ticker] = net_lease_data_dict[ticker].iloc[1:61, [0, 1]]
+            net_lease_data_dict[ticker].index = net_lease_data_dict[ticker][0]
+            net_lease_data_dict[ticker].drop(columns=[0], inplace=True)
+            net_lease_data_dict[ticker].rename(columns={'1': f'{ticker}'},
+                                               inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in net_lease:
+            net_lease_yf_data[i] = net_lease_data_dict[i]
+
+        st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab7():
+    try:
+        for ticker in industrial:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    industrial_data_dict[ticker] = industrial_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                        drop=True)
+            industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
+            industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
+            industrial_data_dict[ticker].drop(columns=[0], inplace=True)
+            # industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+        # for i in industrial:
+        #     industrial_yf_data[i] = industrial_data_dict[i]
+        #
+        # st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab8():
+    try:
+        for ticker in self_storage:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    self_storage_data_dict[ticker] = self_storage_data_dict[ticker].append(temp_df,
+                                                                                           sort=True).reset_index(
+                        drop=True)
+            self_storage_data_dict[ticker] = self_storage_data_dict[ticker].iloc[1:61, [0, 1]]
+            self_storage_data_dict[ticker].index = self_storage_data_dict[ticker][0]
+            self_storage_data_dict[ticker].drop(columns=[0], inplace=True)
+            self_storage_data_dict[ticker].rename(columns={'1': f'{ticker}'},
+                                                  inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in self_storage:
+            self_storage_yf_data[i] = self_storage_data_dict[i]
+
+        st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab9():
+    try:
+        for ticker in data_center:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    data_center_data_dict[ticker] = data_center_data_dict[ticker].append(temp_df,
+                                                                                         sort=True).reset_index(
+                        drop=True)
+            data_center_data_dict[ticker] = data_center_data_dict[ticker].iloc[1:61, [0, 1]]
+            data_center_data_dict[ticker].index = data_center_data_dict[ticker][0]
+            data_center_data_dict[ticker].drop(columns=[0], inplace=True)
+            data_center_data_dict[ticker].rename(columns={'1': f'{ticker}'},
+                                                 inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in data_center:
+            data_center_yf_data[i] = data_center_data_dict[i]
+
+        st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+def compute_tab10():
+    try:
+        for ticker in healthcare:
+            yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+            soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+            div0 = soup.find_all('div')  # [0]
+            for z in div0:
+                div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+                div0_rows = z.find_all('tr')
+                for row in div0_rows:
+                    div0_data = [each.text for each in row.find_all('td')]
+                    temp_df = pd.DataFrame([div0_data])
+                    healthcare_data_dict[ticker] = healthcare_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                        drop=True)
+            healthcare_data_dict[ticker] = healthcare_data_dict[ticker].iloc[1:61, [0, 1]]
+            healthcare_data_dict[ticker].index = healthcare_data_dict[ticker][0]
+            healthcare_data_dict[ticker].drop(columns=[0], inplace=True)
+            healthcare_data_dict[ticker].rename(columns={'1': f'{ticker}'},
+                                                inplace=True)  # axis='columns', '0': 'METRIC',
+
+        for i in healthcare:
+            healthcare_yf_data[i] = healthcare_data_dict[i]
+
+        st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+    except:
+        st.text('SECTOR UNDER MAINTENANCE')
+
+
+
 ## SECTOR TABS ##
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
@@ -1061,31 +1346,34 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
+    compute_tab1()
 
-    for ticker in apartment:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
-        apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
-        apartment_data_dict[ticker].drop(columns=[0], inplace=True)
-        apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    # for ticker in apartment:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
+    #     apartment_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in apartment:
+    #     apartment_yf_data[i] = apartment_data_dict[i]
 
-    for i in apartment:
-        apartment_yf_data[i] = apartment_data_dict[i]
+    # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
 
     # apartment_yf_data_T = apartment_yf_data.T
 
     # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
     #     if ticker_submit:
-    st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     # current_sector_reits =
     # st.dataframe(display_sector_comps(apartment_cap_table_T))
@@ -1127,96 +1415,101 @@ with tab_1:
 
 with tab_2:
     st.subheader('OFFICE REITS')
+    compute_tab2()
 
-    for ticker in office:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
-        office_data_dict[ticker].index = office_data_dict[ticker][0]
-        office_data_dict[ticker].drop(columns=[0], inplace=True)
-        office_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in office:
-        office_yf_data[i] = office_data_dict[i]
-
-    st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in office:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     office_data_dict[ticker].index = office_data_dict[ticker][0]
+    #     office_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     office_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in office:
+    #     office_yf_data[i] = office_data_dict[i]
+    #
+    # st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_3:
     st.subheader('HOTEL REITS')
+    compute_tab3()
 
-    for ticker in hotel:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                hotel_data_dict[ticker] = hotel_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        hotel_data_dict[ticker] = hotel_data_dict[ticker].iloc[1:61, [0, 1]]
-        hotel_data_dict[ticker].index = hotel_data_dict[ticker][0]
-        hotel_data_dict[ticker].drop(columns=[0], inplace=True)
-        hotel_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in hotel:
-        hotel_yf_data[i] = hotel_data_dict[i]
-
-    st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in hotel:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             hotel_data_dict[ticker] = hotel_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     hotel_data_dict[ticker] = hotel_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     hotel_data_dict[ticker].index = hotel_data_dict[ticker][0]
+    #     hotel_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     hotel_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in hotel:
+    #     hotel_yf_data[i] = hotel_data_dict[i]
+    #
+    # st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_4:
     st.subheader('MALL REITS')
+    compute_tab4()
 
-    for ticker in mall:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                mall_data_dict[ticker] = mall_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        mall_data_dict[ticker] = mall_data_dict[ticker].iloc[1:61, [0, 1]]
-        mall_data_dict[ticker].index = mall_data_dict[ticker][0]
-        mall_data_dict[ticker].drop(columns=[0], inplace=True)
-        mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in mall:
-        mall_yf_data[i] = mall_data_dict[i]
-
-    st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in mall:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             mall_data_dict[ticker] = mall_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     mall_data_dict[ticker] = mall_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     mall_data_dict[ticker].index = mall_data_dict[ticker][0]
+    #     mall_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in mall:
+    #     mall_yf_data[i] = mall_data_dict[i]
+    #
+    # st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_5:
     st.subheader('STRIP CENTER REITS')
+    compute_tab5()
 
-    for ticker in strip_center:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                strip_center_data_dict[ticker] = strip_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
-        strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
-        strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
-        strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    # for ticker in strip_center:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             strip_center_data_dict[ticker] = strip_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
+    #     strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     ## JACKED UP ?? WHICH TICKER ?? ##
+
     # for i in strip_center:
     #     strip_center_yf_data[i] = yahoo_data_dict[i]
     #     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
@@ -1229,45 +1522,48 @@ with tab_5:
 
 with tab_6:
     st.subheader('NET LEASE REITS')
+    compute_tab6()
 
-    for ticker in net_lease:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                net_lease_data_dict[ticker] = net_lease_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        net_lease_data_dict[ticker] = net_lease_data_dict[ticker].iloc[1:61, [0, 1]]
-        net_lease_data_dict[ticker].index = net_lease_data_dict[ticker][0]
-        net_lease_data_dict[ticker].drop(columns=[0], inplace=True)
-        net_lease_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in net_lease:
-        net_lease_yf_data[i] = net_lease_data_dict[i]
-
-    st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in net_lease:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             net_lease_data_dict[ticker] = net_lease_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     net_lease_data_dict[ticker] = net_lease_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     net_lease_data_dict[ticker].index = net_lease_data_dict[ticker][0]
+    #     net_lease_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     net_lease_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in net_lease:
+    #     net_lease_yf_data[i] = net_lease_data_dict[i]
+    #
+    # st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_7:
     st.subheader('INDUSTRIAL REITS')
+    compute_tab7()
 
-    for ticker in industrial:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                industrial_data_dict[ticker] = industrial_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
-        industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
-        industrial_data_dict[ticker].drop(columns=[0], inplace=True)
+    # for ticker in industrial:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             industrial_data_dict[ticker] = industrial_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
+    #     industrial_data_dict[ticker].drop(columns=[0], inplace=True)
+
         # industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
     # for i in industrial:
@@ -1277,76 +1573,79 @@ with tab_7:
 
 with tab_8:
     st.subheader('SELF-STORAGE REITS')
+    compute_tab8()
 
-    for ticker in self_storage:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                self_storage_data_dict[ticker] = self_storage_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        self_storage_data_dict[ticker] = self_storage_data_dict[ticker].iloc[1:61, [0, 1]]
-        self_storage_data_dict[ticker].index = self_storage_data_dict[ticker][0]
-        self_storage_data_dict[ticker].drop(columns=[0], inplace=True)
-        self_storage_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in self_storage:
-        self_storage_yf_data[i] = self_storage_data_dict[i]
-
-
-    st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in self_storage:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             self_storage_data_dict[ticker] = self_storage_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     self_storage_data_dict[ticker] = self_storage_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     self_storage_data_dict[ticker].index = self_storage_data_dict[ticker][0]
+    #     self_storage_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     self_storage_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in self_storage:
+    #     self_storage_yf_data[i] = self_storage_data_dict[i]
+    #
+    #
+    # st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_9:
     st.subheader('DATA CENTER REITS')
+    compute_tab9()
 
-    for ticker in data_center:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                data_center_data_dict[ticker] = data_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        data_center_data_dict[ticker] = data_center_data_dict[ticker].iloc[1:61, [0, 1]]
-        data_center_data_dict[ticker].index = data_center_data_dict[ticker][0]
-        data_center_data_dict[ticker].drop(columns=[0], inplace=True)
-        data_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in data_center:
-        data_center_yf_data[i] = data_center_data_dict[i]
-
-    st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in data_center:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             data_center_data_dict[ticker] = data_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     data_center_data_dict[ticker] = data_center_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     data_center_data_dict[ticker].index = data_center_data_dict[ticker][0]
+    #     data_center_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     data_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in data_center:
+    #     data_center_yf_data[i] = data_center_data_dict[i]
+    #
+    # st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_10:
     st.subheader('HEALTHCARE REITS')
+    compute_tab10()
 
-    for ticker in healthcare:
-        yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-        soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-        div0 = soup.find_all('div')  # [0]
-        for z in div0:
-            div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-            div0_rows = z.find_all('tr')
-            for row in div0_rows:
-                div0_data = [each.text for each in row.find_all('td')]
-                temp_df = pd.DataFrame([div0_data])
-                healthcare_data_dict[ticker] = healthcare_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-        healthcare_data_dict[ticker] = healthcare_data_dict[ticker].iloc[1:61, [0, 1]]
-        healthcare_data_dict[ticker].index = healthcare_data_dict[ticker][0]
-        healthcare_data_dict[ticker].drop(columns=[0], inplace=True)
-        healthcare_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    for i in healthcare:
-        healthcare_yf_data[i] = healthcare_data_dict[i]
-
-    st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+    # for ticker in healthcare:
+    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    #     div0 = soup.find_all('div')  # [0]
+    #     for z in div0:
+    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+    #         div0_rows = z.find_all('tr')
+    #         for row in div0_rows:
+    #             div0_data = [each.text for each in row.find_all('td')]
+    #             temp_df = pd.DataFrame([div0_data])
+    #             healthcare_data_dict[ticker] = healthcare_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
+    #     healthcare_data_dict[ticker] = healthcare_data_dict[ticker].iloc[1:61, [0, 1]]
+    #     healthcare_data_dict[ticker].index = healthcare_data_dict[ticker][0]
+    #     healthcare_data_dict[ticker].drop(columns=[0], inplace=True)
+    #     healthcare_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+    #
+    # for i in healthcare:
+    #     healthcare_yf_data[i] = healthcare_data_dict[i]
+    #
+    # st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 
 
