@@ -1145,16 +1145,17 @@ def compute_tab5():
             strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'},
                                                   inplace=True)  # axis='columns', '0': 'METRIC',
 
+        for i in strip_center:
+            strip_center_yf_data[i] = yahoo_data_dict[i]
+
+        st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
         ## JACKED UP ?? WHICH TICKER ?? ##
 
-        # for i in strip_center:
-        #     strip_center_yf_data[i] = yahoo_data_dict[i]
         #     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
         #     # strip_center_yf_data = strip_center_yf_data.iloc[1:, :]
         #
         # print(strip_center_yf_data)
-
-        # st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     except:
         st.text('SECTOR UNDER MAINTENANCE')
@@ -1206,10 +1207,10 @@ def compute_tab7():
             industrial_data_dict[ticker].drop(columns=[0], inplace=True)
             # industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
-        # for i in industrial:
-        #     industrial_yf_data[i] = industrial_data_dict[i]
-        #
-        # st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+        for i in industrial:
+            industrial_yf_data[i] = industrial_data_dict[i]
+
+        st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
     except:
         st.text('SECTOR UNDER MAINTENANCE')
