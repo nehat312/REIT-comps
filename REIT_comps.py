@@ -921,8 +921,6 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 ## HEADER ##
 st.container()
 
-st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
-
 ## EXTERNAL LINKS ##
 github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
 propswap_link = '[PROP/SWAP](<TBU>)'
@@ -933,6 +931,8 @@ link_col_1, link_col_2, link_col_3 = st.columns(3)
 ext_link_1 = link_col_1.markdown(github_link, unsafe_allow_html=True)
 ext_link_2 = link_col_2.markdown(propswap_link, unsafe_allow_html=True)
 ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
+
+st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 
 ## DATAFRAME STYLING ##
 
@@ -1244,7 +1244,7 @@ with tab_0:
 with tab_1:
     st.subheader('APARTMENT')
     compute_tab1()
-    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_5, apt_logo_col_6, apt_logo_col_7 = st.columns(4)
+    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_5, apt_logo_col_6, apt_logo_col_7 = st.columns(7)
     apt_logo_col_1.image(AVB_logo, caption='', width=75)
     apt_logo_col_2.image(CPT_logo, caption='', width=75)
     apt_logo_col_3.image(EQR_logo, caption='', width=75)
