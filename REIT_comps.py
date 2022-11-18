@@ -93,7 +93,13 @@ reit_financials = pd.read_csv(financials_csv, header=0, index_col='Index', infer
 
 #%%
 ## IMAGE IMPORT ##
-# jwst_tele_img_1 = Image.open('images/JWST-2.jpg')
+AVB_logo = Image.open('images/AVB-logo.png')
+CPT_logo = Image.open('images/CPT-logo.png')
+MAA_logo = Image.open('images/MAA-logo.png')
+EQR_logo = Image.open('images/EQR-logo.png')
+ESS_logo = Image.open('images/ESS-logo.png')
+AIV_logo = Image.open('images/AIV-logo.png')
+UDR_logo = Image.open('images/UDR-logo.png')
 
 #%%
 ## PRE-PROCESSING ##
@@ -106,7 +112,7 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] #, "APTS"  "BRG"
+apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS"  "BRG"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
@@ -130,6 +136,8 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "EXR",	"CUBE",	"REXR",	"LSI",
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
+
+## REIT CANDIDATES: "WHLR", "AIRC",
 
 sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	], #, "APTS" "BRG"
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
@@ -567,10 +575,8 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 #                                 # data_center_reits_close['data_center_avg'], healthcare_reits_close['healthcare_avg']])
 #
 # all_sectors_close_df = all_sectors_close_df.T
-
-
-#%%
 # all_sectors_close_df.info()
+
 
 #%%
 ## SECTOR GROUPBY -- TRADING ##
@@ -632,25 +638,6 @@ healthcare_reits_trading = yf.download(tickers = healthcare,
 # # print(apartment_cap_table_T.head())
 # print(apartment_cap_table_T)
 
-#%%
-## STACK
-# apartment_stack = apartment_cap_table_T.stack()
-# apartment_stack
-
-#%%
-## PENDING / WAITLIST ##
-
-## TOTAL RETURN ##
-    # returns = {}
-    # for stock in apartment_reits_close.columns:
-    #     apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
-        # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
-        # print(returns)
-
-## EXPORT HISTORICAL TRADING DATA ##
-## IMPORT DATA (UNIQUE DATAFRAMES FOR EACH CRE SECTOR??) ##
-## SAVE COPIES OF IMPORTS ##
-## TOOLBOX FUNCTIONS ##
 
 
 #%%
@@ -934,77 +921,18 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 ## HEADER ##
 st.container()
 
+st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
+
 ## EXTERNAL LINKS ##
 github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
 propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
+BX_APTS = '[APTS acquired by BREIT](<https://www.bizjournals.com/atlanta/news/2022/10/26/deal-preferred-apartment-communities-blackstone.html>)'
 
 link_col_1, link_col_2, link_col_3 = st.columns(3)
 ext_link_1 = link_col_1.markdown(github_link, unsafe_allow_html=True)
 ext_link_2 = link_col_2.markdown(propswap_link, unsafe_allow_html=True)
 ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
-
-st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
-# st.write('*TBU*')
-
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
-# def display_sector_comps(df):
-#     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
-#     st.dataframe(df.style.set_table_styles(df_styles))
-#
-
-
-# def display_ticker_stats(ticker_input):
-#     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
-#     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
-
-# def display_ticker_charts(ticker_input):
-#     x = all_reits_close.index
-#     y = all_reits_close[ticker_input]
-#     px.line(x, y,
-#         #all_reits_close[{ticker_input}],
-#             # x=ticker_output_df['reportPeriod'],
-#             # y=ticker_output_df['marketCapitalization'],
-#             # color=ticker_output_df['sector'],
-#             # # color_continuous_scale=Electric,
-#             # color_discrete_sequence=Electric,
-#             # color_discrete_map=sector_colors,
-#             # hover_name=ticker_output_df['company'],
-#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-#             # title=f'{ticker_input} SHARE PRICE',
-#             labels=chart_labels,
-#             height=600,
-#             width=600,
-#             )
-
-
-#
-# def display_sector_stats(sector_input1):
-#     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
-#     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
-#     st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
-#     # .applymap(color_negative_red, subset=[''])
-#     # .highlight_max(subset=[''])
-#     # .set_caption(f'CUSTOM CAPTION')
-#
-# def display_sector_charts(sector_input2):
-#     x = all_reits_close.index
-#     y = all_reits_close[ticker_input]
-#     px.line(x, y,
-#         #all_reits_close[{ticker_input}],
-#             # x=ticker_output_df['reportPeriod'],
-#             # y=ticker_output_df['marketCapitalization'],
-#             # color=ticker_output_df['sector'],
-#             # # color_continuous_scale=Electric,
-#             # color_discrete_sequence=Electric,
-#             # color_discrete_map=sector_colors,
-#             # hover_name=ticker_output_df['company'],
-#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
-#             # title=f'{ticker_input} SHARE PRICE',
-#             labels=chart_labels,
-#             height=1000,
-#             width=1000,
-#             )
 
 ## DATAFRAME STYLING ##
 
@@ -1017,7 +945,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
-
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab1():
     try:
         for ticker in apartment:
@@ -1041,6 +969,7 @@ def compute_tab1():
             apartment_yf_data[i] = apartment_data_dict[i]
 
         st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
@@ -1308,346 +1237,57 @@ tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = s
 with tab_0:
     st.subheader('ALL SECTORS')
 
-    # st.dataframe(apartment_cap_table_T)
-    # st.dataframe(display_sector_comps('apartment'))
-
-    # st.plotly_chart(px.line(all_sectors_close_df,
-    #                         # line_group=all_reits_close['sector'],
-    #                         # color=all_reits_close_group.columns,
-    #                         # color_continuous_scale=Electric,
-    #                         color_discrete_sequence=Ice_r,
-    #                         color_discrete_map=sector_colors,
-    #                         title=f'HISTORICAL SHARE PRICE ($)',
-    #                         # symbol='*',
-    #                         labels=chart_labels,
-    #                         range_x=[sidebar_start, sidebar_end],
-    #                         range_y=[0, 500],
-    #                         height=600,
-    #                         width=800,
-    #                         ))
-
-
-    # st.subheader('ALL REITS')
-    # all_sectors_x = all_reits_close.columns,
-    # mask = df.continent.isin(continents)
-    # st.plotly_chart(px.line(all_reits_close_df,
-    #                         # line_group=all_reits_close['sector'],
-    #                         # color=all_reits_close_group.columns,
-    #                         # color_continuous_scale=Electric,
-    #                         color_discrete_sequence=Ice_r,
-    #                         color_discrete_map=sector_colors,
-    #                         title=f'HISTORICAL SHARE PRICE ($)',
-    #                         # symbol='*',
-    #                         labels=chart_labels,
-    #                         range_x=[sidebar_start, sidebar_end],
-    #                         # range_y=[0, 400],
-    #                         height=600,
-    #                         width=800,
-    #                         ))
+    st.write('RECENT REIT NEWS:')
+    st.markdown(BX_APTS, unsafe_allow_html=True)
+    # st.markdown(BX_APTS, unsafe_allow_html=True)
 
 with tab_1:
     st.subheader('APARTMENT')
     compute_tab1()
-
-    # for ticker in apartment:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
-    #     apartment_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in apartment:
-    #     apartment_yf_data[i] = apartment_data_dict[i]
-
-    # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
-
-    # apartment_yf_data_T = apartment_yf_data.T
-
-    # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
-    #     if ticker_submit:
-
-    # current_sector_reits =
-    # st.dataframe(display_sector_comps(apartment_cap_table_T))
-    # st.dataframe(apartment_stack)
-
-    # st.plotly_chart(px.line(apartment_reits_close_df,
-    #                         # ['apartment_avg']
-    #                         # color=apartment_reits_close_df.columns,
-    #                         # color_continuous_scale=Electric,
-    #                         color_discrete_sequence=Ice_r,
-    #                         color_discrete_map=sector_colors,
-    #                         title=f'HISTORICAL SHARE PRICE ($)',
-    #                         # symbol='*',
-    #                         labels=chart_labels,
-    #                         range_x=[sidebar_start, sidebar_end],
-    #                         range_y=[0, 300],
-    #                         height=600,
-    #                         width=800,
-    #                         ))
-
-     # .style.format(col_format_dict).set_table_styles(df_styles))
-
-    # returns = {}
-    # for stock in apartment_reits_close.columns:
-    #     returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
-    #     st.dataframe(returns)
-
-    # with st.form('APARTMENT TICKER METRICS'):
-    #     ticker_prompt = st.subheader('SELECT TICKER:')
-    #     ticker_input = st.selectbox('TICKER', (apartment))
-    #     ticker_submit = st.form_submit_button('TICKER METRICS')
-    #     if ticker_submit:
-    #
-    #         display_ticker_stats(ticker_input)
-
-            # display_ticker_charts(ticker_input)
-        # display_sector_stats('RESIDENTIAL')
-
+    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_5, apt_logo_col_6, apt_logo_col_7 = st.columns(4)
+    apt_logo_col_1.image(AVB_logo, caption='', width=75)
+    apt_logo_col_2.image(CPT_logo, caption='', width=75)
+    apt_logo_col_3.image(EQR_logo, caption='', width=75)
+    apt_logo_col_4.image(ESS_logo, caption='', width=75)
+    apt_logo_col_5.image(MAA_logo, caption='', width=75)
+    apt_logo_col_6.image(UDR_logo, caption='', width=75)
+    apt_logo_col_7.image(AIV_logo, caption='', width=75)
 
 with tab_2:
     st.subheader('OFFICE REITS')
     compute_tab2()
 
-    # for ticker in office:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     office_data_dict[ticker].index = office_data_dict[ticker][0]
-    #     office_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     office_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in office:
-    #     office_yf_data[i] = office_data_dict[i]
-    #
-    # st.dataframe(office_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 with tab_3:
     st.subheader('HOTEL REITS')
     compute_tab3()
-
-    # for ticker in hotel:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             hotel_data_dict[ticker] = hotel_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     hotel_data_dict[ticker] = hotel_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     hotel_data_dict[ticker].index = hotel_data_dict[ticker][0]
-    #     hotel_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     hotel_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in hotel:
-    #     hotel_yf_data[i] = hotel_data_dict[i]
-    #
-    # st.dataframe(hotel_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_4:
     st.subheader('MALL REITS')
     compute_tab4()
 
-    # for ticker in mall:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             mall_data_dict[ticker] = mall_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     mall_data_dict[ticker] = mall_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     mall_data_dict[ticker].index = mall_data_dict[ticker][0]
-    #     mall_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     mall_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in mall:
-    #     mall_yf_data[i] = mall_data_dict[i]
-    #
-    # st.dataframe(mall_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 with tab_5:
     st.subheader('STRIP CENTER REITS')
     compute_tab5()
-
-    # for ticker in strip_center:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             strip_center_data_dict[ticker] = strip_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
-    #     strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    ## JACKED UP ?? WHICH TICKER ?? ##
-
-    # for i in strip_center:
-    #     strip_center_yf_data[i] = yahoo_data_dict[i]
-    #     # strip_center_yf_data[i] = strip_center_yf_data[i].loc[:, [1]]
-    #     # strip_center_yf_data = strip_center_yf_data.iloc[1:, :]
-    #
-    # print(strip_center_yf_data)
-
-
-    # st.dataframe(strip_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_6:
     st.subheader('NET LEASE REITS')
     compute_tab6()
 
-    # for ticker in net_lease:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             net_lease_data_dict[ticker] = net_lease_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     net_lease_data_dict[ticker] = net_lease_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     net_lease_data_dict[ticker].index = net_lease_data_dict[ticker][0]
-    #     net_lease_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     net_lease_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in net_lease:
-    #     net_lease_yf_data[i] = net_lease_data_dict[i]
-    #
-    # st.dataframe(net_lease_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 with tab_7:
     st.subheader('INDUSTRIAL REITS')
     compute_tab7()
-
-    # for ticker in industrial:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             industrial_data_dict[ticker] = industrial_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     industrial_data_dict[ticker] = industrial_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     industrial_data_dict[ticker].index = industrial_data_dict[ticker][0]
-    #     industrial_data_dict[ticker].drop(columns=[0], inplace=True)
-
-        # industrial_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-
-    # for i in industrial:
-    #     industrial_yf_data[i] = industrial_data_dict[i]
-    #
-    # st.dataframe(industrial_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
 with tab_8:
     st.subheader('SELF-STORAGE REITS')
     compute_tab8()
 
-    # for ticker in self_storage:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             self_storage_data_dict[ticker] = self_storage_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     self_storage_data_dict[ticker] = self_storage_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     self_storage_data_dict[ticker].index = self_storage_data_dict[ticker][0]
-    #     self_storage_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     self_storage_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in self_storage:
-    #     self_storage_yf_data[i] = self_storage_data_dict[i]
-    #
-    #
-    # st.dataframe(self_storage_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 with tab_9:
     st.subheader('DATA CENTER REITS')
     compute_tab9()
 
-    # for ticker in data_center:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             data_center_data_dict[ticker] = data_center_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     data_center_data_dict[ticker] = data_center_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     data_center_data_dict[ticker].index = data_center_data_dict[ticker][0]
-    #     data_center_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     data_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in data_center:
-    #     data_center_yf_data[i] = data_center_data_dict[i]
-    #
-    # st.dataframe(data_center_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 with tab_10:
     st.subheader('HEALTHCARE REITS')
     compute_tab10()
-
-    # for ticker in healthcare:
-    #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
-    #     soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
-    #     div0 = soup.find_all('div')  # [0]
-    #     for z in div0:
-    #         div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
-    #         div0_rows = z.find_all('tr')
-    #         for row in div0_rows:
-    #             div0_data = [each.text for each in row.find_all('td')]
-    #             temp_df = pd.DataFrame([div0_data])
-    #             healthcare_data_dict[ticker] = healthcare_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
-    #     healthcare_data_dict[ticker] = healthcare_data_dict[ticker].iloc[1:61, [0, 1]]
-    #     healthcare_data_dict[ticker].index = healthcare_data_dict[ticker][0]
-    #     healthcare_data_dict[ticker].drop(columns=[0], inplace=True)
-    #     healthcare_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
-    #
-    # for i in healthcare:
-    #     healthcare_yf_data[i] = healthcare_data_dict[i]
-    #
-    # st.dataframe(healthcare_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
-
 
 
 ## APP TERMINATION ##
@@ -1655,8 +1295,24 @@ st.stop()
 
 
 
+#%%
+## PENDING / WAITLIST ##
 
+## TOTAL RETURN ##
+    # returns = {}
+    # for stock in apartment_reits_close.columns:
+    #     apartment_reits_close[f'{stock}_return'] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+        # returns[stock] = apartment_reits_close[stock].dropna().iloc[-1] / apartment_reits_close[stock].dropna().iloc[0]
+        # print(returns)
 
+## EXPORT HISTORICAL TRADING DATA ##
+## IMPORT DATA (UNIQUE DATAFRAMES FOR EACH CRE SECTOR??) ##
+## SAVE COPIES OF IMPORTS ##
+## TOOLBOX FUNCTIONS ##
+
+#%%
+
+## SUPPLEMENTAL / BACKUP OUTPUTS ##
 
 # print(apartment_yf_data.info())
 # print(office_yf_data.info())
@@ -1701,6 +1357,108 @@ st.stop()
 #         display_ticker_stats(ticker_input)
 
 
+
+# def display_sector_comps(df):
+#     # display_sector_comps_df = pd.DataFrame(apartment_cap_table_T) #f'{sector_hardcode}_stack'
+#     st.dataframe(df.style.set_table_styles(df_styles))
+#
+
+
+# def display_ticker_stats(ticker_input):
+#     display_ticker_df = ticker_output_df.loc[ticker_output_df['ticker'] == ticker_input]
+#     st.dataframe(display_ticker_df.style.format(col_format_dict).set_table_styles(df_styles))
+
+# def display_ticker_charts(ticker_input):
+#     x = all_reits_close.index
+#     y = all_reits_close[ticker_input]
+#     px.line(x, y,
+#         #all_reits_close[{ticker_input}],
+#             # x=ticker_output_df['reportPeriod'],
+#             # y=ticker_output_df['marketCapitalization'],
+#             # color=ticker_output_df['sector'],
+#             # # color_continuous_scale=Electric,
+#             # color_discrete_sequence=Electric,
+#             # color_discrete_map=sector_colors,
+#             # hover_name=ticker_output_df['company'],
+#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+#             # title=f'{ticker_input} SHARE PRICE',
+#             labels=chart_labels,
+#             height=600,
+#             width=600,
+#             )
+
+# def display_sector_stats(sector_input1):
+#     display_sector_df = ticker_output_df.loc[ticker_output_df['sector'] == sector_input1]
+#     # display_sector_df.drop(columns=display_ticker_df, inplace=True)
+#     st.dataframe(display_sector_df.style.format(col_format_dict).set_table_styles(df_styles))
+#     # .applymap(color_negative_red, subset=[''])
+#     # .highlight_max(subset=[''])
+#     # .set_caption(f'CUSTOM CAPTION')
+#
+# def display_sector_charts(sector_input2):
+#     x = all_reits_close.index
+#     y = all_reits_close[ticker_input]
+#     px.line(x, y,
+#         #all_reits_close[{ticker_input}],
+#             # x=ticker_output_df['reportPeriod'],
+#             # y=ticker_output_df['marketCapitalization'],
+#             # color=ticker_output_df['sector'],
+#             # # color_continuous_scale=Electric,
+#             # color_discrete_sequence=Electric,
+#             # color_discrete_map=sector_colors,
+#             # hover_name=ticker_output_df['company'],
+#             # hover_data=ticker_output_df[['sector', 'reportPeriod']],
+#             # title=f'{ticker_input} SHARE PRICE',
+#             labels=chart_labels,
+#             height=1000,
+#             width=1000,
+#             )
+
+
+# apartment_yf_data_T = apartment_yf_data.T
+
+    # ticker_submit = st.form_submit_button('PULL SECTOR COMPS')
+    #     if ticker_submit:
+
+    # current_sector_reits =
+    # st.dataframe(display_sector_comps(apartment_cap_table_T))
+    # st.dataframe(apartment_stack)
+
+    # st.plotly_chart(px.line(apartment_reits_close_df,
+    #                         # ['apartment_avg']
+    #                         # color=apartment_reits_close_df.columns,
+    #                         # color_continuous_scale=Electric,
+    #                         color_discrete_sequence=Ice_r,
+    #                         color_discrete_map=sector_colors,
+    #                         title=f'HISTORICAL SHARE PRICE ($)',
+    #                         # symbol='*',
+    #                         labels=chart_labels,
+    #                         range_x=[sidebar_start, sidebar_end],
+    #                         range_y=[0, 300],
+    #                         height=600,
+    #                         width=800,
+    #                         ))
+
+     # .style.format(col_format_dict).set_table_styles(df_styles))
+
+    # returns = {}
+    # for stock in apartment_reits_close.columns:
+    #     returns[stock] = apartment_reits_close[stock].dropna().iloc[sidebar_start] / apartment_reits_close[stock].dropna().iloc[sidebar_end]
+    #     st.dataframe(returns)
+
+    # with st.form('APARTMENT TICKER METRICS'):
+    #     ticker_prompt = st.subheader('SELECT TICKER:')
+    #     ticker_input = st.selectbox('TICKER', (apartment))
+    #     ticker_submit = st.form_submit_button('TICKER METRICS')
+    #     if ticker_submit:
+    #
+    #         display_ticker_stats(ticker_input)
+
+            # display_ticker_charts(ticker_input)
+        # display_sector_stats('RESIDENTIAL')
+
+
+#%%
 
 
 ## IMAGES ## -- ## WILLARD SPONSOR? ##
