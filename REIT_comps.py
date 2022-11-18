@@ -925,7 +925,12 @@ st.container()
 github_link = '[GITHUB REPOSITORY](https://github.com/nehat312/REIT-comps/)'
 propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
+
+## RECENT NEWS ##
+BX_Nexus = '[Blackstone Nexus Malls porfolio to IPO at $3.0B valuation](<https://www.reuters.com/markets/asia/blackstones-india-malls-reit-portfolio-nexus-malls-files-ipo-2022-11-17/>)'
+Realty_Orion = '[Realty Income completes spin-off of Orion Office REIT](<https://www.realtyincome.com/investors/press-releases/realty-income-completes-spin-orion-office-reit>)'
 BX_APTS = '[APTS acquired by BREIT](<https://www.bizjournals.com/atlanta/news/2022/10/26/deal-preferred-apartment-communities-blackstone.html>)'
+
 
 link_col_1, link_col_2, link_col_3 = st.columns(3)
 ext_link_1 = link_col_1.markdown(github_link, unsafe_allow_html=True)
@@ -1243,10 +1248,13 @@ def compute_tab10():
 ## SECTOR TABS ##
 tab_0, tab_1, tab_2, tab_3, tab_4, tab_5, tab_6, tab_7, tab_8, tab_9, tab_10 = st.tabs(['ALL SECTORS', 'APARTMENT', 'OFFICE', 'HOTEL', 'MALL', 'STRIP CENTER', 'NET LEASE', 'INDUSTRIAL', 'SELF-STORAGE', 'DATA CENTER', 'HEALTHCARE'])
 with tab_0:
-    st.subheader('ALL SECTORS')
-
-    st.write('RECENT REIT NEWS:')
+    # st.subheader('ALL SECTORS')
+    st.subheader('RECENT REIT NEWS:')
+        # st.write('RECENT REIT NEWS:')
+    st.markdown(BX_Nexus, unsafe_allow_html=True)
+    st.markdown(Realty_Orion, unsafe_allow_html=True)
     st.markdown(BX_APTS, unsafe_allow_html=True)
+
     # st.markdown(BX_APTS, unsafe_allow_html=True)
 
 with tab_1:
