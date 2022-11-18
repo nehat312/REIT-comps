@@ -1251,13 +1251,13 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
-    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, = st.columns(4)
+    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_1a, apt_logo_col_1b, apt_logo_col_1c, apt_logo_col_1d, = st.columns(8)
     apt_logo_col_1.image(EQR_logo, width=75)
     apt_logo_col_2.image(AVB_logo, width=75)
     apt_logo_col_3.image(ESS_logo, width=75)
     apt_logo_col_4.image(MAA_logo, width=75)
 
-    apt_logo_col_5, apt_logo_col_6, apt_logo_col_7, apt_logo_col_8 = st.columns(4)
+    apt_logo_col_5, apt_logo_col_6, apt_logo_col_7, apt_logo_col_8, apt_logo_col_5a, apt_logo_col_5b, apt_logo_col_5c, apt_logo_col_5d, = st.columns(8)
     apt_logo_col_5.image(UDR_logo, width=75)
     apt_logo_col_6.image(CPT_logo, width=75)
     apt_logo_col_7.image(AIV_logo, width=75)
