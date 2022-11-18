@@ -112,8 +112,8 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS"  "BRG"
-office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", "VRE"] #"CLI"
+apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS"  "BRG" "VRE"
+office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", ] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"]   #"WRI", "RPAI", #"CDR",
@@ -127,7 +127,7 @@ sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease,
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
 reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS",
-               "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC", "VRE",
+               "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
                "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "SITC", "BFS", #"CDR",
@@ -137,11 +137,11 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
-## REIT CANDIDATES: "WHLR", "AIRC",
+## REIT CANDIDATES: "WHLR", "AIRC","VRE"
 
-sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	], #, "APTS" "BRG"
-               'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
-               'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
+sector_dict = {'apartment': ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV"], #, "APTS" "BRG"
+               'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC"],
+               'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR"],
                'mall': ["SPG", "MAC", "PEI"],
                'strip_center': ["REG", "FRT", "KIM", "BRX",	"AKR", "UE", "ROIC", "SITC", "BFS"], #"CDR",
                'net_lease': ["O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
@@ -945,7 +945,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
-# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab1():
     try:
         for ticker in apartment:
@@ -973,7 +973,7 @@ def compute_tab1():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab2():
     try:
         for ticker in office:
@@ -986,8 +986,7 @@ def compute_tab2():
                 for row in div0_rows:
                     div0_data = [each.text for each in row.find_all('td')]
                     temp_df = pd.DataFrame([div0_data])
-                    office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(
-                        drop=True)
+                    office_data_dict[ticker] = office_data_dict[ticker].append(temp_df, sort=True).reset_index(drop=True)
             office_data_dict[ticker] = office_data_dict[ticker].iloc[1:61, [0, 1]]
             office_data_dict[ticker].index = office_data_dict[ticker][0]
             office_data_dict[ticker].drop(columns=[0], inplace=True)
@@ -1001,6 +1000,7 @@ def compute_tab2():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab3():
     try:
         for ticker in hotel:
@@ -1027,6 +1027,7 @@ def compute_tab3():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab4():
     try:
         for ticker in mall:
@@ -1053,6 +1054,7 @@ def compute_tab4():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab5():
     try:
         for ticker in strip_center:
@@ -1089,6 +1091,7 @@ def compute_tab5():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab6():
     try:
         for ticker in net_lease:
@@ -1117,6 +1120,7 @@ def compute_tab6():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab7():
     try:
         for ticker in industrial:
@@ -1144,6 +1148,7 @@ def compute_tab7():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab8():
     try:
         for ticker in self_storage:
@@ -1173,6 +1178,7 @@ def compute_tab8():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab9():
     try:
         for ticker in data_center:
@@ -1202,6 +1208,7 @@ def compute_tab9():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
+@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab10():
     try:
         for ticker in healthcare:
@@ -1243,14 +1250,16 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
-    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_5, apt_logo_col_6, apt_logo_col_7 = st.columns(7)
-    apt_logo_col_1.image(EQR_logo, width=50)
-    apt_logo_col_2.image(AVB_logo, width=50)
-    apt_logo_col_3.image(ESS_logo, width=50)
-    apt_logo_col_4.image(MAA_logo, width=50)
-    apt_logo_col_5.image(UDR_logo, width=50)
-    apt_logo_col_6.image(CPT_logo, width=50)
-    apt_logo_col_7.image(AIV_logo, width=50)
+    apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, = st.columns(4)
+    apt_logo_col_1.image(EQR_logo, width=75)
+    apt_logo_col_2.image(AVB_logo, width=75)
+    apt_logo_col_3.image(ESS_logo, width=75)
+    apt_logo_col_4.image(MAA_logo, width=75)
+
+    apt_logo_col_5, apt_logo_col_6, apt_logo_col_7, apt_logo_col_8 = st.columns(4)
+    apt_logo_col_5.image(UDR_logo, width=75)
+    apt_logo_col_6.image(CPT_logo, width=75)
+    apt_logo_col_7.image(AIV_logo, width=75)
 
     compute_tab1()
 
