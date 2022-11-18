@@ -110,7 +110,7 @@ apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] #, "APTS"  "BRG"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", "VRE"] #"CLI"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
 mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
-strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "CDR", "SITC", "BFS"]   #"WRI", "RPAI",
+strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"]   #"WRI", "RPAI", #"CDR",
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
 industrial = ["PLD", "DRE",	"FR", "EGP"]
 self_storage = ["EXR", "CUBE", "REXR", "LSI"]
@@ -124,7 +124,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC", "VRE",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
-               "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "CDR", "SITC", "BFS",
+               "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "SITC", "BFS", #"CDR",
                "O", "WPC", "NNN", "STOR", "SRC", "PINE", "FCPT", "ADC", "EPRT",
                "PLD", "DRE", "FR", "EGP", #GTY
                "EXR",	"CUBE",	"REXR",	"LSI",
@@ -135,7 +135,7 @@ sector_dict = {'apartment': ["EQR",	"AVB", "ESS", "MAA", "UDR", "CPT",	"AIV",	],
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE",	"PDM", "WRE",	"ESRT",	"BDN", "EQC", "VRE"],
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT",	"BHR"],
                'mall': ["SPG", "MAC", "PEI"],
-               'strip_center': ["REG", "FRT",	"KIM",	"BRX",	"AKR",	"UE",	"ROIC",	"CDR",	"SITC",	"BFS"],
+               'strip_center': ["REG", "FRT", "KIM", "BRX",	"AKR", "UE", "ROIC", "SITC", "BFS"], #"CDR",
                'net_lease': ["O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
                'industrial': ["PLD", "DRE", "FR", "EGP"],
                'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
