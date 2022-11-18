@@ -1243,15 +1243,16 @@ with tab_0:
 
 with tab_1:
     st.subheader('APARTMENT')
-    compute_tab1()
     apt_logo_col_1, apt_logo_col_2, apt_logo_col_3, apt_logo_col_4, apt_logo_col_5, apt_logo_col_6, apt_logo_col_7 = st.columns(7)
-    apt_logo_col_1.image(AVB_logo, caption='', width=75)
-    apt_logo_col_2.image(CPT_logo, caption='', width=75)
-    apt_logo_col_3.image(EQR_logo, caption='', width=75)
-    apt_logo_col_4.image(ESS_logo, caption='', width=75)
-    apt_logo_col_5.image(MAA_logo, caption='', width=75)
-    apt_logo_col_6.image(UDR_logo, caption='', width=75)
-    apt_logo_col_7.image(AIV_logo, caption='', width=75)
+    apt_logo_col_1.image(EQR_logo, width=50)
+    apt_logo_col_2.image(AVB_logo, width=50)
+    apt_logo_col_3.image(ESS_logo, width=50)
+    apt_logo_col_4.image(MAA_logo, width=50)
+    apt_logo_col_5.image(UDR_logo, width=50)
+    apt_logo_col_6.image(CPT_logo, width=50)
+    apt_logo_col_7.image(AIV_logo, width=50)
+
+    compute_tab1()
 
 with tab_2:
     st.subheader('OFFICE REITS')
