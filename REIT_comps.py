@@ -137,7 +137,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
-## REIT CANDIDATES: "WHLR", "AIRC","VRE"
+## REIT CANDIDATES: "WHLR", "AIRC","VRE", "COLD"
 
 sector_dict = {'apartment': ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV"], #, "APTS" "BRG"
                'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC"],
@@ -945,7 +945,8 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab1():
     try:
         for ticker in apartment:
@@ -973,7 +974,7 @@ def compute_tab1():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab2():
     try:
         for ticker in office:
@@ -1000,7 +1001,7 @@ def compute_tab2():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab3():
     try:
         for ticker in hotel:
@@ -1027,7 +1028,7 @@ def compute_tab3():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab4():
     try:
         for ticker in mall:
@@ -1054,7 +1055,7 @@ def compute_tab4():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab5():
     try:
         for ticker in strip_center:
@@ -1091,7 +1092,7 @@ def compute_tab5():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab6():
     try:
         for ticker in net_lease:
@@ -1120,7 +1121,7 @@ def compute_tab6():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab7():
     try:
         for ticker in industrial:
@@ -1148,7 +1149,7 @@ def compute_tab7():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab8():
     try:
         for ticker in self_storage:
@@ -1178,7 +1179,7 @@ def compute_tab8():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab9():
     try:
         for ticker in data_center:
@@ -1208,7 +1209,7 @@ def compute_tab9():
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab10():
     try:
         for ticker in healthcare:
