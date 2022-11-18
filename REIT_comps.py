@@ -945,7 +945,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
-@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
+# @st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab1():
     try:
         for ticker in apartment:
