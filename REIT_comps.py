@@ -928,6 +928,7 @@ tbu_link = '[TBU](<TBU>)'
 
 ## RECENT NEWS ##
 WRE_ELME = '[WashREIT is Now Elme Communities](<https://www.globenewswire.com/en/news-release/2022/10/17/2535266/0/en/WashREIT-is-Now-Elme-Communities.html>)'
+PLD_DRE = '[Prologis Completes Acquisition of Duke Realty](<https://www.prologis.com/duke-realty-acquisition>)'
 BX_Nexus = '[Blackstone Nexus Malls porfolio to IPO at $3.0B valuation](<https://www.reuters.com/markets/asia/blackstones-india-malls-reit-portfolio-nexus-malls-files-ipo-2022-11-17/>)'
 Realty_Orion = '[Realty Income completes spin-off of Orion Office REIT](<https://www.realtyincome.com/investors/press-releases/realty-income-completes-spin-orion-office-reit>)'
 BX_APTS = '[APTS acquired by BREIT](<https://www.bizjournals.com/atlanta/news/2022/10/26/deal-preferred-apartment-communities-blackstone.html>)'
@@ -1252,6 +1253,7 @@ with tab_0:
     # st.subheader('ALL SECTORS')
     st.subheader('RECENT REIT NEWS:')
         # st.write('RECENT REIT NEWS:')
+    st.markdown(PLD_DRE, unsafe_allow_html=True)
     st.markdown(WRE_ELME, unsafe_allow_html=True)
     st.markdown(BX_Nexus, unsafe_allow_html=True)
     st.markdown(Realty_Orion, unsafe_allow_html=True)
