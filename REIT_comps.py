@@ -113,12 +113,12 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 ## REAL ESTATE SECTORS / TICKERS ##
 ## REAL ESTATE SECTORS / TICKERS ##
 apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS"  "BRG" "VRE"
-office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT", "BDN", "EQC", ] #"CLI"
+office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "ELME", "ESRT", "BDN", "EQC", ] #"CLI" "WRE"
 hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
-mall = ["SPG", "MAC", "PEI"] #"CBL" "TCO" "WPG"
+mall = ["SPG", "MAC",]  # "PEI" "CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"]   #"WRI", "RPAI", #"CDR",
 net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
-industrial = ["PLD", "DRE",	"FR", "EGP"]
+industrial = ["PLD", "FR", "EGP"] #"DRE",
 self_storage = ["EXR", "CUBE", "REXR", "LSI"]
 data_center = ["EQIX", "DLR", "AMT"] #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
@@ -127,26 +127,26 @@ sector_list_of_lists = [apartment, office, hotel, mall, strip_center, net_lease,
 sector_list_of_names = ['apartment', 'office', 'hotel', 'mall', 'strip_center', 'net_lease', 'industrial', 'self_storage', 'data_center', 'healthcare']
 
 reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS",
-               "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE", "ESRT",	"BDN", "EQC",
+               "BXP", "VNO", "KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG",	"HIW", "OFC", "PGRE", "PDM", "ESRT", "ELME", "BDN", "EQC", # "WRE",
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
-               "SPG", "MAC", "PEI", #"SKT", "SRG", #CBL, #WPG
+               "SPG", "MAC", #"PEI", #"SKT", "SRG", #CBL, #WPG
                "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "SITC", "BFS", #"CDR",
                "O", "WPC", "NNN", "STOR", "SRC", "PINE", "FCPT", "ADC", "EPRT",
-               "PLD", "DRE", "FR", "EGP", #GTY
-               "EXR",	"CUBE",	"REXR",	"LSI",
+               "PLD", "FR", "EGP", #GTY #"DRE",
+               "EXR", "CUBE", "REXR", "LSI",
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
 
 ## REIT CANDIDATES: "WHLR", "AIRC","VRE", "COLD"
 
 sector_dict = {'apartment': ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV"], #, "APTS" "BRG"
-               'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "WRE",	"ESRT",	"BDN", "EQC"],
+               'office': ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP",	"SLG",	"HIW", "OFC", "PGRE", "PDM", "ELME", "ESRT", "BDN", "EQC"], #"WRE"
                'hotel': ["HST",	"RHP",	"PK",	"APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR"],
-               'mall': ["SPG", "MAC", "PEI"],
+               'mall': ["SPG", "MAC"], #, "PEI"
                'strip_center': ["REG", "FRT", "KIM", "BRX",	"AKR", "UE", "ROIC", "SITC", "BFS"], #"CDR",
                'net_lease': ["O", "WPC", "NNN",	"STOR",	"SRC",  "PINE", "FCPT", "ADC", "EPRT"],
-               'industrial': ["PLD", "DRE", "FR", "EGP"],
-               'self_storage': ["EXR",	"CUBE",	"REXR",	"LSI"],
+               'industrial': ["PLD", "FR", "EGP"], #"DRE",
+               'self_storage': ["EXR", "CUBE", "REXR", "LSI"],
                'data_center': ["EQIX", "DLR", "AMT"],
                'healthcare': ["WELL", "PEAK", "VTR", "OHI", "HR"]}
 
@@ -927,6 +927,7 @@ propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
 
 ## RECENT NEWS ##
+WRE_ELME = '[WashREIT is Now Elme Communities](<https://www.globenewswire.com/en/news-release/2022/10/17/2535266/0/en/WashREIT-is-Now-Elme-Communities.html>)'
 BX_Nexus = '[Blackstone Nexus Malls porfolio to IPO at $3.0B valuation](<https://www.reuters.com/markets/asia/blackstones-india-malls-reit-portfolio-nexus-malls-files-ipo-2022-11-17/>)'
 Realty_Orion = '[Realty Income completes spin-off of Orion Office REIT](<https://www.realtyincome.com/investors/press-releases/realty-income-completes-spin-orion-office-reit>)'
 BX_APTS = '[APTS acquired by BREIT](<https://www.bizjournals.com/atlanta/news/2022/10/26/deal-preferred-apartment-communities-blackstone.html>)'
@@ -1251,6 +1252,7 @@ with tab_0:
     # st.subheader('ALL SECTORS')
     st.subheader('RECENT REIT NEWS:')
         # st.write('RECENT REIT NEWS:')
+    st.markdown(WRE_ELME, unsafe_allow_html=True)
     st.markdown(BX_Nexus, unsafe_allow_html=True)
     st.markdown(Realty_Orion, unsafe_allow_html=True)
     st.markdown(BX_APTS, unsafe_allow_html=True)
