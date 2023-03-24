@@ -952,7 +952,7 @@ st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
 #
 # st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
-@st.cache_data
+#@st.cache
 #@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
 def compute_tab1():
     try:
