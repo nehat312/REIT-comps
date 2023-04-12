@@ -32,8 +32,6 @@ import time
 # from REIT-scrape import *
 # from ..code import REIT_scrape
 
-
-
 # import tensorflow_technical_indicators as tfti
 # from tensorflow_technical_indicators import <indicator>
 
@@ -112,12 +110,12 @@ reit_financials['reportPeriod'] = pd.to_datetime(reit_financials['reportPeriod']
 #%%
 ## REAL ESTATE SECTORS / TICKERS ##
 ## REAL ESTATE SECTORS / TICKERS ##
-apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS"  "BRG" "VRE"
+apartment = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV",] # "APTS", "BRG", "VRE"
 office = ["BXP", "VNO",	"KRC", "DEI", "JBGS", "CUZ", "HPP", "SLG", "HIW", "OFC", "PGRE", "PDM", "ELME", "ESRT", "BDN", "EQC", ] #"CLI" "WRE"
-hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"]    #"XHR",
+hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "AHT", "BHR"] # "XHR",
 mall = ["SPG", "MAC",]  # "PEI" "CBL" "TCO" "WPG"
-strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"]   #"WRI", "RPAI", #"CDR",
-net_lease = ["O", "WPC", "NNN",	"STOR",	"SRC", "PINE", "FCPT", "ADC", "EPRT"]  # "VER",
+strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"] # "WRI", "RPAI", #"CDR",
+net_lease = ["O", "WPC", "NNN",	"SRC", "PINE", "FCPT", "ADC", "EPRT"] # "VER", "STOR",
 industrial = ["PLD", "FR", "EGP"] #"DRE",
 self_storage = ["EXR", "CUBE", "REXR", "LSI"]
 data_center = ["EQIX", "DLR", "AMT"] #"CONE", "COR"
@@ -327,8 +325,6 @@ healthcare_data_dict = {i : pd.DataFrame() for i in healthcare}
     # yahoo_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
 
-
-#%%
 # yahoo_all_reits = yahoo_data_dict
 
 # print(yahoo_all_reits['EQR'])
@@ -349,13 +345,6 @@ data_center_yf_data = pd.DataFrame()
 industrial_yf_data = pd.DataFrame()
 self_storage_yf_data = pd.DataFrame()
 healthcare_yf_data = pd.DataFrame()
-
-
-#%%
-# print(industrial_yf_data)
-
-
-
 
 #%%
 # yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
@@ -1111,6 +1100,7 @@ propswap_link = '[PROP/SWAP](<TBU>)'
 tbu_link = '[TBU](<TBU>)'
 
 ## RECENT NEWS ##
+STOR_GIC_Oak = '[GIC and Oak Street Complete $15B Acquisition of STORE Capital](<https://ir.storecapital.com/press-releases/news-details/2023/GIC-and-Oak-Street-Complete-15-Billion-Acquisition-of-STORE-Capital/default.aspx>)'
 WRE_ELME = '[WashREIT is Now Elme Communities](<https://www.globenewswire.com/en/news-release/2022/10/17/2535266/0/en/WashREIT-is-Now-Elme-Communities.html>)'
 PLD_DRE = '[Prologis Completes Acquisition of Duke Realty](<https://www.prologis.com/duke-realty-acquisition>)'
 BX_Nexus = '[Blackstone Nexus Malls porfolio to IPO at $3.0B valuation](<https://www.reuters.com/markets/asia/blackstones-india-malls-reit-portfolio-nexus-malls-files-ipo-2022-11-17/>)'
@@ -1157,7 +1147,8 @@ def compute_tab1():
             apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
 
         # .format('{:.2f}', na_rep='NA')
-        st.markdown(apartment_styler.format(col_format_dict).set_table_styles([header, header_level0, index, numbers, borders_right,
+        # .format(col_format_dict)
+        st.markdown(apartment_styler.set_table_styles([header, header_level0, index, numbers, borders_right,
                                                                                top_row, table_row1, table_row2, table_row3, table_row4,
                                                                                table_row5, table_row6, table_row7, table_row8, table_row9,
                                                                                table_row10, table_row11, table_row12, table_row13, table_row14,
