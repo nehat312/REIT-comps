@@ -1229,15 +1229,14 @@ def compute_tab1():
             apartment_yf_data[i] = apartment_data_dict[i]
 
 
-        # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+        st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
-        apartment_styler = apartment_yf_data.style
-        for idx, cmap in styler_dict.items():
-            apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
+        # apartment_styler = apartment_yf_data.style
+        # for idx, cmap in styler_dict.items():
+        #     apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
 
         # .format('{:.2f}', na_rep='NA')
         # .format(col_format_dict)
-        st.markdown(apartment_styler)
         # st.markdown(apartment_styler.set_table_styles([header, header_level0, index,
         #                                                                              numbers, borders_right, #top_row,
         #                                                                              table_row1, table_row2, table_row3,
