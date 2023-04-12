@@ -116,7 +116,7 @@ hotel = ["HST",	"RHP",	"PK", "APLE", "SHO", "PEB", "RLJ", "DRH", "INN", "HT", "A
 mall = ["SPG", "MAC",]  # "PEI" "CBL" "TCO" "WPG"
 strip_center = ["REG", "FRT", "KIM", "BRX", "AKR", "UE", "ROIC", "SITC", "BFS"] # "WRI", "RPAI", #"CDR",
 net_lease = ["O", "WPC", "NNN",	"SRC", "PINE", "FCPT", "ADC", "EPRT"] # "VER", "STOR",
-industrial = ["PLD", "FR", "EGP"] #"DRE",
+industrial = ["PLD", "FR", "EGP", "COLD",] #"DRE",
 self_storage = ["EXR", "CUBE", "REXR", "LSI"]
 data_center = ["EQIX", "DLR", "AMT"] #"CONE", "COR"
 healthcare = ["WELL", "PEAK", "VTR", "OHI", "HR"]   #"HTA",
@@ -130,7 +130,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "SPG", "MAC", #"PEI", #"SKT", "SRG", #CBL, #WPG
                "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "SITC", "BFS", #"CDR",
                "O", "WPC", "NNN", "SRC", "PINE", "FCPT", "ADC", "EPRT", #"STOR",
-               "PLD", "FR", "EGP", #GTY #"DRE",
+               "PLD", "FR", "EGP", "COLD", #"GTY", "DRE",
                "EXR", "CUBE", "REXR", "LSI",
                "EQIX", "DLR", "AMT",
                "WELL", "PEAK", "VTR", "OHI", "HR"]
@@ -306,6 +306,105 @@ data_center_data_dict = {i : pd.DataFrame() for i in data_center}
 healthcare_data_dict = {i : pd.DataFrame() for i in healthcare}
 
 #%%
+## GROUP BY SECTOR ##
+apartment_yf_data = pd.DataFrame()
+office_yf_data = pd.DataFrame()
+strip_center_yf_data = pd.DataFrame()
+net_lease_yf_data = pd.DataFrame()
+mall_yf_data = pd.DataFrame()
+hotel_yf_data = pd.DataFrame()
+data_center_yf_data = pd.DataFrame()
+industrial_yf_data = pd.DataFrame()
+self_storage_yf_data = pd.DataFrame()
+healthcare_yf_data = pd.DataFrame()
+
+styler_dict = {'Market Cap (intraday) ':'Spectral', 'Enterprise Value ':'Spectral',
+                       'Shares Outstanding 5':'Spectral', 'Float 8':'Spectral', #'Implied Shares Outstanding 6':'',
+                       'Forward P/E ':'Spectral', 'Trailing P/E ':'Spectral', # 'PEG Ratio (5 yr expected) ',
+                       'Price/Sales (ttm)':'Spectral', 'Price/Book (mrq)':'Spectral',
+                       # 'Enterprise Value/Revenue ':'EV/REVENUE', 'Enterprise Value/EBITDA ':'EV/EBITDA',
+                       # '52 Week High 3':'52-WEEK HIGH', '52 Week Low 3':'52-WEEK LOW', #'52-Week Change 3':'52-WEEK %',
+                       # # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
+                       # '50-Day Moving Average 3':'50-MA', '200-Day Moving Average 3':'200-MA',
+                       # 'Avg Vol (3 month) 3':'AVG. VOLUME (3 MONTH)', 'Avg Vol (10 day) 3':'AVG. VOLUME (10 DAY)',
+                       # '% Held by Insiders 1':'INSIDERS %', '% Held by Institutions 1':'INSTITUTIONAL %',
+                       # 'Shares Short (Jul 28, 2022) 4':'SHARES SHORT', 'Short Ratio (Jul 28, 2022) 4':'SHORT RATIO',
+                       # #'Short % of Float (Jul 28, 2022) 4':'', 'Short % of Shares Outstanding (Jul 28, 2022) 4':'',
+                       # #'Shares Short (prior month Jun 29, 2022) 4':'',
+                       # 'Forward Annual Dividend Rate 4':'FORWARD ANN. DIVIDEND/SHARE', 'Trailing Annual Dividend Rate 3':'TRAILING ANN. DIVIDEND/SHARE',
+                       # 'Forward Annual Dividend Yield 4':'FORWARD ANN. DIVIDEND YIELD', 'Trailing Annual Dividend Yield 3':'TRAILING ANN. DIVIDEND YIELD',
+                       # '5 Year Average Dividend Yield 4':'5-YEAR AVG. DIVIDEND YIELD',
+                       # 'Payout Ratio 4':'DIVIDEND PAYOUT RATIO',
+                       # #'Dividend Date 3', 'Ex-Dividend Date 4',
+                       # # 'Last Split Factor 2', 'Last Split Date 3',
+                       # #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
+                       # 'Profit Margin ':'PROFIT MARGIN', 'Operating Margin (ttm)':'OPERATING MARGIN (TTM)',
+                       # 'Return on Assets (ttm)':'RETURN ON ASSETS (TTM)', 'Return on Equity (ttm)':'RETURN ON EQUITY (TTM)',
+                       # 'Revenue (ttm)':'REVENUE (TTM)', #'Revenue Per Share (ttm)',
+                       # 'Gross Profit (ttm)':'GROSS PROFIT (TTM)', 'EBITDA ':'EBITDA',
+                       # 'Quarterly Revenue Growth (yoy)':'QTR. REVENUE GROWTH (YoY)', 'Quarterly Earnings Growth (yoy)':'QTR. EARNINGS GROWTH (YoY)',
+                       # 'Total Cash (mrq)':'CASH (MRQ)', #'Total Cash Per Share (mrq)':'',
+                       # 'Book Value Per Share (mrq)':'BV PER SHARE (MRQ)',
+                       #
+                       # 'Total Debt (mrq)':'TOTAL DEBT (MRQ)',
+                       # 'Total Debt/Equity (mrq)':'TOTAL DEBT/EQUITY (MRQ)', # 'Current Ratio (mrq)':'',
+                       # 'Operating Cash Flow (ttm)':'OPERATING CF (MRQ)',
+                       # 'Levered Free Cash Flow (ttm)':'LEVERED FCF (TTM)',
+               }
+
+#%%
+
+for ticker in apartment:
+    yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
+    soup = BeautifulSoup(yahoo_key_stats.text, 'html.parser')  # r.content,'lxml'     #.text,'html.parser'
+    div0 = soup.find_all('div')  # [0]
+    for z in div0:
+        div0_cols = z.find_all('th')  # [each.text for each in z.find_all('th')]
+        div0_rows = z.find_all('tr')
+        for row in div0_rows:
+            div0_data = [each.text for each in row.find_all('td')]
+            temp_df = pd.DataFrame([div0_data])
+            apartment_data_dict[ticker] = apartment_data_dict[ticker].append(temp_df, sort=True).reset_index(
+                drop=True)
+    apartment_data_dict[ticker] = apartment_data_dict[ticker].iloc[1:61, [0, 1]]
+    apartment_data_dict[ticker].index = apartment_data_dict[ticker][0]
+    apartment_data_dict[ticker].drop(columns=[0], inplace=True)
+    apartment_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
+
+for i in apartment:
+    apartment_yf_data[i] = apartment_data_dict[i]
+
+
+# st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+apartment_styler = apartment_yf_data.style
+for idx, cmap in styler_dict.items():
+    apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
+
+# .format('{:.2f}', na_rep='NA')
+# .format(col_format_dict)
+# st.markdown(apartment_styler.set_table_styles([header, header_level0, index,
+#                                                                              numbers, borders_right, #top_row,
+#                                                                              table_row1, table_row2, table_row3,
+#                                                                              table_row4,
+#                                                                        table_row5, table_row6, table_row7, table_row8, table_row9,
+#                                                                        table_row10, table_row11, table_row12, table_row13, table_row14,
+#                                                                        table_row15, table_row16, table_row17, table_row18, table_row19,
+#                                                                        table_row20, table_row21,
+#                                                                        table_col1, table_col2, table_col3, table_col4, table_col5,
+#                                                                        # table_col6, table_col7, table_col8, table_col9, table_col10,
+#                                                                        # table_col11, table_col12, table_col13, table_col14, table_col15,
+#                                                                        # table_col16, table_col17, table_col18, table_col19, table_col20, table_col21,
+#
+#                                                                       ], overwrite=True).set_properties(**{'min-width': '55px'},
+#                                                                                         **{'max-width': '55px'},
+#                                                                                         **{'column-width': '55px'},
+#                                                                                         **{'width': '55px'},
+#                                                                                         ).to_html(table_uuid='apartment'), unsafe_allow_html=True)
+#%%
+print(apartment_styler)
+
+#%%
 ## ALL REITS ##
 # for ticker in reit_tickers:
 #     yahoo_key_stats = requests.get(base_yahoo_url + f'{ticker}/' + ext_yahoo_url + f'{ticker}', headers=headers)
@@ -333,18 +432,7 @@ healthcare_data_dict = {i : pd.DataFrame() for i in healthcare}
 #df.iloc[row_start:row_end , col_start, col_end]
 
 
-#%%
-## GROUP BY SECTOR ##
-apartment_yf_data = pd.DataFrame()
-office_yf_data = pd.DataFrame()
-strip_center_yf_data = pd.DataFrame()
-net_lease_yf_data = pd.DataFrame()
-mall_yf_data = pd.DataFrame()
-hotel_yf_data = pd.DataFrame()
-data_center_yf_data = pd.DataFrame()
-industrial_yf_data = pd.DataFrame()
-self_storage_yf_data = pd.DataFrame()
-healthcare_yf_data = pd.DataFrame()
+
 
 #%%
 # yahoo_apartment_data_new = pd.DataFrame(index=clean_yahoo_index, data=yahoo_apartment_data)
@@ -893,39 +981,7 @@ styler_dict_OG = {'profitMargin': "Spectral", 'payoutRatio': "Spectral", 'divide
                'propertyPlantEquipmentNet': "Spectral", 'tangibleAssetValue': "Spectral",
                }
 
-styler_dict = {'Market Cap (intraday) ':'Spectral', 'Enterprise Value ':'Spectral',
-                       'Shares Outstanding 5':'Spectral', 'Float 8':'Spectral', #'Implied Shares Outstanding 6':'',
-                       'Forward P/E ':'Spectral', 'Trailing P/E ':'Spectral', # 'PEG Ratio (5 yr expected) ',
-                       'Price/Sales (ttm)':'Spectral', 'Price/Book (mrq)':'Spectral',
-                       # 'Enterprise Value/Revenue ':'EV/REVENUE', 'Enterprise Value/EBITDA ':'EV/EBITDA',
-                       # '52 Week High 3':'52-WEEK HIGH', '52 Week Low 3':'52-WEEK LOW', #'52-Week Change 3':'52-WEEK %',
-                       # # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
-                       # '50-Day Moving Average 3':'50-MA', '200-Day Moving Average 3':'200-MA',
-                       # 'Avg Vol (3 month) 3':'AVG. VOLUME (3 MONTH)', 'Avg Vol (10 day) 3':'AVG. VOLUME (10 DAY)',
-                       # '% Held by Insiders 1':'INSIDERS %', '% Held by Institutions 1':'INSTITUTIONAL %',
-                       # 'Shares Short (Jul 28, 2022) 4':'SHARES SHORT', 'Short Ratio (Jul 28, 2022) 4':'SHORT RATIO',
-                       # #'Short % of Float (Jul 28, 2022) 4':'', 'Short % of Shares Outstanding (Jul 28, 2022) 4':'',
-                       # #'Shares Short (prior month Jun 29, 2022) 4':'',
-                       # 'Forward Annual Dividend Rate 4':'FORWARD ANN. DIVIDEND/SHARE', 'Trailing Annual Dividend Rate 3':'TRAILING ANN. DIVIDEND/SHARE',
-                       # 'Forward Annual Dividend Yield 4':'FORWARD ANN. DIVIDEND YIELD', 'Trailing Annual Dividend Yield 3':'TRAILING ANN. DIVIDEND YIELD',
-                       # '5 Year Average Dividend Yield 4':'5-YEAR AVG. DIVIDEND YIELD',
-                       # 'Payout Ratio 4':'DIVIDEND PAYOUT RATIO',
-                       # #'Dividend Date 3', 'Ex-Dividend Date 4',
-                       # # 'Last Split Factor 2', 'Last Split Date 3',
-                       # #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
-                       # 'Profit Margin ':'PROFIT MARGIN', 'Operating Margin (ttm)':'OPERATING MARGIN (TTM)',
-                       # 'Return on Assets (ttm)':'RETURN ON ASSETS (TTM)', 'Return on Equity (ttm)':'RETURN ON EQUITY (TTM)',
-                       # 'Revenue (ttm)':'REVENUE (TTM)', #'Revenue Per Share (ttm)',
-                       # 'Gross Profit (ttm)':'GROSS PROFIT (TTM)', 'EBITDA ':'EBITDA',
-                       # 'Quarterly Revenue Growth (yoy)':'QTR. REVENUE GROWTH (YoY)', 'Quarterly Earnings Growth (yoy)':'QTR. EARNINGS GROWTH (YoY)',
-                       # 'Total Cash (mrq)':'CASH (MRQ)', #'Total Cash Per Share (mrq)':'',
-                       # 'Book Value Per Share (mrq)':'BV PER SHARE (MRQ)',
-                       #
-                       # 'Total Debt (mrq)':'TOTAL DEBT (MRQ)',
-                       # 'Total Debt/Equity (mrq)':'TOTAL DEBT/EQUITY (MRQ)', # 'Current Ratio (mrq)':'',
-                       # 'Operating Cash Flow (ttm)':'OPERATING CF (MRQ)',
-                       # 'Levered Free Cash Flow (ttm)':'LEVERED FCF (TTM)',
-               }
+
 
 ## CSS -- HEADERS / INDEX ##
 
@@ -1175,31 +1231,31 @@ def compute_tab1():
 
         # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
-        #apartment_cols = []
         apartment_styler = apartment_yf_data.style
         for idx, cmap in styler_dict.items():
             apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
 
         # .format('{:.2f}', na_rep='NA')
         # .format(col_format_dict)
-        st.markdown(apartment_styler.format(na_rep='NA').set_table_styles([header, header_level0, index,
-                                                                                     numbers, borders_right, #top_row,
-                                                                                     table_row1, table_row2, table_row3,
-                                                                                     table_row4,
-                                                                               table_row5, table_row6, table_row7, table_row8, table_row9,
-                                                                               table_row10, table_row11, table_row12, table_row13, table_row14,
-                                                                               table_row15, table_row16, table_row17, table_row18, table_row19,
-                                                                               table_row20, table_row21,
-                                                                               table_col1, table_col2, table_col3, table_col4, table_col5,
-                                                                               # table_col6, table_col7, table_col8, table_col9, table_col10,
-                                                                               # table_col11, table_col12, table_col13, table_col14, table_col15,
-                                                                               # table_col16, table_col17, table_col18, table_col19, table_col20, table_col21,
-
-                                                                              ], overwrite=True).set_properties(**{'min-width': '55px'},
-                                                                                                **{'max-width': '55px'},
-                                                                                                **{'column-width': '55px'},
-                                                                                                **{'width': '55px'},
-                                                                                                ).to_html(table_uuid='apartment'), unsafe_allow_html=True)
+        st.markdown(apartment_styler)
+        # st.markdown(apartment_styler.set_table_styles([header, header_level0, index,
+        #                                                                              numbers, borders_right, #top_row,
+        #                                                                              table_row1, table_row2, table_row3,
+        #                                                                              table_row4,
+        #                                                                        table_row5, table_row6, table_row7, table_row8, table_row9,
+        #                                                                        table_row10, table_row11, table_row12, table_row13, table_row14,
+        #                                                                        table_row15, table_row16, table_row17, table_row18, table_row19,
+        #                                                                        table_row20, table_row21,
+        #                                                                        table_col1, table_col2, table_col3, table_col4, table_col5,
+        #                                                                        # table_col6, table_col7, table_col8, table_col9, table_col10,
+        #                                                                        # table_col11, table_col12, table_col13, table_col14, table_col15,
+        #                                                                        # table_col16, table_col17, table_col18, table_col19, table_col20, table_col21,
+        #
+        #                                                                       ], overwrite=True).set_properties(**{'min-width': '55px'},
+        #                                                                                         **{'max-width': '55px'},
+        #                                                                                         **{'column-width': '55px'},
+        #                                                                                         **{'width': '55px'},
+        #                                                                                         ).to_html(table_uuid='apartment'), unsafe_allow_html=True)
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
