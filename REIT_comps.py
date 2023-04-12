@@ -1172,6 +1172,7 @@ def compute_tab1():
         for i in apartment:
             apartment_yf_data[i] = apartment_data_dict[i]
 
+
         # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
 
         #apartment_cols = []
@@ -1181,8 +1182,10 @@ def compute_tab1():
 
         # .format('{:.2f}', na_rep='NA')
         # .format(col_format_dict)
-        st.markdown(apartment_styler.set_table_styles([header, header_level0, index, numbers, borders_right,
-                                                                               top_row, table_row1, table_row2, table_row3, table_row4,
+        st.markdown(apartment_styler.format('{:.2f}', na_rep='NA').set_table_styles([header, header_level0, index,
+                                                                                     numbers, borders_right, #top_row,
+                                                                                     table_row1, table_row2, table_row3,
+                                                                                     table_row4,
                                                                                table_row5, table_row6, table_row7, table_row8, table_row9,
                                                                                table_row10, table_row11, table_row12, table_row13, table_row14,
                                                                                table_row15, table_row16, table_row17, table_row18, table_row19,
@@ -1191,7 +1194,8 @@ def compute_tab1():
                                                                                # table_col6, table_col7, table_col8, table_col9, table_col10,
                                                                                # table_col11, table_col12, table_col13, table_col14, table_col15,
                                                                                # table_col16, table_col17, table_col18, table_col19, table_col20, table_col21,
-                                                                              ]).set_properties(**{'min-width': '55px'},
+
+                                                                              ], overwrite=True).set_properties(**{'min-width': '55px'},
                                                                                                 **{'max-width': '55px'},
                                                                                                 **{'column-width': '55px'},
                                                                                                 **{'width': '55px'},
