@@ -129,7 +129,7 @@ reit_tickers = ["EQR", "AVB", "ESS", "MAA", "UDR", "CPT", "AIV", #"BRG", #"APTS"
                "HST", "RHP", "PK", "APLE",	"SHO",	"PEB",	"RLJ", "DRH", "INN", "HT", "AHT", "BHR",
                "SPG", "MAC", #"PEI", #"SKT", "SRG", #CBL, #WPG
                "REG", "FRT", "KIM",	"BRX",	"AKR",	"UE", "ROIC", "SITC", "BFS", #"CDR",
-               "O", "WPC", "NNN", "STOR", "SRC", "PINE", "FCPT", "ADC", "EPRT",
+               "O", "WPC", "NNN", "SRC", "PINE", "FCPT", "ADC", "EPRT", #"STOR",
                "PLD", "FR", "EGP", #GTY #"DRE",
                "EXR", "CUBE", "REXR", "LSI",
                "EQIX", "DLR", "AMT",
@@ -1299,8 +1299,7 @@ def compute_tab5():
             strip_center_data_dict[ticker] = strip_center_data_dict[ticker].iloc[1:61, [0, 1]]
             strip_center_data_dict[ticker].index = strip_center_data_dict[ticker][0]
             strip_center_data_dict[ticker].drop(columns=[0], inplace=True)
-            strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'},
-                                                  inplace=True)  # axis='columns', '0': 'METRIC',
+            strip_center_data_dict[ticker].rename(columns={'1': f'{ticker}'}, inplace=True)  # axis='columns', '0': 'METRIC',
 
         for i in strip_center:
             strip_center_yf_data[i] = yahoo_data_dict[i]
