@@ -1182,7 +1182,7 @@ def compute_tab1():
 
         # .format('{:.2f}', na_rep='NA')
         # .format(col_format_dict)
-        st.markdown(apartment_styler.format('{:.2f}', na_rep='NA').set_table_styles([header, header_level0, index,
+        st.markdown(apartment_styler.format(na_rep='NA').set_table_styles([header, header_level0, index,
                                                                                      numbers, borders_right, #top_row,
                                                                                      table_row1, table_row2, table_row3,
                                                                                      table_row4,
@@ -1474,6 +1474,7 @@ with tab_0:
     # st.subheader('ALL SECTORS')
     st.subheader('RECENT REIT NEWS:')
         # st.write('RECENT REIT NEWS:')
+    st.markdown(STOR_GIC_Oak, unsafe_allow_html=True)
     st.markdown(PLD_DRE, unsafe_allow_html=True)
     st.markdown(WRE_ELME, unsafe_allow_html=True)
     st.markdown(BX_Nexus, unsafe_allow_html=True)
