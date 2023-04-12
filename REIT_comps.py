@@ -749,8 +749,12 @@ chart_labels = {'apartment':'APARTMENT',
                 'netIncomeToNonControllingInterests':'NCI',
                 }
 
+
+
 #%%
-## VISUALIZATIONS ##
+####################################################################################
+### VISUALIZATIONS ###
+####################################################################################
 # reit_scatter_matrix = px.scatter_matrix(ticker_output_df,
 #                                      dimensions=scatter_cols_5x5,
 #                                      color=ticker_output_df['sector'],
@@ -825,36 +829,11 @@ chart_labels = {'apartment':'APARTMENT',
 #                                  )
 
 
-# scatter_3d_1 = px.scatter_3d(reit_financials,
-#                              x=reit_financials['ra'],
-#                              y=reit_financials['dec'],
-#                              z=reit_financials['sy_distance_pc'],
-#                              color=reit_financials['st_temp_eff_k'],
-#                              color_discrete_sequence=Ice_r,
-#                              color_continuous_scale=Ice_r,
-#                              color_continuous_midpoint=5000,
-#                              size=reit_financials['pl_rade'],
-#                              size_max=50,
-#                              # symbol=exo_drop_na['disc_year'],
-#                              hover_name=reit_financials['pl_name'],
-#                              hover_data=reit_financials[['host_name', 'disc_facility', 'disc_telescope']],
-#                              title='EXOPLANET POPULATION -- RIGHT ASCENSION / DECLINATION / DISTANCE',
-#                              labels=chart_labels,
-#                              # range_x=[0,360],
-#                              # range_y=[-50,50],
-#                              range_z=[0,2500],
-#                              # range_color=Sunsetdark,
-#                              opacity=.8,
-#                              height=800,
-#                              width=1600,
-#                              )
-
-
 
 #%%
-#####################
-### STREAMLIT APP ###
-#####################
+######################
+### STREAMLIT APP ####
+######################
 
 ## CONFIGURATION ##
 st.set_page_config(page_title='REIT PUBLIC TRADING COMPS',
@@ -870,7 +849,10 @@ hide_menu_style = """
 
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-## CSS CUSTOMIZATION ##
+#########################
+### CSS CUSTOMIZATION ###
+#########################
+
 th_props = [('font-size', '12px'),
             ('text-align', 'center'),
             ('font-weight', 'bold'),
@@ -907,6 +889,206 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
                    'propertyPlantEquipmentNet': "${:,}", 'tangibleAssetValue': "${:,}",
                    }
 
+styler_dict = {'profitMargin': "Spectral", 'payoutRatio': "Spectral", 'dividendYield': "Spectral",
+               'dividendsPerBasicCommonShare': "Spectral", #'Price_Actual': "Spectral",
+               'priceToEarningsRatio': "Spectral", 'priceToBookValue': "Spectral",
+               'enterpriseValueOverEBIT': "Spectral", 'enterpriseValueOverEBITDA': "Spectral",
+               'shares': "Spectral", 'marketCapitalization': "Spectral",
+               'earningBeforeInterestTaxes': "Spectral", 'earningsBeforeInterestTaxesDepreciationAmortization': "Spectral",
+               'assets': "Spectral", 'debt': "Spectral", 'totalLiabilities': "Spectral",
+               'cashAndEquivalents': "Spectral",
+               'netIncome': "Spectral", 'netIncomeToNonControllingInterests': "Spectral",
+               'enterpriseValue': "Spectral", 'netCashFlow': "Spectral",
+               'capitalExpenditure': "Spectral", 'netCashFlowBusinessAcquisitionsDisposals': "Spectral",
+               'investedCapital': "Spectral", 'investments': "Spectral",
+               'propertyPlantEquipmentNet': "Spectral", 'tangibleAssetValue': "Spectral",
+               }
+
+
+## CSS -- HEADERS / INDEX ##
+
+header = {'selector': 'th',
+          'props': [('background-color', '#0360CE'), ('color', 'white'),  # 00008b ##5b9bd5
+                    ('text-align', 'center'), ('vertical-align', 'center'),
+                    ('font-weight', 'bold'),
+                    ('border-bottom', '2px solid #000000'),
+                    ]}
+
+header_level0 = {'selector': 'th.col_heading.level0',
+                 'props': [('font-size', '12px'),
+                           # ('min-width:', '100px'), ('max-width:', '100px'), ('column-width:', '100px'),
+                           ]}
+
+index = {'selector': 'th.row_heading',
+         'props': [('background-color', '#000000'), ('color', 'white'),
+                   ('text-align', 'center'), ('vertical-align', 'center'),
+                   ('font-weight', 'bold'), ('font-size', '12px'),
+                   # ('min-width:', '100px'), ('max-width:', '100px'), ('column-width:', '100px'),
+                   ]}
+
+numbers = {'selector': 'td.data',
+           'props': [('text-align', 'center'), ('vertical-align', 'center'),
+                     ('font-weight', 'bold')]}  # ('background-color', '#0360CE'), ('color', 'white')
+
+borders_right = {'selector': '.row_heading.level1',
+                 'props': [('border-right', '1px solid #FFFFFF')]}
+
+## CSS -- ROWS ##
+
+top_row = {'selector': 'td.data.row0',
+           # [('background-color', '#000000'), ('color', 'white'),
+           'props': [('border-bottom', '2px dashed #000000'),
+                     ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')], }
+
+table_row0 = {'selector': '.row0',
+              'props': [('border-bottom', '2px dashed #000000'),
+                        ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}  # ('border-top', '1px solid #000000')
+
+table_row1 = {'selector': '.row1',
+              'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row2 = {'selector': '.row2',  # 'selector': '.row_heading.level0.row1'
+              'props': [('border-bottom', '2px dashed #000000'),
+                        ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row3 = {'selector': '.row3',
+              'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row4 = {'selector': '.row4',
+              'props': [('border-bottom', '2px dashed #000000'),
+                        ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row5 = {'selector': '.row5',
+              'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row6 = {'selector': '.row6',
+              'props': [('border-bottom', '2px dashed #000000'),
+                        ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row7 = {'selector': '.row7',
+              'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row8 = {'selector': '.row8',
+              'props': [('border-bottom', '2px dashed #000000'),
+                        ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row9 = {'selector': '.row9',
+              'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row10 = {'selector': '.row10',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row11 = {'selector': '.row11',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row12 = {'selector': '.row12',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row13 = {'selector': '.row13',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row14 = {'selector': '.row14',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row15 = {'selector': '.row15',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row16 = {'selector': '.row16',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row17 = {'selector': '.row17',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row18 = {'selector': '.row18',
+               'props': [('border-bottom', '2px dashed #000000'),
+                         ('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row19 = {'selector': '.row19',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row20 = {'selector': '.row20',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+table_row21 = {'selector': '.row21',
+               'props': [('text-align', 'center'), ('font-weight', 'bold'), ('font-size', '12px')]}
+
+## CSS -- COLUMNS ##
+
+table_col0 = {'selector': '.row0',
+              'props': [('border-left', '3px solid #000000'),
+                        ('min-width:', '75px'), ('max-width:', '75px'), ('column-width:', '75px'),
+                        ]}
+
+table_col1 = {'selector': '.col1',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col2 = {'selector': '.col2',  # 'selector': '.row_heading.level0.row1'
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col3 = {'selector': '.col3',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col4 = {'selector': '.col4',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col5 = {'selector': '.col5',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col6 = {'selector': '.col6',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col7 = {'selector': '.col7',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col8 = {'selector': '.col8',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col9 = {'selector': '.col9',
+              'props': [('border-left', '2px dashed #000000')]}
+
+table_col10 = {'selector': '.col10',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col11 = {'selector': '.col11',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col12 = {'selector': '.col12',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col13 = {'selector': '.col13',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col14 = {'selector': '.col14',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col15 = {'selector': '.col15',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col16 = {'selector': '.col16',
+               'props': [('border-left', '3px solid #000000')]}
+
+table_col17 = {'selector': '.col17',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col18 = {'selector': '.col18',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col19 = {'selector': '.col19',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col20 = {'selector': '.col20',
+               'props': [('border-left', '2px dashed #000000')]}
+
+table_col21 = {'selector': '.col21',
+               'props': [('border-left', '2px dashed #000000')]}
+
+####################################################################################
+
 ## SIDEBAR (WIP) ##
 # sector_sidebar_select = st.sidebar.selectbox('SECTOR', (sector_list_of_names), help='SELECT CRE SECTOR')
 # ticker_sidebar_select = st.sidebar.selectbox('TICKER', (sector_dict['apartment'])) #sector_sidebar_select
@@ -917,6 +1099,8 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
 #     st.sidebar.success('START DATE: `%s`\n\nEND DATE: `%s`' % (sidebar_start, sidebar_end))
 # else:
 #     st.sidebar.error('ERROR: END DATE BEFORE START DATE')
+
+
 
 ## HEADER ##
 st.container()
@@ -940,17 +1124,6 @@ ext_link_2 = link_col_2.markdown(propswap_link, unsafe_allow_html=True)
 ext_link_3 = link_col_3.markdown(tbu_link, unsafe_allow_html=True)
 
 st.title('REIT PUBLIC MARKET TRADING COMPARABLES')
-
-## DATAFRAME STYLING ##
-
-# def df_style_map(val):
-#     if val == 'United States':
-#         color = 'black'
-#     else:
-#         color = 'pink'
-#         return f'background-color: {color}'
-#
-# st.dataframe(buyer_rec_df.style.applymap(df_style_map, subset=['COUNTRY']))
 
 #@st.cache
 #@st.cache(persist=True, allow_output_mutation=True, suppress_st_warning=True)
@@ -976,7 +1149,34 @@ def compute_tab1():
         for i in apartment:
             apartment_yf_data[i] = apartment_data_dict[i]
 
-        st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+        # st.dataframe(apartment_yf_data.style.format(col_format_dict).set_table_styles(df_styles))
+
+        #apartment_cols = []
+        apartment_styler = apartment_yf_data.style
+        for idx, cmap in styler_dict.items():
+            apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
+
+        # .format('{:.2f}', na_rep='NA')
+        st.markdown(apartment_styler.format(col_format_dict).set_table_styles([header, header_level0, index, top_row,numbers, borders_right,
+                                                                                     table_row1, table_row2, table_row3,
+                                                                                     table_row4, table_row5, table_row6,
+                                                                                     table_row7, table_row8, table_row9,
+                                                                                       table_row10, table_row11, table_row12,
+                                                                                       table_row13, table_row14, table_row15,
+                                                                                       table_row16, table_row17, table_row18,
+                                                                                       table_row19, table_row20, table_row21,
+                                                                                       table_col1, table_col2, table_col3,
+                                                                                       table_col4, table_col5, table_col6,
+                                                                                       table_col7, table_col8, table_col9,
+                                                                                       table_col10, table_col11, table_col12,
+                                                                                       table_col13, table_col14, table_col15,
+                                                                                       table_col16, table_col17, table_col18,
+                                                                                       table_col19, table_col20, table_col21,
+                                                                                       ]).set_properties(**{'min-width': '55px'},
+                                                                                                         **{'max-width': '55px'},
+                                                                                                         **{'column-width': '55px'},
+                                                                                                         **{'width': '55px'},
+                                                                                                         ).to_html(table_uuid='east_region'), unsafe_allow_html=True)
 
     except:
         st.text('SECTOR UNDER MAINTENANCE')
