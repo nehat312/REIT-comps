@@ -878,7 +878,7 @@ col_format_dict = {'profitMargin': "{:.1%}", 'payoutRatio': "{:.1%}", 'dividendY
                    'propertyPlantEquipmentNet': "${:,}", 'tangibleAssetValue': "${:,}",
                    }
 
-styler_dict = {'profitMargin': "Spectral", 'payoutRatio': "Spectral", 'dividendYield': "Spectral",
+styler_dict_OG = {'profitMargin': "Spectral", 'payoutRatio': "Spectral", 'dividendYield': "Spectral",
                'dividendsPerBasicCommonShare': "Spectral", #'Price_Actual': "Spectral",
                'priceToEarningsRatio': "Spectral", 'priceToBookValue': "Spectral",
                'enterpriseValueOverEBIT': "Spectral", 'enterpriseValueOverEBITDA': "Spectral",
@@ -893,6 +893,39 @@ styler_dict = {'profitMargin': "Spectral", 'payoutRatio': "Spectral", 'dividendY
                'propertyPlantEquipmentNet': "Spectral", 'tangibleAssetValue': "Spectral",
                }
 
+styler_dict = {'Market Cap (intraday) ':'Spectral', 'Enterprise Value ':'Spectral',
+                       'Shares Outstanding 5':'Spectral', 'Float 8':'Spectral', #'Implied Shares Outstanding 6':'',
+                       'Forward P/E ':'Spectral', 'Trailing P/E ':'Spectral', # 'PEG Ratio (5 yr expected) ',
+                       'Price/Sales (ttm)':'Spectral', 'Price/Book (mrq)':'Spectral',
+                       # 'Enterprise Value/Revenue ':'EV/REVENUE', 'Enterprise Value/EBITDA ':'EV/EBITDA',
+                       # '52 Week High 3':'52-WEEK HIGH', '52 Week Low 3':'52-WEEK LOW', #'52-Week Change 3':'52-WEEK %',
+                       # # 'Beta (5Y Monthly) ':'',#'S&P500 52-Week Change 3':'',
+                       # '50-Day Moving Average 3':'50-MA', '200-Day Moving Average 3':'200-MA',
+                       # 'Avg Vol (3 month) 3':'AVG. VOLUME (3 MONTH)', 'Avg Vol (10 day) 3':'AVG. VOLUME (10 DAY)',
+                       # '% Held by Insiders 1':'INSIDERS %', '% Held by Institutions 1':'INSTITUTIONAL %',
+                       # 'Shares Short (Jul 28, 2022) 4':'SHARES SHORT', 'Short Ratio (Jul 28, 2022) 4':'SHORT RATIO',
+                       # #'Short % of Float (Jul 28, 2022) 4':'', 'Short % of Shares Outstanding (Jul 28, 2022) 4':'',
+                       # #'Shares Short (prior month Jun 29, 2022) 4':'',
+                       # 'Forward Annual Dividend Rate 4':'FORWARD ANN. DIVIDEND/SHARE', 'Trailing Annual Dividend Rate 3':'TRAILING ANN. DIVIDEND/SHARE',
+                       # 'Forward Annual Dividend Yield 4':'FORWARD ANN. DIVIDEND YIELD', 'Trailing Annual Dividend Yield 3':'TRAILING ANN. DIVIDEND YIELD',
+                       # '5 Year Average Dividend Yield 4':'5-YEAR AVG. DIVIDEND YIELD',
+                       # 'Payout Ratio 4':'DIVIDEND PAYOUT RATIO',
+                       # #'Dividend Date 3', 'Ex-Dividend Date 4',
+                       # # 'Last Split Factor 2', 'Last Split Date 3',
+                       # #'Fiscal Year Ends ', 'Most Recent Quarter (mrq)',
+                       # 'Profit Margin ':'PROFIT MARGIN', 'Operating Margin (ttm)':'OPERATING MARGIN (TTM)',
+                       # 'Return on Assets (ttm)':'RETURN ON ASSETS (TTM)', 'Return on Equity (ttm)':'RETURN ON EQUITY (TTM)',
+                       # 'Revenue (ttm)':'REVENUE (TTM)', #'Revenue Per Share (ttm)',
+                       # 'Gross Profit (ttm)':'GROSS PROFIT (TTM)', 'EBITDA ':'EBITDA',
+                       # 'Quarterly Revenue Growth (yoy)':'QTR. REVENUE GROWTH (YoY)', 'Quarterly Earnings Growth (yoy)':'QTR. EARNINGS GROWTH (YoY)',
+                       # 'Total Cash (mrq)':'CASH (MRQ)', #'Total Cash Per Share (mrq)':'',
+                       # 'Book Value Per Share (mrq)':'BV PER SHARE (MRQ)',
+                       #
+                       # 'Total Debt (mrq)':'TOTAL DEBT (MRQ)',
+                       # 'Total Debt/Equity (mrq)':'TOTAL DEBT/EQUITY (MRQ)', # 'Current Ratio (mrq)':'',
+                       # 'Operating Cash Flow (ttm)':'OPERATING CF (MRQ)',
+                       # 'Levered Free Cash Flow (ttm)':'LEVERED FCF (TTM)',
+               }
 
 ## CSS -- HEADERS / INDEX ##
 
