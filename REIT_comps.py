@@ -1157,27 +1157,21 @@ def compute_tab1():
             apartment_styler = apartment_styler.background_gradient(cmap=cmap, subset=pd.IndexSlice[idx, :], axis=1)
 
         # .format('{:.2f}', na_rep='NA')
-        st.markdown(apartment_styler.format(col_format_dict).set_table_styles([header, header_level0, index, top_row,numbers, borders_right,
-                                                                                     table_row1, table_row2, table_row3,
-                                                                                     table_row4, table_row5, table_row6,
-                                                                                     table_row7, table_row8, table_row9,
-                                                                                       table_row10, table_row11, table_row12,
-                                                                                       table_row13, table_row14, table_row15,
-                                                                                       table_row16, table_row17, table_row18,
-                                                                                       table_row19, table_row20, table_row21,
-                                                                                       table_col1, table_col2, table_col3,
-                                                                                       table_col4, table_col5, table_col6,
-                                                                                       table_col7, table_col8, table_col9,
-                                                                                       table_col10, table_col11, table_col12,
-                                                                                       table_col13, table_col14, table_col15,
-                                                                                       table_col16, table_col17, table_col18,
-                                                                                       table_col19, table_col20, table_col21,
-                                                                                       ]).set_properties(**{'min-width': '55px'},
-                                                                                                         **{'max-width': '55px'},
-                                                                                                         **{'column-width': '55px'},
-                                                                                                         **{'width': '55px'},
-                                                                                                         ).to_html(table_uuid='east_region'), unsafe_allow_html=True)
-
+        st.markdown(apartment_styler.format(col_format_dict).set_table_styles([header, header_level0, index, numbers, borders_right,
+                                                                               top_row, table_row1, table_row2, table_row3, table_row4,
+                                                                               table_row5, table_row6, table_row7, table_row8, table_row9,
+                                                                               table_row10, table_row11, table_row12, table_row13, table_row14,
+                                                                               table_row15, table_row16, table_row17, table_row18, table_row19,
+                                                                               table_row20, table_row21,
+                                                                               table_col1, table_col2, table_col3, table_col4, table_col5,
+                                                                               # table_col6, table_col7, table_col8, table_col9, table_col10,
+                                                                               # table_col11, table_col12, table_col13, table_col14, table_col15,
+                                                                               # table_col16, table_col17, table_col18, table_col19, table_col20, table_col21,
+                                                                              ]).set_properties(**{'min-width': '55px'},
+                                                                                                **{'max-width': '55px'},
+                                                                                                **{'column-width': '55px'},
+                                                                                                **{'width': '55px'},
+                                                                                                ).to_html(table_uuid='apartment'), unsafe_allow_html=True)
     except:
         st.text('SECTOR UNDER MAINTENANCE')
 
